@@ -1,0 +1,61 @@
+# Dependencias
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de construcción/distribución
+/dist
+/build
+/out
+
+# Logs
+logs
+*.log
+
+# Directorios y archivos del sistema operativo
+.DS_Store
+Thumbs.db
+.directory
+*.swp
+*.swo
+
+# Archivos de cobertura
+coverage/
+.nyc_output
+
+# Directorios de IDE/editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Archivos y directorios específicos de Docker
+.docker/
+docker-volumes/
+
+# Archivos específicos de base de datos
+*.sqlite
+*.sqlite3
+
+# Archivos temporales
+.tmp/
+.temp/
