@@ -2,13 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const sequelize = require("./config/database");
 const routes = require("./routes"); 
-
+const setupSwagger = require('./config/swagger');
 const app = express();
+setupSwagger(app);
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); 
 
-// Ruta básica de prueba
 app.get("/", (req, res) => {
   res.json({
     message: "Servidor funcionando correctamente",
@@ -21,17 +21,17 @@ app.use("", routes);
 async function startServer() {
   try {
     await sequelize.authenticate();
-    console.log("📦 Conexión con PostgreSQL establecida correctamente");
+    console.log("Conexión con PostgreSQL establecida correctamente");
 
     await sequelize.sync({ alter: true });
-    console.log("🔄 Modelos sincronizados con la base de datos");
+    console.log("Modelos sincronizados correctamente");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Corriendo en http://localhost:${PORT}`);
     });
 
   } catch (error) {
-    console.error("❌ Error al conectar con la base de datos:", error);
+    console.error("Error al conectar con DB:", error);
   }
 }
 
