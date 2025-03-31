@@ -8,5 +8,18 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "docker:build": "docker build -t tailorshop-backend .",
+    "docker:run": "docker run -p 3000:3000 --env-file ../.env --network tailorshop-management_default tailorshop-backend",
+    "docker:compose": "docker-compose up -d",
+    "docker:compose-build": "docker-compose up -d --build",
+    "docker:down": "docker-compose down -v",
+    "test": "jest --watchAll",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "seed": "npx sequelize-cli db:seed:all"
   }
 }
