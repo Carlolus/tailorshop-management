@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:  # ¡Este es el elemento clave que faltaba!
+    healthcheck: 
       test: ["CMD-SHELL", "pg_isready -U postgres -d tailorshop_db"]
       interval: 5s
       timeout: 5s
@@ -21,7 +21,7 @@ services:
     container_name: tailorshop_api
     depends_on:
       postgres:
-        condition: service_healthy  # Ahora funcionará correctamente
+        condition: service_healthy 
     ports:
       - "3000:3000"
     environment:

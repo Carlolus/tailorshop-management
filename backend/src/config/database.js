@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: "postgres",
-    logging: false, // Para evitar spam en la consola
+    logging: false,
   }
 );
 

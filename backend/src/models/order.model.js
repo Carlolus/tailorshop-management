@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Customer = require("./customer.model"); // Importamos la relación
+const Customer = require("./customer.model"); 
 
 const Order = sequelize.define("order", {
   order_id: {
@@ -12,7 +12,7 @@ const Order = sequelize.define("order", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Customer, // Relación con customers
+      model: Customer,
       key: "customer_id",
     },
     onUpdate: "CASCADE",
@@ -30,7 +30,7 @@ const Order = sequelize.define("order", {
     type: DataTypes.STRING(12),
     allowNull: false,
     validate: {
-      isIn: [["pendiente", "en proceso", "terminado", "entregado"]], // Validación de valores permitidos
+      isIn: [["pendiente", "en proceso", "terminado", "entregado"]],
     },
   },
   price: {
