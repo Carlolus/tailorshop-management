@@ -2,19 +2,130 @@ const express = require("express");
 const router = express.Router();
 const garmentTypeController = require("../controllers/garment_type.controller");
 
-// Get all garments
+/**
+ * @swagger
+ * /garmentstypes:
+ *   get:
+ *     summary: Obtiene todos los tipos de prendas
+ *     tags:
+ *       - Garment Types
+ *     responses:
+ *       200:
+ *         description: Lista de tipos de prendas obtenida exitosamente
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.get("/", garmentTypeController.getAllGarmentType);
 
-// Get a garment by ID
+/**
+ * @swagger
+ * /garmentstypes/{id}:
+ *   get:
+ *     summary: Obtiene un tipo de prenda por ID
+ *     tags:
+ *       - Garment Types
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del tipo de prenda
+ *     responses:
+ *       200:
+ *         description: Tipo de prenda obtenido exitosamente
+ *       404:
+ *         description: Tipo de prenda no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.get("/:id", garmentTypeController.getGarmentTypeById);
 
-// Create a new garment
+/**
+ * @swagger
+ * /garmentstypes:
+ *   post:
+ *     summary: Crea un nuevo tipo de prenda
+ *     tags:
+ *       - Garment Types
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre del tipo de prenda
+ *             required:
+ *               - name
+ *     responses:
+ *       201:
+ *         description: Tipo de prenda creado exitosamente
+ *       400:
+ *         description: Datos inválidos
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.post("/", garmentTypeController.createGarmentType);
 
-// Update a garment by ID
+/**
+ * @swagger
+ * /garmentstypes/{id}:
+ *   put:
+ *     summary: Actualiza un tipo de prenda por ID
+ *     tags:
+ *       - Garment Types
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del tipo de prenda
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre del tipo de prenda
+ *     responses:
+ *       200:
+ *         description: Tipo de prenda actualizado exitosamente
+ *       404:
+ *         description: Tipo de prenda no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.put("/:id", garmentTypeController.updateGarmentType);
 
-// Delete a garment by ID
+/**
+ * @swagger
+ * /garmentstypes/{id}:
+ *   delete:
+ *     summary: Elimina un tipo de prenda por ID
+ *     tags:
+ *       - Garment Types
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del tipo de prenda
+ *     responses:
+ *       200:
+ *         description: Tipo de prenda eliminado exitosamente
+ *       404:
+ *         description: Tipo de prenda no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.delete("/:id", garmentTypeController.deleteGarmentType);
 
 module.exports = router;
