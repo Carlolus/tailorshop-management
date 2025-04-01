@@ -23,32 +23,52 @@ The **TailorShop Management System** is a backend application designed to manage
 - **Docker**: Contenerization
 
 ## Project Structure
-tailorshop-management/ ├── Backend/ │ ├── node_modules/ │ ├── src/ │ │ ├── config/ │ │ │ ├── database.js │ │ │ ├── swagger.js │ │ ├── controllers/ │ │ ├── models/ │ │ ├── routes/ │ │ ├── services/ │ │ └── server.js │ ├── .env │ ├── .gitignore │ ├── Dockerfile │ ├── package-lock.json │ ├── package.json ├── Frontend/ ├── docker-compose.yml └── README.md
-
+```bash
+tailorshop-management/
+├── Backend/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── database.js
+│   │   │   ├── swagger.js
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── server.js
+│   ├── .env
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+├── Frontend/
+├── docker-compose.yml
+└── README.MD
+```
 ## How to run
 
 A. If you just want to check the API:
-    1. **Clone the Repository**
-    git clone https://github.com/Carlolus/tailorshop-management.git
-    2. cd cd tailorshop-management
-    3. Do docker-compose up --build (Need docker installed)
+1. **Clone the Repository**
+git clone https://github.com/Carlolus/tailorshop-management.git
+2. cd cd tailorshop-management
+3. Do docker-compose up --build (Need docker installed)
 
 B. If you want to modify the project:
-    1. **Clone the Repository**:
-    git clone https://github.com/Carlolus/tailorshop-management.git
-    cd tailorshop-management
-    2. Set Up Environment Variables:
-        Navigate to the Backend directory.
-        Create a .env file and configure the following variables:
-        DB_HOST=localhost
-        DB_PORT=5432
-        DB_NAME=tailorshop
-        DB_USER=your_username
-        DB_PASSWORD=your_password
-    3. Install Dependencies: Navigate to the Backend folder and install the required dependencies:
-        cd Backend
-        npm install
-    4. Do docker-compose up --build (Need docker installed)
+1. **Clone the Repository**:
+git clone https://github.com/Carlolus/tailorshop-management.git
+cd tailorshop-management
+2. Set Up Environment Variables:
+    Navigate to the Backend directory.
+    Create a .env file and configure the following variables:
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=tailorshop
+    DB_USER=your_username
+    DB_PASSWORD=your_password
+3. Install Dependencies: Navigate to the Backend folder and install the required dependencies:
+    cd Backend
+    npm install
+4. Do docker-compose up --build (Need docker installed)
 
 ## Swagger API documentation
 
