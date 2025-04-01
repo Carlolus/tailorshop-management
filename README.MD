@@ -23,26 +23,7 @@ The **TailorShop Management System** is a backend application designed to manage
 - **Docker**: Contenerization
 
 ## Project Structure
-tailorshop-management/
-|_Backend/
-|__node_modules/
-|__src/
-|___config/
-|____database.js
-|____swagger.js
-|___controllers/
-|___models/
-|___routes/
-|___services/
-|___server.js
-|__.env
-|__.gitignore
-|__.Dockerfile
-|__.package-lock.json
-|__.package.json
-|_Frontend/
-|_docker-compose.yml
-|_README.MD
+tailorshop-management/ ├── Backend/ │ ├── node_modules/ │ ├── src/ │ │ ├── config/ │ │ │ ├── database.js │ │ │ ├── swagger.js │ │ ├── controllers/ │ │ ├── models/ │ │ ├── routes/ │ │ ├── services/ │ │ └── server.js │ ├── .env │ ├── .gitignore │ ├── Dockerfile │ ├── package-lock.json │ ├── package.json ├── Frontend/ ├── docker-compose.yml └── README.md
 
 ## How to run
 
