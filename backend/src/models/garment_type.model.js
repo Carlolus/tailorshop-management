@@ -17,12 +17,12 @@ const GarmentType = sequelize.define("garment_type", {
         "Chaleco",
         "Suit",
         "Vestido de una pieza"
-      ]], // Restricción de valores permitidos
+      ]],
     },
   },
 }, {
   tableName: "garments_type",
-  timestamps: false, // No necesitamos createdAt ni updatedAt
+  timestamps: false,
 });
 
 module.exports = GarmentType;
