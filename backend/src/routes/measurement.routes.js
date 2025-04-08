@@ -58,8 +58,8 @@ router.get("/:garment_id", measurementController.getMeasurementByGarmentId);
  *               garment_id:
  *                 type: integer
  *                 description: ID de la prenda
- *               measurement_data:
- *                 type: object
+ *               measures:
+ *                 type: string
  *                 description: Datos de la medida
  *             required:
  *               - garment_id
@@ -95,9 +95,9 @@ router.post("/", measurementController.createMeasurement);
  *           schema:
  *             type: object
  *             properties:
- *               measurement_data:
- *                 type: object
- *                 description: Datos actualizados de la medida
+ *               measures:
+ *                 type: string
+ *                 description: Datos de la medidaa
  *     responses:
  *       200:
  *         description: Medida actualizada exitosamente

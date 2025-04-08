@@ -43,10 +43,10 @@ const Order = sequelize.define("order", {
   },
 }, {
   tableName: "orders",
-  timestamps: true, // Sequelize agrega createdAt y updatedAt automáticamente
+  timestamps: true,
 });
 
-Customer.hasMany(Order, { foreignKey: "customer_id" }); // Un cliente puede tener muchas órdenes
-Order.belongsTo(Customer, { foreignKey: "customer_id" }); // Una orden pertenece a un cliente
+Customer.hasMany(Order, { foreignKey: "customer_id" }); 
+Order.belongsTo(Customer, { foreignKey: "customer_id" });
 
 module.exports = Order;

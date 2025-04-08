@@ -11,7 +11,8 @@ exports.getAllOrders = async (req, res) => {
 
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.id);
+    console.log(req.params)
+    const order = await Order.findByPk(req.params.order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
     res.json(order);
   } catch (error) {
@@ -30,7 +31,7 @@ exports.createOrder = async (req, res) => {
 
 exports.updateOrder = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.id);
+    const order = await Order.findByPk(req.params.order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
 
     await order.update(req.body);
@@ -42,7 +43,7 @@ exports.updateOrder = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.id);
+    const order = await Order.findByPk(req.params.order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
 
     await order.destroy();

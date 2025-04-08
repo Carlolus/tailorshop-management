@@ -29,7 +29,7 @@ const Garment = sequelize.define("garment", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "fabrics", // Aún no tenemos este modelo, se agregará después
+      model: "fabrics",
       key: "fabric_id",
     },
   },

@@ -11,7 +11,7 @@ exports.getAllCatalogs = async (req, res) => {
 
 exports.getCatalogById = async (req, res) => {
   try {
-    const catalog = await Catalog.findByPk(req.params.id);
+    const catalog = await Catalog.findByPk(req.params.item_id);
     if (!catalog) return res.status(404).json({ message: "item no encontrado" });
     res.json(catalog);
   } catch (error) {
@@ -30,7 +30,7 @@ exports.createCatalog = async (req, res) => {
 
 exports.updateCatalog = async (req, res) => {
   try {
-    const catalog = await Catalog.findByPk(req.params.id);
+    const catalog = await Catalog.findByPk(req.params.item_id);
     if (!catalog) return res.status(404).json({ message: "Item no encontrado" });
 
     await catalog.update(req.body);
@@ -42,7 +42,7 @@ exports.updateCatalog = async (req, res) => {
 
 exports.deleteCatalog = async (req, res) => {
   try {
-    const catalog = await Catalog.findByPk(req.params.id);
+    const catalog = await Catalog.findByPk(req.params.item_id);
     if (!catalog) return res.status(404).json({ message: "item no encontrado" });
 
     await catalog.destroy();

@@ -19,7 +19,7 @@ router.get("/", garmentTypeController.getAllGarmentType);
 
 /**
  * @swagger
- * /garmentstypes/{id}:
+ * /garmentstypes/{garment_type_id}:
  *   get:
  *     summary: Obtiene un tipo de prenda por ID
  *     tags:
@@ -39,7 +39,7 @@ router.get("/", garmentTypeController.getAllGarmentType);
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/:id", garmentTypeController.getGarmentTypeById);
+router.get("/:garment_type_id", garmentTypeController.getGarmentTypeById);
 
 /**
  * @swagger
@@ -72,7 +72,7 @@ router.post("/", garmentTypeController.createGarmentType);
 
 /**
  * @swagger
- * /garmentstypes/{id}:
+ * /garmentstypes/{garment_type_id}:
  *   put:
  *     summary: Actualiza un tipo de prenda por ID
  *     tags:
@@ -102,11 +102,11 @@ router.post("/", garmentTypeController.createGarmentType);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:id", garmentTypeController.updateGarmentType);
+router.put("/:garment_type_id", garmentTypeController.updateGarmentType);
 
 /**
  * @swagger
- * /garmentstypes/{id}:
+ * /garmentstypes/{garment_type_id}:
  *   delete:
  *     summary: Elimina un tipo de prenda por ID
  *     tags:
@@ -126,6 +126,6 @@ router.put("/:id", garmentTypeController.updateGarmentType);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:id", garmentTypeController.deleteGarmentType);
+router.delete("/:garment_type_id", garmentTypeController.deleteGarmentType);
 
 module.exports = router;

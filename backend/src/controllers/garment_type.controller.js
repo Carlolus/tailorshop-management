@@ -11,7 +11,7 @@ exports.getAllGarmentType = async (req, res) => {
 
 exports.getGarmentTypeById = async (req, res) => {
   try {
-    const garmenttype = await GarmentType.findByPk(req.params.id);
+    const garmenttype = await GarmentType.findByPk(req.params.garment_type_id);
     if (!garmenttype) return res.status(404).json({ message: "tipo de prenda no encontrado" });
     res.json(garmenttype);
   } catch (error) {
@@ -30,7 +30,7 @@ exports.createGarmentType = async (req, res) => {
 
 exports.updateGarmentType = async (req, res) => {
   try {
-    const garmenttype = await GarmentType.findByPk(req.params.id);
+    const garmenttype = await GarmentType.findByPk(req.params.garment_type_id);
     if (!garmenttype) return res.status(404).json({ message: "Tipo de prenda no encontrado" });
 
     await garmenttype.update(req.body);
@@ -42,7 +42,7 @@ exports.updateGarmentType = async (req, res) => {
 
 exports.deleteGarmentType = async (req, res) => {
   try {
-    const garmenttype = await GarmentType.findByPk(req.params.id);
+    const garmenttype = await GarmentType.findByPk(req.params.garment_type_id);
     if (!garmenttype) return res.status(404).json({ message: "Tipo de prenda no encontrado" });
 
     await garmenttype.destroy();
