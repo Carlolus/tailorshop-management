@@ -7,6 +7,10 @@ const Fabric = sequelize.define("fabric", {
     primaryKey: true,
     autoIncrement: true,
   },
+  fabric_name: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
