@@ -11,7 +11,8 @@ exports.getAllCustomers = async (req, res) => {
 
 exports.getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findByPk(req.params.id);
+    console.log(req.params)
+    const customer = await Customer.findByPk(req.params.customer_id);
     if (!customer) return res.status(404).json({ message: "Cliente no encontrado" });
     res.json(customer);
   } catch (error) {
@@ -30,7 +31,7 @@ exports.createCustomer = async (req, res) => {
 
 exports.updateCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findByPk(req.params.id);
+    const customer = await Customer.findByPk(req.params.customer_id);
     if (!customer) return res.status(404).json({ message: "Cliente no encontrado" });
 
     await customer.update(req.body);
@@ -42,7 +43,7 @@ exports.updateCustomer = async (req, res) => {
 
 exports.deleteCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findByPk(req.params.id);
+    const customer = await Customer.findByPk(req.params.customer_id);
     if (!customer) return res.status(404).json({ message: "Cliente no encontrado" });
 
     await customer.destroy();

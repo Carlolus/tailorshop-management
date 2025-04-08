@@ -11,7 +11,7 @@ exports.getAllGarments = async (req, res) => {
 
 exports.getGarmentById = async (req, res) => {
   try {
-    const garment = await Garment.findByPk(req.params.id);
+    const garment = await Garment.findByPk(req.params.garment_id);
     if (!garment) return res.status(404).json({ message: "Prenda no encontrada" });
     res.json(garment);
   } catch (error) {
@@ -30,7 +30,7 @@ exports.createGarment = async (req, res) => {
 
 exports.updateGarment = async (req, res) => {
   try {
-    const garment = await Garment.findByPk(req.params.id);
+    const garment = await Garment.findByPk(req.params.garment_id);
     if (!garment) return res.status(404).json({ message: "Prenda no encontrada" });
 
     await garment.update(req.body);
@@ -42,7 +42,7 @@ exports.updateGarment = async (req, res) => {
 
 exports.deleteGarment = async (req, res) => {
   try {
-    const garment = await Garment.findByPk(req.params.id);
+    const garment = await Garment.findByPk(req.params.garment_id);
     if (!garment) return res.status(404).json({ message: "Prenda no encontrada" });
 
     await garment.destroy();

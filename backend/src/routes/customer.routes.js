@@ -54,13 +54,15 @@ router.get("/:customer_id", customerController.getCustomerById);
  *             properties:
  *               name:
  *                 type: string
- *               email:
+ *               mail:
  *                 type: string
  *               phone:
  *                 type: string
+ *               address:
+ *                 type: string
  *             required:
  *               - name
- *               - email
+ *               - mail
  *     responses:
  *       201:
  *         description: Cliente creado exitosamente
@@ -91,11 +93,14 @@ router.post("/", customerController.createCustomer);
  *           schema:
  *             type: object
  *             properties:
+ *               properties:
  *               name:
  *                 type: string
- *               email:
+ *               mail:
  *                 type: string
  *               phone:
+ *                 type: string
+ *               address:
  *                 type: string
  *     responses:
  *       200:

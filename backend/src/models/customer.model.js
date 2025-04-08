@@ -14,22 +14,19 @@ const Customer = sequelize.define("customer", {
   phone: {
     type: DataTypes.STRING(15),
     allowNull: false,
-    unique: true, // Llave única
+    unique: true,
   },
   address: {
     type: DataTypes.TEXT,
-    allowNull: true, // Campo opcional
+    allowNull: true, 
   },
   mail: {
     type: DataTypes.STRING(100),
-    allowNull: true, // Campo opcional
-    validate: {
-      isEmail: true, // Validación de correo electrónico
-    },
+    allowNull: true,
   },
 }, {
-  tableName: "customers", // Asegura que la tabla en BD se llame "customers"
-  timestamps: true, // Agrega automáticamente createdAt y updatedAt
+  tableName: "customers",
+  timestamps: true,
 });
 
 module.exports = Customer;

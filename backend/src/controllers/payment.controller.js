@@ -11,7 +11,7 @@ exports.getAllPayments = async (req, res) => {
 
 exports.getPaymentById = async (req, res) => {
   try {
-    const payment = await Payment.findByPk(req.params.id);
+    const payment = await Payment.findByPk(req.params.payment_id);
     if (!payment) return res.status(404).json({ message: "Pago no encontrado" });
     res.json(payment);
   } catch (error) {
@@ -30,7 +30,7 @@ exports.createPayment = async (req, res) => {
 
 exports.updatePayment = async (req, res) => {
   try {
-    const payment = await Payment.findByPk(req.params.id);
+    const payment = await Payment.findByPk(req.params.payment_id);
     if (!payment) return res.status(404).json({ message: "Pago no encontrado" });
 
     await payment.update(req.body);
@@ -42,7 +42,7 @@ exports.updatePayment = async (req, res) => {
 
 exports.deletePayment = async (req, res) => {
   try {
-    const payment = await Payment.findByPk(req.params.id);
+    const payment = await Payment.findByPk(req.params.payment_id);
     if (!payment) return res.status(404).json({ message: "Pago no encontrado" });
 
     await payment.destroy();

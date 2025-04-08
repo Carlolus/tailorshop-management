@@ -56,6 +56,8 @@ router.get("/:fabric_id", fabricController.getFabricById);
  *                 type: string
  *               description:
  *                 type: string
+ *               image:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Tipo de tela creado exitosamente
@@ -87,6 +89,8 @@ router.post("/", fabricController.createFabric);
  *               name:
  *                 type: string
  *               description:
+ *                 type: string
+ *               image:
  *                 type: string
  *     responses:
  *       200:

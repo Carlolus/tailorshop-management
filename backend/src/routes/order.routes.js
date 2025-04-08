@@ -18,13 +18,13 @@ router.get("/", orderController.getAllOrders);
 
 /**
  * @swagger
- * /orders/{id}:
+ * /orders/{order_id}:
  *   get:
  *     summary: Obtiene una orden por ID
  *     tags: [Order]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: order_id
  *         required: true
  *         schema:
  *           type: integer
@@ -37,7 +37,7 @@ router.get("/", orderController.getAllOrders);
  *       500:
  *         description: Error al obtener la orden
  */
-router.get("/:id", orderController.getOrderById);
+router.get("/:order_id", orderController.getOrderById);
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ router.get("/:id", orderController.getOrderById);
  *             properties:
  *               customer_id:
  *                 type: integer
- *               total_price:
+ *               price:
  *                 type: number
  *                 format: float
  *               status:
@@ -62,6 +62,12 @@ router.get("/:id", orderController.getOrderById);
  *               order_date:
  *                 type: string
  *                 format: date
+ *               delivery_date:
+ *                 type: string
+ *                 format: date
+ *               balance:
+ *                 type: number
+ *                 format: float
  *     responses:
  *       201:
  *         description: Orden creada exitosamente
@@ -72,13 +78,13 @@ router.post("/", orderController.createOrder);
 
 /**
  * @swagger
- * /orders/{id}:
+ * /orders/{order_id}:
  *   put:
  *     summary: Actualiza una orden por ID
  *     tags: [Order]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: order_id
  *         required: true
  *         schema:
  *           type: integer
@@ -92,7 +98,7 @@ router.post("/", orderController.createOrder);
  *             properties:
  *               customer_id:
  *                 type: integer
- *               total_price:
+ *               price:
  *                 type: number
  *                 format: float
  *               status:
@@ -100,6 +106,12 @@ router.post("/", orderController.createOrder);
  *               order_date:
  *                 type: string
  *                 format: date
+ *               delivery_date:
+ *                 type: string
+ *                 format: date
+ *               balance:
+ *                 type: number
+ *                 format: float
  *     responses:
  *       200:
  *         description: Orden actualizada exitosamente
@@ -108,17 +120,17 @@ router.post("/", orderController.createOrder);
  *       500:
  *         description: Error al actualizar la orden
  */
-router.put("/:id", orderController.updateOrder);
+router.put("/:order_id", orderController.updateOrder);
 
 /**
  * @swagger
- * /orders/{id}:
+ * /orders/{order_id}:
  *   delete:
  *     summary: Elimina una orden por ID
  *     tags: [Order]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: order_id
  *         required: true
  *         schema:
  *           type: integer
@@ -131,6 +143,6 @@ router.put("/:id", orderController.updateOrder);
  *       500:
  *         description: Error al eliminar la orden
  */
-router.delete("/:id", orderController.deleteOrder);
+router.delete("/:order_id", orderController.deleteOrder);
 
 module.exports = router;

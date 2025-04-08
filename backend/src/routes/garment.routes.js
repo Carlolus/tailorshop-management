@@ -18,7 +18,7 @@ router.get("/", garmentController.getAllGarments);
 
 /**
  * @swagger
- * /garments/{id}:
+ * /garments/{garment_id}:
  *   get:
  *     summary: Obtiene una prenda por ID
  *     tags: [Garment]
@@ -37,7 +37,7 @@ router.get("/", garmentController.getAllGarments);
  *       500:
  *         description: Error al obtener la prenda
  */
-router.get("/:id", garmentController.getGarmentById);
+router.get("/:garment_id", garmentController.getGarmentById);
 
 /**
  * @swagger
@@ -116,7 +116,7 @@ router.post("/", garmentController.createGarment);
  *       500:
  *         description: Error al actualizar la prenda
  */
-router.put("/:id", garmentController.updateGarment);
+router.put("/:garment_id", garmentController.updateGarment);
 
 /**
  * @swagger
@@ -139,6 +139,6 @@ router.put("/:id", garmentController.updateGarment);
  *       500:
  *         description: Error al eliminar la prenda
  */
-router.delete("/:id", garmentController.deleteGarment);
+router.delete("/:garment_id", garmentController.deleteGarment);
 
 module.exports = router;

@@ -18,13 +18,13 @@ router.get("/", catalogController.getAllCatalogs);
 
 /**
  * @swagger
- * /catalogs/{catalog_id}:
+ * /catalogs/{item_id}:
  *   get:
  *     summary: Obtiene un elemento del catálogo por ID
  *     tags: [Catalog]
  *     parameters:
  *       - in: path
- *         name: catalog_id
+ *         name: item_id
  *         required: true
  *         schema:
  *           type: integer
@@ -37,7 +37,7 @@ router.get("/", catalogController.getAllCatalogs);
  *       500:
  *         description: Error al obtener el elemento del catálogo
  */
-router.get("/:catalog_id", catalogController.getCatalogById);
+router.get("/:item_id", catalogController.getCatalogById);
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ router.post("/", catalogController.createCatalog);
  *       500:
  *         description: Error al actualizar el elemento del catálogo
  */
-router.put("/:catalog_id", catalogController.updateCatalog);
+router.put("/:item_id", catalogController.updateCatalog);
 
 /**
  * @swagger
@@ -127,6 +127,6 @@ router.put("/:catalog_id", catalogController.updateCatalog);
  *       500:
  *         description: Error al eliminar el elemento del catálogo
  */
-router.delete("/:catalog_id", catalogController.deleteCatalog);
+router.delete("/:item_id", catalogController.deleteCatalog);
 
 module.exports = router;

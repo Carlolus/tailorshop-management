@@ -11,7 +11,7 @@ exports.getAllFabrics = async (req, res) => {
   
   exports.getFabricById = async (req, res) => {
     try {
-      const fabric = await Fabric.findByPk(req.params.id);
+      const fabric = await Fabric.findByPk(req.params.fabric_id);
       if (!fabric) return res.status(404).json({ message: "Tela no encontrado" });
       res.json(fabric);
     } catch (error) {
@@ -30,7 +30,7 @@ exports.getAllFabrics = async (req, res) => {
   
   exports.updateFabric = async (req, res) => {
     try {
-      const fabric = await Fabric.findByPk(req.params.id);
+      const fabric = await Fabric.findByPk(req.params.fabric_id);
       if (!fabric) return res.status(404).json({ message: "Tela no encontrada" });
   
       await fabric.update(req.body);
@@ -42,7 +42,7 @@ exports.getAllFabrics = async (req, res) => {
   
   exports.deleteFabric = async (req, res) => {
     try {
-      const fabric = await Fabric.findByPk(req.params.id);
+      const fabric = await Fabric.findByPk(req.params.fabric_id);
       if (!fabric) return res.status(404).json({ message: "Tela no encontrada" });
   
       await fabric.destroy();

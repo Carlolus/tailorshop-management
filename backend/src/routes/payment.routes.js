@@ -19,14 +19,14 @@ router.get("/", paymentController.getAllPayments);
 
 /**
  * @swagger
- * /payments/{id}:
+ * /payments/{payment_id}:
  *   get:
  *     summary: Obtiene un pago por ID
  *     tags:
  *       - Payments
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: payment_id
  *         required: true
  *         schema:
  *           type: integer
@@ -39,7 +39,7 @@ router.get("/", paymentController.getAllPayments);
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/:id", paymentController.getPaymentById);
+router.get("/:payment_id", paymentController.getPaymentById);
 
 /**
  * @swagger
@@ -55,15 +55,23 @@ router.get("/:id", paymentController.getPaymentById);
  *           schema:
  *             type: object
  *             properties:
+ *               order:
+ *                 type: integer
+ *                 description: ID del pedido asociado
  *               amount:
  *                 type: number
  *                 description: Monto del pago
- *               method:
+ *                 format: float     
+ *               payment_date:
+ *                 type: string
+ *                 description: Fecha de pago
+ *                 format: date  
+ *               payment_method:
  *                 type: string
  *                 description: Método de pago
- *               order_id:
- *                 type: integer
- *                 description: ID del pedido asociado
+ *               description:
+ *                  type: string
+ *                  description: Descripción x
  *             required:
  *               - amount
  *               - method
@@ -80,14 +88,14 @@ router.post("/", paymentController.createPayment);
 
 /**
  * @swagger
- * /payments/{id}:
+ * /payments/{payment_id}:
  *   put:
  *     summary: Actualiza un pago por ID
  *     tags:
  *       - Payments
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: payment_id
  *         required: true
  *         schema:
  *           type: integer
@@ -99,12 +107,23 @@ router.post("/", paymentController.createPayment);
  *           schema:
  *             type: object
  *             properties:
+ *               order:
+ *                 type: integer
+ *                 description: ID del pedido asociado
  *               amount:
  *                 type: number
  *                 description: Monto del pago
- *               method:
+ *                 format: float     
+ *               payment_date:
+ *                 type: string
+ *                 description: Fecha de pago
+ *                 format: date  
+ *               payment_method:
  *                 type: string
  *                 description: Método de pago
+ *               description:
+ *                  type: string
+ *                  description: Descripción x
  *     responses:
  *       200:
  *         description: Pago actualizado exitosamente
@@ -113,18 +132,18 @@ router.post("/", paymentController.createPayment);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:id", paymentController.updatePayment);
+router.put("/:payment_id", paymentController.updatePayment);
 
 /**
  * @swagger
- * /payments/{id}:
+ * /payments/{payment_id}:
  *   delete:
  *     summary: Elimina un pago por ID
  *     tags:
  *       - Payments
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: payment_id
  *         required: true
  *         schema:
  *           type: integer
@@ -137,6 +156,6 @@ router.put("/:id", paymentController.updatePayment);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:id", paymentController.deletePayment);
+router.delete("/:payment_id", paymentController.deletePayment);
 
 module.exports = router;
