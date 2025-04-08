@@ -13,6 +13,10 @@ The **TailorShop Management System** is a backend application designed to manage
 - **Fabric Management**: Handle fabric details.
 - **Garments Type**: Manage different types of garments, such as pants, dresses, and their associated attributes.
 
+
+## Entity-relationship diagram
+![ER-Diagram](./backend/src/img/test-api/e-rdg.png)
+
 ## Technologies Used
 
 - **Node.js**: Backend runtime environment.
