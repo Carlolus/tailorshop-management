@@ -8,10 +8,6 @@ const Measurement = require("./measurement.model");
 const Payment = require("./payment.model");
 const Fabric = require("./fabric.model");
 const Catalog = require("./catalog.model");
-const User = require("./user.model")
-
-User.hasMany(Order, {foreignKey: "user_id", as: "userOrders"})
-Order.belongsTo(User, { foreignKey: "user_id", as: "orderUser" });
 
 Customer.hasMany(Order, { foreignKey: "customer_id", as: "customerOrders" });
 Order.belongsTo(Customer, { foreignKey: "customer_id", as: "orderCustomer" });
