@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   postgres:
@@ -20,6 +20,44 @@ services:
     networks:
       - backend
 
+  keycloak_db:
+    image: postgres:15-alpine
+    container_name: keycloak_db
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.0
+    container_name: keycloak
+    command: ["start-dev"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      keycloak_db:
+        condition: service_healthy
+    networks:
+      - backend
+
   backend:
     build: ./backend
     container_name: tailorshop_api
@@ -28,38 +66,17 @@ services:
         condition: service_healthy 
     ports:
       - "3000:3000"
-    environment:
-      DB_HOST: postgres
-      DB_NAME: tailorshop_db
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+    env_file:
+      - .env
     volumes:
       - ./backend:/app
       - /app/node_modules
     networks:
       - backend
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.1
-    container_name: keycloak
-    command: start-dev
-    environment:
-      KC_DB: postgres
-      KC_DB_URL_HOST: postgres
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: postgres
-      KC_DB_URL_DATABASE: tailorshop_db
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    networks:
-      - backend
-
 volumes:
   postgres_data:
+  keycloak_data:
 
 networks:
   backend:
