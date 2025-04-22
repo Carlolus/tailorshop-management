@@ -1,22 +1,11 @@
-require("dotenv").config();
 const express = require("express");
-const sequelize = require("./config/database");
-const routes = require("./routes"); 
-const setupSwagger = require('./config/swagger');
 const app = express();
-setupSwagger(app);
-const PORT = process.env.PORT || 3000;
+const routes = require("./routes"); 
+const sequelize = require("./config/database");
 
-app.use(express.json()); 
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "Servidor funcionando correctamente",
-    time: { now: new Date().toISOString() },
-  });
-});
-
-app.use("", routes);
+app.use("", routes); 
 
 async function startServer() {
   try {
@@ -26,12 +15,11 @@ async function startServer() {
     await sequelize.sync({ alter: true });
     console.log("Modelos sincronizados correctamente");
 
-    app.listen(PORT, () => {
-      console.log(`Corriendo en http://localhost:${PORT}`);
+    app.listen(3000, () => {
+      console.log("Servidor corriendo en http://localhost:3000");
     });
-
   } catch (error) {
-    console.error("Error al conectar con DB:", error);
+    console.error("Error al iniciar el servidor:", error);
   }
 }
 

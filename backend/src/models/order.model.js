@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Customer = require("./customer.model"); 
-const User = require("./user.model"); 
 
 const Order = sequelize.define("order", {
   order_id: {
@@ -15,16 +14,6 @@ const Order = sequelize.define("order", {
     references: {
       model: Customer,
       key: "customer_id",
-    },
-    onUpdate: "CASCADE",
-    onDelete: "RESTRICT",
-  },
-  user_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: User,
-      key: "user_id",
     },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
