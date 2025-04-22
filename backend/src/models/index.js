@@ -37,7 +37,6 @@ module.exports = {
   sequelize,
   Customer,
   Order,
-  User,
   GarmentType,
   Garment,
   Measurement,
