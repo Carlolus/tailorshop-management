@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const measurementController = require("../controllers/measurement.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -15,7 +16,7 @@ const measurementController = require("../controllers/measurement.controller");
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/", measurementController.getAllMeasurements);
+router.get("/", validateToken, measurementController.getAllMeasurements);
 
 /**
  * @swagger
@@ -39,7 +40,7 @@ router.get("/", measurementController.getAllMeasurements);
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/:garment_id", measurementController.getMeasurementByGarmentId);
+router.get("/:garment_id", validateToken, measurementController.getMeasurementByGarmentId);
 
 /**
  * @swagger
@@ -72,7 +73,7 @@ router.get("/:garment_id", measurementController.getMeasurementByGarmentId);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", measurementController.createMeasurement);
+router.post("/", validateToken, measurementController.createMeasurement);
 
 /**
  * @swagger
@@ -106,7 +107,7 @@ router.post("/", measurementController.createMeasurement);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:garment_id", measurementController.updateMeasurement);
+router.put("/:garment_id", validateToken, measurementController.updateMeasurement);
 
 /**
  * @swagger
@@ -130,6 +131,6 @@ router.put("/:garment_id", measurementController.updateMeasurement);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:garment_id", measurementController.deleteMeasurement);
+router.delete("/:garment_id", validateToken, measurementController.deleteMeasurement);
 
 module.exports = router;

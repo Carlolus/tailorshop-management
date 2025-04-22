@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const garmentController = require("../controllers/garment.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -14,7 +15,7 @@ const garmentController = require("../controllers/garment.controller");
  *       500:
  *         description: Error al obtener las prendas
  */
-router.get("/", garmentController.getAllGarments);
+router.get("/", validateToken, garmentController.getAllGarments);
 
 /**
  * @swagger
@@ -37,7 +38,7 @@ router.get("/", garmentController.getAllGarments);
  *       500:
  *         description: Error al obtener la prenda
  */
-router.get("/:garment_id", garmentController.getGarmentById);
+router.get("/:garment_id", validateToken, garmentController.getGarmentById);
 
 /**
  * @swagger
@@ -72,7 +73,7 @@ router.get("/:garment_id", garmentController.getGarmentById);
  *       500:
  *         description: Error al crear la prenda
  */
-router.post("/", garmentController.createGarment);
+router.post("/", validateToken, garmentController.createGarment);
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.post("/", garmentController.createGarment);
  *       500:
  *         description: Error al actualizar la prenda
  */
-router.put("/:garment_id", garmentController.updateGarment);
+router.put("/:garment_id", validateToken, garmentController.updateGarment);
 
 /**
  * @swagger
@@ -139,6 +140,6 @@ router.put("/:garment_id", garmentController.updateGarment);
  *       500:
  *         description: Error al eliminar la prenda
  */
-router.delete("/:garment_id", garmentController.deleteGarment);
+router.delete("/:garment_id", validateToken, garmentController.deleteGarment);
 
 module.exports = router;

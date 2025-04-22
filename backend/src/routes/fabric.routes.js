@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fabricController = require("../controllers/fabric.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -64,7 +65,7 @@ router.get("/:fabric_id", fabricController.getFabricById);
  *       500:
  *         description: Error al crear el tipo de tela
  */
-router.post("/", fabricController.createFabric);
+router.post("/", validateToken, fabricController.createFabric);
 
 /**
  * @swagger
@@ -100,7 +101,7 @@ router.post("/", fabricController.createFabric);
  *       500:
  *         description: Error al actualizar el tipo de tela
  */
-router.put("/:fabric_id", fabricController.updateFabric);
+router.put("/:fabric_id", validateToken, fabricController.updateFabric);
 
 /**
  * @swagger
@@ -123,6 +124,6 @@ router.put("/:fabric_id", fabricController.updateFabric);
  *       500:
  *         description: Error al eliminar el tipo de tela
  */
-router.delete("/:fabric_id", fabricController.deleteFabric);
+router.delete("/:fabric_id", validateToken, fabricController.deleteFabric);
 
 module.exports = router;

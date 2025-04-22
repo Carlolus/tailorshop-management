@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const catalogController = require("../controllers/catalog.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -66,7 +67,8 @@ router.get("/:item_id", catalogController.getCatalogById);
  *       500:
  *         description: Error al crear el elemento del catálogo
  */
-router.post("/", catalogController.createCatalog);
+
+router.post("/", validateToken, catalogController.createCatalog);
 
 /**
  * @swagger
@@ -104,7 +106,7 @@ router.post("/", catalogController.createCatalog);
  *       500:
  *         description: Error al actualizar el elemento del catálogo
  */
-router.put("/:item_id", catalogController.updateCatalog);
+router.put("/:item_id", validateToken, catalogController.updateCatalog);
 
 /**
  * @swagger
@@ -127,6 +129,6 @@ router.put("/:item_id", catalogController.updateCatalog);
  *       500:
  *         description: Error al eliminar el elemento del catálogo
  */
-router.delete("/:item_id", catalogController.deleteCatalog);
+router.delete("/:item_id", validateToken, catalogController.deleteCatalog);
 
 module.exports = router;
