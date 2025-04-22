@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const orderController = require("../controllers/order.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -14,7 +15,7 @@ const orderController = require("../controllers/order.controller");
  *       500:
  *         description: Error al obtener las órdenes
  */
-router.get("/", orderController.getAllOrders);
+router.get("/", validateToken, orderController.getAllOrders);
 
 /**
  * @swagger
@@ -37,7 +38,7 @@ router.get("/", orderController.getAllOrders);
  *       500:
  *         description: Error al obtener la orden
  */
-router.get("/:order_id", orderController.getOrderById);
+router.get("/:order_id", validateToken, orderController.getOrderById);
 
 /**
  * @swagger
@@ -74,7 +75,7 @@ router.get("/:order_id", orderController.getOrderById);
  *       500:
  *         description: Error al crear la orden
  */
-router.post("/", orderController.createOrder);
+router.post("/", validateToken, orderController.createOrder);
 
 /**
  * @swagger
@@ -120,7 +121,7 @@ router.post("/", orderController.createOrder);
  *       500:
  *         description: Error al actualizar la orden
  */
-router.put("/:order_id", orderController.updateOrder);
+router.put("/:order_id", validateToken, orderController.updateOrder);
 
 /**
  * @swagger
@@ -143,6 +144,6 @@ router.put("/:order_id", orderController.updateOrder);
  *       500:
  *         description: Error al eliminar la orden
  */
-router.delete("/:order_id", orderController.deleteOrder);
+router.delete("/:order_id", validateToken, orderController.deleteOrder);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const garmentTypeController = require("../controllers/garment_type.controller");
+const validateToken = require("../middlewares/validateToken"); 
 
 /**
  * @swagger
@@ -68,7 +69,7 @@ router.get("/:garment_type_id", garmentTypeController.getGarmentTypeById);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", garmentTypeController.createGarmentType);
+router.post("/", validateToken, garmentTypeController.createGarmentType);
 
 /**
  * @swagger
@@ -102,7 +103,7 @@ router.post("/", garmentTypeController.createGarmentType);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:garment_type_id", garmentTypeController.updateGarmentType);
+router.put("/:garment_type_id", validateToken, garmentTypeController.updateGarmentType);
 
 /**
  * @swagger
@@ -126,6 +127,6 @@ router.put("/:garment_type_id", garmentTypeController.updateGarmentType);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:garment_type_id", garmentTypeController.deleteGarmentType);
+router.delete("/:garment_type_id", validateToken, garmentTypeController.deleteGarmentType);
 
 module.exports = router;

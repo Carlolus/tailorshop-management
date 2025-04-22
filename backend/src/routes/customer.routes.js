@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const customerController = require("../controllers/customer.controller");
+const validateToken = require("../middlewares/validateToken"); 
 /**
  * @swagger
  * /customers:
@@ -14,7 +15,7 @@ const customerController = require("../controllers/customer.controller");
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/", customerController.getAllCustomers);
+router.get("/", validateToken, customerController.getAllCustomers);
 /**
  * @swagger
  * /customers/{customer_id}:
@@ -37,7 +38,7 @@ router.get("/", customerController.getAllCustomers);
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/:customer_id", customerController.getCustomerById);
+router.get("/:customer_id", validateToken, customerController.getCustomerById);
 /**
  * @swagger
  * /customers:
@@ -71,7 +72,7 @@ router.get("/:customer_id", customerController.getCustomerById);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", customerController.createCustomer);
+router.post("/", validateToken, customerController.createCustomer);
 /**
  * @swagger
  * /customers/{customer_id}:
@@ -110,7 +111,7 @@ router.post("/", customerController.createCustomer);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:customer_id", customerController.updateCustomer);
+router.put("/:customer_id", validateToken, customerController.updateCustomer);
 /**
  * @swagger
  * /customers/{customer_id}:
@@ -133,6 +134,6 @@ router.put("/:customer_id", customerController.updateCustomer);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:customer_id", customerController.deleteCustomer);
+router.delete("/:customer_id", validateToken, customerController.deleteCustomer);
 
 module.exports = router;
