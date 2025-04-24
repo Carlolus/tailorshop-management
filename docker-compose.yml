@@ -44,16 +44,20 @@ services:
     # Keycloak identity and access management service
     image: quay.io/keycloak/keycloak:26.2.0
     container_name: keycloak
-    command: ["start-dev"]         # Starts Keycloak in development mode
+    command: ["start-dev", "--import-realm"]         # Starts Keycloak in development mode
+    volumes:
+      - ./keycloak-realm-export:/opt/keycloak/data/import # Mounts the directory for Keycloak realm export
     environment:
       KC_DB: postgres              # Database type for Keycloak
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak  # Database connection URL
+      KC_FEATURES: scripts        # Enables Keycloak features
       KC_DB_USERNAME: keycloak     # Database username for Keycloak
       KC_DB_PASSWORD: keycloak     # Database password for Keycloak
       KEYCLOAK_ADMIN: admin        # Admin username for Keycloak
       KEYCLOAK_ADMIN_PASSWORD: admin  # Admin password for Keycloak
       KC_HEALTH_ENABLED: true      # Enables health checks for Keycloak
       KC_METRICS_ENABLED: true     # Enables metrics for Keycloak
+      KC_IMPORT: /opt/keycloak/data/import/tailorshop-realm.json  # Path to the Keycloak realm export file
     ports:
       - "8080:8080"                # Exposes Keycloak on port 8080
     depends_on:
