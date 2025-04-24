@@ -1,82 +1,87 @@
-
-
+# Description: Docker Compose file for TailorShop application
+# This file defines the services, networks, and volumes required to run the application.
 services:
   postgres:
+    # PostgreSQL database for the application
     image: postgres:15-alpine
     container_name: tailorshop_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: tailorshop_db
+      POSTGRES_USER: postgres       # Database username
+      POSTGRES_PASSWORD: postgres   # Database password
+      POSTGRES_DB: tailorshop_db    # Default database name
     ports:
-      - "5432:5432"
+      - "5432:5432"                 # Exposes PostgreSQL on port 5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck: 
-      test: ["CMD-SHELL", "pg_isready -U postgres -d tailorshop_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - postgres_data:/var/lib/postgresql/data  # Persistent storage for PostgreSQL data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tailorshop_db"]  # Checks if the database is ready
+      interval: 5s                 # Interval between health checks
+      timeout: 5s                  # Timeout for each health check
+      retries: 10                  # Number of retries before marking as unhealthy
     networks:
-      - backend
+      - backend                    # Connects to the backend network
 
   keycloak_db:
+    # PostgreSQL database for Keycloak, used for authentication and authorization
+    # This service is separate from the main PostgreSQL database for security and isolation
     image: postgres:15-alpine
     container_name: keycloak_db
     environment:
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: keycloak
-      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak       # Database username for Keycloak
+      POSTGRES_PASSWORD: keycloak   # Database password for Keycloak
+      POSTGRES_DB: keycloak         # Default database name for Keycloak
     volumes:
-      - keycloak_data:/var/lib/postgresql/data
+      - keycloak_data:/var/lib/postgresql/data  # Persistent storage for Keycloak database
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]  # Checks if the Keycloak database is ready
+      interval: 5s                 # Interval between health checks
+      timeout: 5s                  # Timeout for each health check
+      retries: 10                  # Number of retries before marking as unhealthy
     networks:
-      - backend
+      - backend                    # Connects to the backend network
 
   keycloak:
+    # Keycloak identity and access management service
     image: quay.io/keycloak/keycloak:26.2.0
     container_name: keycloak
-    command: ["start-dev"]
+    command: ["start-dev"]         # Starts Keycloak in development mode
     environment:
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HEALTH_ENABLED: true
-      KC_METRICS_ENABLED: true
+      KC_DB: postgres              # Database type for Keycloak
+      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak  # Database connection URL
+      KC_DB_USERNAME: keycloak     # Database username for Keycloak
+      KC_DB_PASSWORD: keycloak     # Database password for Keycloak
+      KEYCLOAK_ADMIN: admin        # Admin username for Keycloak
+      KEYCLOAK_ADMIN_PASSWORD: admin  # Admin password for Keycloak
+      KC_HEALTH_ENABLED: true      # Enables health checks for Keycloak
+      KC_METRICS_ENABLED: true     # Enables metrics for Keycloak
     ports:
-      - "8080:8080"
+      - "8080:8080"                # Exposes Keycloak on port 8080
     depends_on:
       keycloak_db:
-        condition: service_healthy
+        condition: service_healthy # Waits for the Keycloak database to be healthy before starting
     networks:
-      - backend
+      - backend                    # Connects to the backend network
 
   backend:
-    build: ./backend
+    # TailorShop backend application
+    build: ./backend               # Builds the backend from the specified directory
     container_name: tailorshop_api
     depends_on:
       postgres:
-        condition: service_healthy 
+        condition: service_healthy # Waits for the PostgreSQL database to be healthy before starting
     ports:
-      - "3000:3000"
+      - "3000:3000"                # Exposes the backend on port 3000
     env_file:
-      - .env
+      - .env                       # Loads environment variables from the .env file
     volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - ./backend:/app             # Mounts the backend source code for development
+      - /app/node_modules          # Mounts the node_modules directory
     networks:
-      - backend
+      - backend                    # Connects to the backend network
 
 volumes:
-  postgres_data:
-  keycloak_data:
+  postgres_data:                   # Persistent volume for PostgreSQL
+  keycloak_data:                   # Persistent volume for Keycloak database
 
 networks:
-  backend:
+  backend:                         # Shared network for all services

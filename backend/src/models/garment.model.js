@@ -1,5 +1,11 @@
+/*
+  Description: Model for managing garment types in the application.
+  Author: Carlos
+  Fecha: 2025-04-23
+*/
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+// Import the Order and GarmentType models to establish relationships with the Garment model
 const Order = require("./order.model");
 const GarmentType = require("./garment_type.model");
 
@@ -12,6 +18,7 @@ const Garment = sequelize.define("garment", {
   order_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    // Establish a foreign key relationship with the Order model
     references: {
       model: Order,
       key: "order_id",
@@ -20,6 +27,7 @@ const Garment = sequelize.define("garment", {
   garment_type_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    // Establish a foreign key relationship with the GarmentType model
     references: {
       model: GarmentType,
       key: "garment_type_id",

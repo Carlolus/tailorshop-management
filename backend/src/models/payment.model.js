@@ -1,5 +1,12 @@
+/*
+  Description: Model for managing payments in the application.
+  Author: Carlos
+  Fecha: 2025-04-23
+*/
+
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+// Import the Order model to establish a relationship with the Payment model
 const Order = require("./order.model");
 
 const Payment = sequelize.define("payment", {
@@ -12,6 +19,7 @@ const Payment = sequelize.define("payment", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
+      // Establish a foreign key relationship with the Order model
       model: Order,
       key: "order_id",
     },

@@ -1,3 +1,10 @@
+/*
+  Title: garment.controller.js
+  Description: Controller for managing CRUD operations for the current model items in the database.
+  Usage: This file contains functions to handle requests for creating, reading, updating, and deleting current model items.
+  Each model contains a set of functions that correspond to the CRUD operations. Those functions are provided by 
+  Sequelize, which is the ORM used in this application.
+*/
 const { Garment } = require("../models");
 
 exports.getAllGarments = async (req, res) => {

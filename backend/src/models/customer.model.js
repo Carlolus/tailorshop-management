@@ -1,3 +1,8 @@
+/*
+  Description: Model for managing customers in the application.
+  Author: Carlos
+  Fecha: 2025-04-23
+*/
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
