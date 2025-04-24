@@ -1,6 +1,13 @@
+/*
+  Description: Model for managing garment types in the application.
+  Author: Carlos
+  Fecha: 2025-04-23
+*/
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+// Import the Fabric and GarmentType models to establish relationships with the Garment model
 const Order = require("./order.model");
+// Import the GarmentType model to establish a relationship with the Garment model
 const GarmentType = require("./garment_type.model");
 
 const Garment = sequelize.define("garment", {

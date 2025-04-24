@@ -1,5 +1,11 @@
+/*
+  Description: Model for managing orders in the application.
+  Author: Carlos
+  Fecha: 2025-04-23
+*/
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+// Import the Customer model to establish a relationship with the Order model
 const Customer = require("./customer.model"); 
 
 const Order = sequelize.define("order", {
@@ -11,6 +17,7 @@ const Order = sequelize.define("order", {
   customer_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    // Establish a foreign key relationship with the Customer model
     references: {
       model: Customer,
       key: "customer_id",

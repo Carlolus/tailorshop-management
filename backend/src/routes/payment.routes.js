@@ -16,7 +16,7 @@ const validateToken = require("../middlewares/validateToken");
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/", paymentController.getAllPayments);
+router.get("/", validateToken, paymentController.getAllPayments);
 
 /**
  * @swagger
@@ -40,7 +40,7 @@ router.get("/", paymentController.getAllPayments);
  *       500:
  *         description: Error interno del servidor
  */
-router.get("/:payment_id", paymentController.getPaymentById);
+router.get("/:payment_id", validateToken, paymentController.getPaymentById);
 
 /**
  * @swagger
@@ -85,7 +85,7 @@ router.get("/:payment_id", paymentController.getPaymentById);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", paymentController.createPayment);
+router.post("/", validateToken, paymentController.createPayment);
 
 /**
  * @swagger
@@ -133,7 +133,7 @@ router.post("/", paymentController.createPayment);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:payment_id", paymentController.updatePayment);
+router.put("/:payment_id", validateToken, paymentController.updatePayment);
 
 /**
  * @swagger

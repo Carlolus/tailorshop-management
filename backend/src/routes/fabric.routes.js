@@ -16,7 +16,6 @@ const validateToken = require("../middlewares/validateToken");
  *         description: Error al obtener los tipos de telas
  */
 router.get("/", fabricController.getAllFabrics);
-
 /**
  * @swagger
  * /fabrics/{fabric_id}:
@@ -66,7 +65,6 @@ router.get("/:fabric_id", fabricController.getFabricById);
  *         description: Error al crear el tipo de tela
  */
 router.post("/", validateToken, fabricController.createFabric);
-
 /**
  * @swagger
  * /fabrics/{fabric_id}:
