@@ -46,7 +46,7 @@ services:
     container_name: keycloak
     command: ["start-dev", "--import-realm"]         # Starts Keycloak in development mode
     volumes:
-      - ./keycloak-realm-export:/opt/keycloak/data/import # Mounts the directory for Keycloak realm export
+      - ./backend/keycloak-realm-export:/opt/keycloak/data/import # Mounts the directory for Keycloak realm export
     environment:
       KC_DB: postgres              # Database type for Keycloak
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak  # Database connection URL
