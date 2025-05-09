@@ -1,0 +1,62 @@
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .navigation {
+      ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        
+        li {
+          margin-left: 1.5rem;
+          
+          a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+            
+            &:hover {
+              color: #0077ff;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  main {
+    padding-top: 70px; // Para compensar el header fijo
+    min-height: calc(100vh - 130px); // Altura mínima para empujar el footer abajo
+  }
+  
+  .footer {
+    background-color: #f8f9fa;
+    padding: 1.5rem 0;
+    text-align: center;
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }

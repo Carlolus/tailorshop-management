@@ -1,0 +1,66 @@
+<!-- Sección Hero -->
+<section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Bienvenido a Sastreria Franco</h1>
+        <p>Sastreria Clásica</p>
+        <button class="cta-button">Comenzar ahora</button>
+      </div>
+      <div class="hero-image">
+        <!-- Aquí iría una imagen -->
+        <div class="placeholder-image">Imagen Hero</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección de Características -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Nuestras Características</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-icon">
+            <div class="placeholder-icon">{{ feature.title[0] }}</div>
+          </div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección Acerca de -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about-content">
+        <h2 class="section-title">Sobre Nosotros</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quis ab molestias ullam modi assumenda non vero aspernatur aliquid facilis, excepturi, quasi, ducimus molestiae perspiciatis. Deleniti vel cupiditate animi in?.</p>
+      </div>
+      <div class="about-image">
+        <!-- Aquí iría una imagen -->
+        <div class="placeholder-image">Imagen Sobre Nosotros</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección de Contacto -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title">Contáctanos</h2>
+      <div class="contact-form">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="tucorreo@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="message">Mensaje</label>
+          <textarea id="message" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+        </div>
+        <button class="submit-button">Enviar mensaje</button>
+      </div>
+    </div>
+  </section>
