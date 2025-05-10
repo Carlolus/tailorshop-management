@@ -1,1 +1,15 @@
-<p>catalog works!</p>
+<section class="catalog">
+    <div class="container">
+      <h2 class="section-title">Catálogo de Productos</h2>
+      <div class="catalog-grid">
+        <div class="catalog-card" *ngFor="let item of catalogItems">
+          <img [src]="item.image" [alt]="item.name" class="catalog-image" />
+          <div class="catalog-content">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
