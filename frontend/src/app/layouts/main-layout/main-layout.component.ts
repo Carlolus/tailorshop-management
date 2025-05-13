@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, RouterModule],
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
