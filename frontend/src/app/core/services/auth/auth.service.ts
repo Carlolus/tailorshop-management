@@ -8,8 +8,6 @@ import Keycloak from 'keycloak-js';
 })
 export class AuthService {
 
-    
-    
     keycloakService: KeycloakService;
     httpClient: HttpClient;
 

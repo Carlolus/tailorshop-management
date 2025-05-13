@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,6 @@ import { CommonModule } from '@angular/common';
 })
 
 export class HomeComponent {
-  // Este componente contiene las secciones de nuestra landing page
   features = [
     {
       title: 'Experiencia',
