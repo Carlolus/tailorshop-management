@@ -1,16 +1,17 @@
-<section class="catalog">
-    <div class="container">
-      <h2 class="section-title">Catálogo de Productos</h2>
-      <div class="catalog-grid">
-        <div class="catalog-card" *ngFor="let item of catalogItems">
-          <img [src]="item.image" [alt]="item.name" class="catalog-image" />
-          <div class="catalog-content">
-            <h3>{{ item.name }}</h3>
-            <p>{{ item.description }}</p>
-            <p></p>
-          </div>
-        </div>
-      </div>
+<section class="catalog-hero">
+  <div class="catalog-hero-content">
+    <h2>Modelos del diseñador</h2>
+    <h1>Estilo de ropa única</h1>
+    <a href="#colecciones" class="catalog-button">Ver colecciones</a>
+  </div>
+</section>
+<section id="colecciones" class="catalog-cards-container">
+  <div class="catalog-card" *ngFor="let item of catalogItems">
+    <img [src]="item.image" [alt]="item.name" class="catalog-card-image" />
+    <div class="catalog-card-content">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
     </div>
-  </section>
-  
+  </div>
+</section>
+
