@@ -1,0 +1,14 @@
+<section class="fabrics">
+  <div class="container">
+    <h2 class="section-title">Catálogo de Telas</h2>
+    <div class="fabrics-grid">
+      <div class="fabric-card" *ngFor="let fabric of fabrics">
+        <img [src]="fabric.image" [alt]="fabric.fabric_name" class="fabric-image" />
+        <div class="fabric-content">
+          <h3>{{ fabric.fabric_name }}</h3>
+          <p>si</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
