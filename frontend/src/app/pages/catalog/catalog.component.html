@@ -5,6 +5,11 @@
     <a href="#colecciones" class="catalog-button">Ver colecciones</a>
   </div>
 </section>
+<section>
+  <div class="catalog-collection">
+    <h1>Colección 2024/2025</h1>
+  </div>
+</section>
 <section id="colecciones" class="catalog-cards-container">
   <div class="catalog-card" *ngFor="let item of catalogItems">
     <img [src]="item.image" [alt]="item.name" class="catalog-card-image" />
@@ -14,4 +19,11 @@
     </div>
   </div>
 </section>
+<section></section>
+<section class="catalog-footer">
+  <div class="catalog-footer-content">
+    <h2>¿Listo para tu próximo proyecto?</h2>
+    <p>Contáctanos para más información sobre nuestros servicios y productos.</p>
+    <a href="#contact" class="catalog-button">Contáctanos</a>
+  </div>
 
