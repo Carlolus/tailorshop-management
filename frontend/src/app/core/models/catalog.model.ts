@@ -3,4 +3,5 @@ export interface CatalogItem {
     name: string;
     description: string;
     image: string;
+    fabric: string;
   }

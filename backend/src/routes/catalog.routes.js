@@ -68,7 +68,7 @@ router.get("/:item_id", catalogController.getCatalogById);
  *         description: Error al crear el elemento del catálogo
  */
 
-router.post("/",catalogController.createCatalog);
+router.post("/",validateToken,catalogController.createCatalog);
 
 /**
  * @swagger
