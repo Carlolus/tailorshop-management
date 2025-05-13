@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -10,5 +11,19 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent {
-  // Este componente sirve como contenedor para nuestras páginas
+  isLoggedIn = false;
+
+  constructor(private AuthService: AuthService) {
+    this.AuthService.isLoggedIn().then(logged => {
+      this.isLoggedIn = logged;
+    });
+  }
+
+  login() {
+    this.AuthService.login();
+  }
+
+  logout() {
+    this.AuthService.logout();
+  }
 }

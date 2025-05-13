@@ -12,18 +12,18 @@ export class HomeComponent {
   // Este componente contiene las secciones de nuestra landing page
   features = [
     {
-      title: 'Característica 1',
-      description: 'Descripción de la primera característica importante de tu producto o servicio.',
+      title: 'Experiencia',
+      description: 'Nuestro maestro sastre cuenta con más de 60 años de experiencia en el arte de la confección, transmitiendo tradición, precisión y pasión en cada prenda..',
       icon: 'assets/icons/feature1.svg'
     },
     {
-      title: 'Característica 2',
-      description: 'Descripción de la segunda característica importante de tu producto o servicio.',
+      title: 'Puntualidad',
+      description: 'Valoramos tu tiempo. Nos comprometemos a entregar cada encargo en la fecha acordada, sin comprometer la calidad.',
       icon: 'assets/icons/feature2.svg'
     },
     {
-      title: 'Característica 3',
-      description: 'Descripción de la tercera característica importante de tu producto o servicio.',
+      title: 'Personalización',
+      description: '¿No encuentras lo que buscas? Diseñamos y ajustamos prendas a medida para reflejar tu estilo y necesidades individuales.',
       icon: 'assets/icons/feature3.svg'
     }
   ];

@@ -42,7 +42,7 @@
       }
       
       .cta-button {
-        background-color: #0f0f0f;
+        background-color: #0077ff;
         color: white;
         border: none;
         padding: 0.8rem 1.5rem;
@@ -52,7 +52,7 @@
         transition: background-color 0.3s;
         
         &:hover {
-          background-color: #1f2020;
+          background-color: #0066cc;
         }
       }
     }
@@ -73,6 +73,7 @@
     }
   }
   
+  // Features Section
   .features {
     padding: 5rem 0;
     background-color: #ffffff;
@@ -101,7 +102,7 @@
         .placeholder-icon {
           width: 60px;
           height: 60px;
-          background-color: #202020;
+          background-color: #0077ff;
           color: white;
           border-radius: 50%;
           display: flex;
@@ -140,8 +141,6 @@
     
     .about-content {
       flex: 1;
-      text-align: justify;
-      text-justify: inter-word;
       
       .section-title {
         text-align: left;
@@ -197,13 +196,13 @@
           
           &:focus {
             outline: none;
-            border-color: #292a2b;
+            border-color: #0077ff;
           }
         }
       }
       
       .submit-button {
-        background-color: #161616;
+        background-color: #0077ff;
         color: white;
         border: none;
         padding: 0.8rem 1.5rem;
@@ -214,7 +213,7 @@
         width: 100%;
         
         &:hover {
-          background-color: #252525;
+          background-color: #0066cc;
         }
       }
     }

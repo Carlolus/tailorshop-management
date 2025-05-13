@@ -4,10 +4,12 @@
       <nav class="navigation">
         <ul>
           <li><a href="#hero">Inicio</a></li>
-          <li><a href="/fabrics">Telas</a></li> <!-- Ahora apunta a la ruta fabrics -->
-          <li><a href="/catalog">Catálogo</a></li> <!-- Necesito que apunte a la ruta catalog -->
+          <li><a href="/fabrics">Telas</a></li> 
+          <li><a href="/catalog">Catálogo</a></li> 
           <li><a href="#about">Sobre Nosotros</a></li>
           <li><a href="#contact">Contacto</a></li>
+          <li *ngIf="isLoggedIn"><a href="/dashboard">Dashboard</a></li>
+          <li *ngIf="isLoggedIn"><a (click)="logout()">Cerrar sesión</a></li>
         </ul>
       </nav>
     </div>

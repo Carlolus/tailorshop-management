@@ -37,7 +37,7 @@
             transition: color 0.3s;
             
             &:hover {
-              color: #0077ff;
+              color: #48484b;
             }
           }
         }
@@ -46,8 +46,8 @@
   }
   
   main {
-    padding-top: 70px; // Para compensar el header fijo
-    min-height: calc(100vh - 130px); // Altura mínima para empujar el footer abajo
+    padding-top: 70px; 
+    min-height: calc(100vh - 130px);
   }
   
   .footer {
