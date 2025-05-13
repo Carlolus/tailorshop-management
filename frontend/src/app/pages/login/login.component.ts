@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-redirect',
-  styleUrl: './login.component.scss',
-  template: `./login.component.html`
+  styleUrls: ['./login.component.scss'], // ← aquí está el cambio
+  templateUrl: './login.component.html'  // ← también se debe corregir si este es un path, no un string literal del template
 })
 export class LoginRedirectComponent implements OnInit {
 
