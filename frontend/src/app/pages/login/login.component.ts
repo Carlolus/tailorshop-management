@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth/auth.service';
+import { KeycloakService } from '../../core/services/auth/keycloak.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 })
 export class LoginRedirectComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private keycloakService: KeycloakService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
-    const loggedIn = await this.authService.isLoggedIn();
-    const token = await this.authService.getToken();
+    const loggedIn = await this.keycloakService.isLoggedIn();
+    const token = await this.keycloakService.getToken();
     console.log('Token:', token);
     console.log('Estado de autenticación:');
 
@@ -22,7 +22,8 @@ export class LoginRedirectComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
       console.log('Sin autenticación, redirigiendo al login de Keycloak');
-      this.authService.login();
+      this.keycloakService.login();
     }
   }
 }
+

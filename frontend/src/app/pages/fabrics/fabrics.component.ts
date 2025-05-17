@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FabricService } from '../../core/services/fabrics/fabric.service';
 import { Fabric } from '../../core/models/fabric.model';
-import { AuthService } from '../../core/services/auth/auth.service';
-import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-fabrics',
