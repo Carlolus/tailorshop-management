@@ -18,4 +18,9 @@ router.use("/orders", require("./order.routes"));
 router.use("/payments", require("./payment.routes"));
 router.use("/garmentstypes", require("./garment_type.routes"));
 
+// Ruta raíz
+router.get("/", (req, res) => {
+  res.send("Servidor corriendo");
+});
+
 module.exports = router;

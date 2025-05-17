@@ -3,9 +3,13 @@ const app = express();
 const routes = require("./routes"); 
 const sequelize = require("./config/database");
 const cors = require('cors');
+const seed = require("./seeds/seed");
 
 app.use(cors());
 app.use(express.json());
+
+// Swagger
+require('./config/swagger')(app);
 
 app.use("", routes); 
 
@@ -16,6 +20,9 @@ async function startServer() {
 
     await sequelize.sync({ alter: true });
     console.log("Modelos sincronizados correctamente");
+
+    console.log("Verificando seed");
+    await seed();
 
     app.listen(3000, () => {
       console.log("Servidor corriendo en http://localhost:3000");
