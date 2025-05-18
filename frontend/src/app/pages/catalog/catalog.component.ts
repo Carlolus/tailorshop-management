@@ -18,4 +18,11 @@ export class CatalogComponent {
       this.catalogItems = data;
     });
   }
+
+  scrollToSection() {
+    const element = document.getElementById('colecciones');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
