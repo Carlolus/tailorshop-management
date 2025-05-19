@@ -12,7 +12,6 @@ import { Fabric } from '../../core/models/fabric.model';
 export class FabricsComponent {
   fabrics: Fabric[] = [];
 
-
   constructor(private fabricService: FabricService) {
     this.fabricService.getFabrics().subscribe((fabrics: Fabric[]) => {
       this.fabrics = fabrics;
