@@ -1,0 +1,39 @@
+<section class="fabrics">
+  <div class="container">
+    <h2 class="section-title">Catálogo de Telas</h2>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input 
+        type="text"
+        placeholder="Buscar tela..."
+        [formControl]="searchControl">
+    </div>
+
+    <!-- Fabrics Grid -->
+    <div class="fabrics-grid">
+      @for (fabric of filteredFabrics; track fabric.fabric_id) {
+        <div class="fabric-card">
+          <img 
+            [src]="fabric.image" 
+            [alt]="fabric.fabric_name" 
+            class="fabric-image"
+            loading="lazy">
+          
+          <div class="fabric-content">
+            <h3>{{ fabric.fabric_name }}</h3>
+            <p>{{ fabric.description }}</p>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          @if (searchControl.value) {
+            <p>No se encontraron telas para "{{ searchControl.value }}"</p>
+          } @else {
+            <p>No hay telas disponibles actualmente</p>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
