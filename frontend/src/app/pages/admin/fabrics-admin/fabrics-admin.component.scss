@@ -160,4 +160,28 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
   }
+
+    .btn-primary {
+        background-color: #2a2a2b;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+
+        &:hover {
+            background-color: #585858;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        i {
+            font-size: 0.9rem;
+        }
+    }
 }
