@@ -1,0 +1,54 @@
+<div class="form-container">
+    @if (!isViewMode){
+        <h2>{{ fabricData ? 'Editar Tela' : 'Nueva Tela'}}</h2>
+    } @else {
+        <h2>Vista de tela</h2>
+    }
+
+    <form [formGroup]="fabricForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="fabric_name">Nombre</label>
+            <input type="text" id="fabric_name" formControlName="fabric_name" placeholder="Nombre de la tela"
+                [readonly]="isViewMode">
+            @if (fabricForm.get('fabric_name')?.invalid && fabricForm.get('fabric_name')?.touched) {
+            <div class="error-message">El nombre es requerido</div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" formControlName="description" placeholder="Descripción de la tela"
+                [readonly]="isViewMode" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">URL de la Imagen</label>
+            <input type="url" id="image" formControlName="image" placeholder="https://ejemplo.com/imagen.jpg"
+                [readonly]="isViewMode">
+            @if (fabricForm.get('image')?.invalid && fabricForm.get('image')?.touched) {
+            <div class="error-message">
+                {{ fabricForm.get('image')?.errors?.['required'] ? 'La imagen es requerida' : 'URL de imagen inválida'
+                }}
+            </div>
+            }
+            @if (fabricForm.get('image')?.value && isViewMode) {
+                <div class="image-preview large">
+                    <img [src]="fabricForm.get('image')?.value" alt="Vista previa" />
+                </div>
+            } @else {
+                <div class="image-preview">
+                    <img [src]="fabricForm.get('image')?.value" alt="Vista previa" />
+                </div>
+            }
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="closeForm()">Cancelar</button>
+            @if (!isViewMode) {
+            <button type="submit" class="btn-save" [disabled]="fabricForm.invalid">
+                {{ fabricData ? 'Actualizar' : 'Guardar' }}
+            </button>
+            }
+        </div>
+    </form>
+</div>
