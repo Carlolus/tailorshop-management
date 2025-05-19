@@ -1,62 +1,70 @@
 <section class="admin-container">
-  <div class="admin-header">
-    <h1>Administración de Telas</h1>
-    <button class="btn-primary" (click)="openCreateForm()">
-      <i class="fas fa-plus"></i> Nueva Tela
-    </button>
-  </div>
+    <div class="admin-header">
+        <h1>Administración de Telas</h1>
+        <button class="btn-primary" (click)="openCreateForm()">
+            <i class="fas fa-plus"></i> Nueva Tela
+        </button>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar por nombre o descripción..." [(ngModel)]="searchTerm"
+            class="search-input" />
+    </div>
 
-  @if (isLoading) {
+    @if (isLoading) {
     <div class="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-      Cargando telas...
+        <i class="fas fa-spinner fa-spin"></i>
+        Cargando telas...
     </div>
-  } @else {
+    } @else {
     <div class="responsive-table">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Imagen</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (fabric of fabrics; track fabric.fabric_id) {
-            <tr>
-              <td>{{ fabric.fabric_id }}</td>
-              <td>{{ fabric.fabric_name }}</td>
-              <td>
-                <img [src]="fabric.image" class="thumbnail" [alt]="fabric.fabric_name">
-              </td>
-              <td class="description-cell">{{ fabric.description }}</td>
-              <td class="actions">
-                <button class="btn-edit" (click)="openEditForm(fabric)">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-delete" (click)="confirmDelete(fabric.fabric_id)">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="empty-table">No hay telas registradas</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (fabric of filteredFabrics; track fabric.fabric_id) {
+                <tr>
+                    <td>{{ fabric.fabric_id }}</td>
+                    <td>{{ fabric.fabric_name }}</td>
+                    <td>
+                        <img [src]="fabric.image" class="thumbnail" [alt]="fabric.fabric_name">
+                    </td>
+                    <td class="description-cell">{{ fabric.description }}</td>
+                    <td>
+                        <span class="actions">
+                            <button class="btn-edit" (click)="openEditForm(fabric)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete" (click)="confirmDelete(fabric.fabric_id)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn-view" (click)="confirmDelete(fabric.fabric_id)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </span>
+                    </td>
+
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="5" class="empty-table">No hay telas registradas</td>
+                </tr>
+                }
+            </tbody>
+        </table>
     </div>
-  }
+    }
 
     @if (showForm) {
     <div class="modal-overlay">
-        <app-fabric-form
-        [fabricData]="selectedFabric"
-        (formClosed)="onFormClosed()"
-        (formSubmitted)="saveFabric($event)">
+        <app-fabric-form [fabricData]="selectedFabric" (formClosed)="onFormClosed()"
+            (formSubmitted)="saveFabric($event)">
         </app-fabric-form>
     </div>
     }
