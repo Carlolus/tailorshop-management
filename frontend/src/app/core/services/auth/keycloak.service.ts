@@ -34,7 +34,7 @@ export class KeycloakService {
 
   login(){
     this.keycloak.login({
-      redirectUri: window.location.origin + '/dashboard'
+      redirectUri: window.location.origin + '/admin'
     });
   }
 
