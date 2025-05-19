@@ -21,6 +21,7 @@ export class FabricsAdminComponent implements OnInit, OnDestroy {
     isLoading = true;
     private destroy$ = new Subject<void>();
     showForm = false;
+    isViewMode = false;
     selectedFabric: Fabric | null = null;
     searchTerm: string = '';
 
@@ -89,16 +90,25 @@ export class FabricsAdminComponent implements OnInit, OnDestroy {
 
     openCreateForm(): void {
         this.selectedFabric = null;
+        this.isViewMode = false;
         this.showForm = true;
     }
 
     openEditForm(fabric: Fabric): void {
         this.selectedFabric = fabric;
+        this.isViewMode = false;
+        this.showForm = true;
+    }
+
+    openViewForm(fabric: Fabric): void {
+        this.selectedFabric = fabric;
+        this.isViewMode = true;
         this.showForm = true;
     }
 
     onFormClosed(): void {
         this.showForm = false;
+        this.isViewMode = false;
     }
 
     saveFabric(fabric: Fabric): void {

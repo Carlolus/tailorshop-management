@@ -13,6 +13,7 @@ export class FabricFormComponent {
   @Input() fabricData: Fabric | null = null;
   @Output() formClosed = new EventEmitter<void>();
   @Output() formSubmitted = new EventEmitter<Fabric>();
+  @Input() isViewMode: boolean = false;
 
   fabricForm: FormGroup;
 
