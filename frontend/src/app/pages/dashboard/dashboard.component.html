@@ -22,33 +22,40 @@
         <h3>Telas</h3>
         <p>Administra el inventario y tipos de telas.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/catalog']" style="cursor: pointer;">
         <div class="feature-icon">
           <img src="assets/icons/catalog-icon.png" alt="catalog icon" class="small-icon" />
         </div>
         <h3>Catálogo</h3>
         <p>Edita los modelos disponibles para los clientes.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/customers']" style="cursor: pointer;">
         <div class="feature-icon">
-          <img src="assets/icons/customers-icon.png" alt="catalog icon" class="small-icon" />
+          <img src="assets/icons/customers-icon.png" alt="customers icon" class="small-icon" />
         </div>
         <h3>Clientes</h3>
         <p>Visualiza y administra los clientes.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/orders']" style="cursor: pointer;">
         <div class="feature-icon">
           <img src="assets/icons/orders-icon.png" alt="order icon" class="small-icon" />
         </div>
         <h3>Órdenes</h3>
         <p>Visualiza y administra las ordenes.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/finance']" style="cursor: pointer;">
         <div class="feature-icon">
           <img src="assets/icons/finance-icon.png" alt="finance icon" class="small-icon" />
         </div>
         <h3>Finanzas</h3>
         <p>Visualiza y administra los pagos y cuentas.</p>
+      </div>
+      <div class="feature-card" [routerLink]="['/admin/logs']" style="cursor: pointer;">
+        <div class="feature-icon">
+          <img src="assets/icons/log-icon.png" alt="log icon" class="small-icon" />
+        </div>
+        <h3>Bitácora</h3>
+        <p>Historial de actividad.</p>
       </div>
     </div>
   </div>
