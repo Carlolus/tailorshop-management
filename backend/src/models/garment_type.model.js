@@ -20,7 +20,8 @@ const GarmentType = sequelize.define("garment_type", {
         "Pantalón",
         "Chaqueta",
         "Chaleco",
-        "Suit",
+        "Camisa",
+        "Gabardina",
         "Vestido de una pieza"
       ]],
     },

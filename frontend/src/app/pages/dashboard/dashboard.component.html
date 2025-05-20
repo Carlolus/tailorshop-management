@@ -2,11 +2,11 @@
   <div class="container">
     <div class="hero-content">
       <h1>Bienvenido al Panel de Administración</h1>
-      <p>Desde aquí puedes gestionar telas, catálogo y pedidos de la sastrería.</p>
+      <p>Desde aquí puedes gestionar telas, catálogo, pedidos y otros aspectos de la sastrería.</p>
       <button class="cta-button">Ver pedidos recientes</button>
     </div>
     <div class="hero-image">
-      <div class="placeholder-image">Imagen del Dashboard</div>
+      <img class="placeholder-image" src="../../../assets/images/dashboardimg.jpg" alt="Dashboard Image">
     </div>
   </div>
 </section>
@@ -15,26 +15,47 @@
   <div class="container">
     <h2 class="section-title">Accesos Rápidos</h2>
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/fabrics']" style="cursor: pointer;">
         <div class="feature-icon">
-          <div class="placeholder-icon">📦</div>
-        </div>
-        <h3>Pedidos</h3>
-        <p>Visualiza y administra los pedidos recientes.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <div class="placeholder-icon">🧵</div>
+          <img src="assets/icons/fabric-icon.png" alt="fabric icon" class="small-icon" />
         </div>
         <h3>Telas</h3>
         <p>Administra el inventario y tipos de telas.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" [routerLink]="['/admin/catalog']" style="cursor: pointer;">
         <div class="feature-icon">
-          <div class="placeholder-icon">👔</div>
+          <img src="assets/icons/catalog-icon.png" alt="catalog icon" class="small-icon" />
         </div>
         <h3>Catálogo</h3>
         <p>Edita los modelos disponibles para los clientes.</p>
+      </div>
+      <div class="feature-card" [routerLink]="['/admin/customers']" style="cursor: pointer;">
+        <div class="feature-icon">
+          <img src="assets/icons/customers-icon.png" alt="customers icon" class="small-icon" />
+        </div>
+        <h3>Clientes</h3>
+        <p>Visualiza y administra los clientes.</p>
+      </div>
+      <div class="feature-card" [routerLink]="['/admin/orders']" style="cursor: pointer;">
+        <div class="feature-icon">
+          <img src="assets/icons/orders-icon.png" alt="order icon" class="small-icon" />
+        </div>
+        <h3>Órdenes</h3>
+        <p>Visualiza y administra las ordenes.</p>
+      </div>
+      <div class="feature-card" [routerLink]="['/admin/finance']" style="cursor: pointer;">
+        <div class="feature-icon">
+          <img src="assets/icons/finance-icon.png" alt="finance icon" class="small-icon" />
+        </div>
+        <h3>Finanzas</h3>
+        <p>Visualiza y administra los pagos y cuentas.</p>
+      </div>
+      <div class="feature-card" [routerLink]="['/admin/log']" style="cursor: pointer;">
+        <div class="feature-icon">
+          <img src="assets/icons/log-icon.png" alt="log icon" class="small-icon" />
+        </div>
+        <h3>Bitácora</h3>
+        <p>Historial de actividad.</p>
       </div>
     </div>
   </div>

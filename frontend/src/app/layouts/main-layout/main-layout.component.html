@@ -1,27 +1,27 @@
 <header class="header">
-    <div class="container">
-      <div class="logo">Sastreria Franco</div>
-      <nav class="navigation">
-        <ul>
-          <li><a href="#hero">Inicio</a></li>
-          <li><a routerLink="/fabrics">Telas</a></li>
-          <li><a routerLink="/catalog">Catálogo</a></li>
-          <li><a href="#about">Sobre Nosotros</a></li>
-          <li><a href="#contact">Contacto</a></li>
-          <li *ngIf="isLoggedIn"><a routerLink="/dashboard">Administración</a></li>
-          <li *ngIf="isLoggedIn"><a (click)="logout()" routerLink="">Cerrar sesión</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  <main>
-    <!-- RouterOutlet muestra el componente asociado a la ruta actual -->
-    <router-outlet></router-outlet>
-  </main>
-  
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 Sastreria Franco. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+  <div class="container">
+    <div class="logo">Sastrería Franco</div>
+    <nav class="navigation">
+      <ul>
+        <li><a href="#hero">Inicio</a></li>
+        <li><a routerLink="/fabrics">Telas</a></li>
+        <li><a routerLink="/catalog">Catálogo</a></li>
+        <li><a href="#about">Sobre Nosotros</a></li>
+        <li><a href="#contact">Contacto</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/admin">Administración</a></li>
+        <li *ngIf="isLoggedIn"><a (click)="logout()" routerLink="">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- RouterOutlet muestra el componente asociado a la ruta actual -->
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 Sastreria Franco. Todos los derechos reservados.</p>
+  </div>
+</footer>

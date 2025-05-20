@@ -71,6 +71,7 @@
         font-weight: bold;
       }
     }
+
   }
   
   // Features Section
@@ -98,6 +99,15 @@
       
       .feature-icon {
         margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #414040;
+        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 10px;
+        overflow: hidden;
         
         .placeholder-icon {
           width: 60px;
@@ -111,6 +121,12 @@
           font-size: 1.5rem;
           margin: 0 auto;
         }
+      }
+
+      .small-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
       }
       
       h3 {
