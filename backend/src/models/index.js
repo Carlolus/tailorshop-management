@@ -16,6 +16,7 @@ const Measurement = require("./measurement.model");
 const Payment = require("./payment.model");
 const Fabric = require("./fabric.model");
 const Catalog = require("./catalog.model");
+const AuditLog = require("./audit_log.model")
 
 
 
@@ -56,4 +57,5 @@ module.exports = {
   Payment,
   Fabric,
   Catalog,
+  AuditLog
 };
