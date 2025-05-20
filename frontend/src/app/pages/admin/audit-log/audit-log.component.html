@@ -1,0 +1,62 @@
+<div class="admin-container">
+
+  <!-- Header con título -->
+  <div class="admin-header">
+    <h1>Registro de Auditoría</h1>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por usuario, acción o entidad"
+      class="search-input" />
+  </div>
+
+  <!-- Tabla -->
+  <div class="responsive-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Entidad</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (log of filteredLogs; track log.audit_log_id) {
+        <tr>
+          <td>{{ log.user_name }}</td>
+          <td class="capitalize">{{ log.action }}</td>
+          <td>{{ log.entity }}</td>
+          <td>{{ log.timestamp | date:'medium' }}</td>
+          <td class="actions">
+            <button class="btn-primary btn-view" (click)="openViewForm(log)">
+              <i class="fa fa-eye"></i> Ver
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- Mensaje si no hay resultados -->
+    @if (!filteredLogs.length && !isLoading) {
+    <div class="empty-table">No se encontraron registros.</div>
+    }
+  </div>
+
+  <!-- Spinner de carga -->
+  @if (isLoading) {
+  <div class="loading-spinner">
+    <i class="fa fa-spinner fa-spin"></i> Cargando registros...
+  </div>
+  }
+
+  <!-- Modal de vista -->
+  @if (showForm && selectedLog) {
+  <div class="modal-overlay">
+    <app-log-view-form [logData]="selectedLog" (formClosed)="onFormClosed()" [isViewMode]="true"></app-log-view-form>
+  </div>
+  }
+</div>

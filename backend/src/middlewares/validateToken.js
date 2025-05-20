@@ -29,6 +29,9 @@ Notes:
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 // Middleware function to validate JWT tokens
+const uuid = "";
+const username = "";
+
 const validateToken = (req, res, next) => {
   /*
   // Check if the request has an Authorization header
@@ -76,7 +79,10 @@ const validateToken = (req, res, next) => {
     For example, req.user will contain the user information and we can use it to check if the user is authorized to access the end point
     or to get the user information to use it in the application (for example, to get the user id or email)
     */
-    req.user = decoded;
+    req.user = {
+      sub: decoded.sub,     // UUID del usuario
+      name: decoded.name,   // Nombre de usuario legible
+    };
     next();
 
   } catch (err) {

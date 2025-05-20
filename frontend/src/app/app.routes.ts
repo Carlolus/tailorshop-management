@@ -8,6 +8,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FabricsAdminComponent } from './pages/admin/fabrics-admin/fabrics-admin.component';
+import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,10 @@ export const routes: Routes = [
           { 
             path: 'fabrics', 
             component: FabricsAdminComponent
+          },
+          { 
+            path: 'log', 
+            component: AuditLogComponent
           }
         ]
       }
