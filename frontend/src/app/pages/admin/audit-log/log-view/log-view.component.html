@@ -1,0 +1,55 @@
+<div class="modal-overlay">
+    <div class="form-container">
+        <div class="modal-header">
+            <h2>Detalle del Registro</h2>
+            <button class="btn-cancel" (click)="closeForm()" title="Cerrar">✕</button>
+        </div>
+
+        @if (logData) {
+        <div class="modal-content">
+            <div class="field">
+                <span class="label">Usuario:</span>
+                <span class="value">{{ logData.user_name }}</span>
+            </div>
+
+            <div class="field">
+                <span class="label">Acción:</span>
+                <span class="value capitalize">{{ logData.action }}</span>
+            </div>
+
+            <div class="field">
+                <span class="label">Entidad:</span>
+                <span class="value">{{ logData.entity }}</span>
+            </div>
+
+            <div class="field">
+                <span class="label">Fecha:</span>
+                <span class="value">{{ logData.timestamp | date: 'medium' }}</span>
+            </div>
+
+            <div class="field">
+                <span class="label">Descripción:</span>
+                <span class="value">{{ logData.description }}</span>
+            </div>
+
+            <div class="field" *ngIf="logData?.changes && getChangeKeys().length">
+                <span class="label">Cambios:</span>
+                <ul class="change-list">
+                    @for (key of getChangeKeys(); track key) {
+                    <li>
+                        <span class="change-key">{{ key }}:</span>
+                        <span class="change-value">"{{ logData?.changes?.[key]?.[0] }}" → "{{
+                            logData?.changes?.[key]?.[1] }}"</span>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        }
+
+        <div class="form-actions">
+            <button class="btn-cancel" (click)="closeForm()">Cerrar</button>
+        </div>
+    </div>
+</div>

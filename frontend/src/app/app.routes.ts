@@ -8,7 +8,9 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FabricsAdminComponent } from './pages/admin/fabrics-admin/fabrics-admin.component';
+import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
+
 
 export const routes: Routes = [
   {
@@ -25,16 +27,12 @@ export const routes: Routes = [
         children: [
           { 
             path: '', 
-            component: DashboardComponent, // This will show on /admin
+            component: DashboardComponent, // show on /admin
             pathMatch: 'full'
           },
           { 
             path: 'fabrics', 
             component: FabricsAdminComponent // This will show on /admin/fabrics
-          },
-          {
-            path: 'catalog',
-            component: CatalogAdminComponent // Esto será visible en /admin/catalog
           }
         ]
       }

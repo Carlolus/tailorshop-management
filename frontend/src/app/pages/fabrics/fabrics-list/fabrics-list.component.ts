@@ -8,7 +8,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-fabrics-list',
   standalone: true,
-  imports: [ReactiveFormsModule], // Required for formControl
+  imports: [ReactiveFormsModule],
   templateUrl: './fabrics-list.component.html',
   styleUrl: './fabrics-list.component.scss'
 })

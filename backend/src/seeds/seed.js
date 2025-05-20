@@ -89,7 +89,7 @@ async function seed() {
       console.log("Ya existen garment types")
     }
 
-    // Customer Seeding
+    // Customer
     const customerCount = await Customer.count();
     if (customerCount === 0) {
       await Customer.bulkCreate([
@@ -297,7 +297,7 @@ async function seed() {
     } else {
       console.log("Ya existen medidas");
     }
-
+    // Payments
     const countPayments = await Payment.count();
     if (countPayments === 0) {
       await Payment.bulkCreate([
