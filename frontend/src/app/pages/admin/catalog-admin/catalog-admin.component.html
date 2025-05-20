@@ -1,0 +1,80 @@
+<section class="admin-container">
+  <div class="admin-header">
+    <h1>Administración de Catálogos</h1>
+    <button class="btn-primary" (click)="openCreateForm()">
+      <i class="fas fa-plus"></i> Nuevo Catálogo
+    </button>
+  </div>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Buscar por nombre"
+      [(ngModel)]="searchTerm"
+      class="search-input"
+    />
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      Cargando catálogos...
+    </div>
+  } @else {
+    <div class="responsive-table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+            <th>Tela</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (catalog of filteredCatalogs; track catalog.item_id) {
+            <tr>
+              <td>{{ catalog.item_id }}</td>
+              <td>
+                <img [src]="catalog.image" class="thumbnail" [alt]="catalog.name" />
+              </td>
+              <td class="description-cell">{{ catalog.description }}</td>
+              <td>{{ catalog.fabric }}</td>
+              <td>
+                <span class="actions">
+                  <button class="btn-edit" (click)="openEditForm(catalog)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-delete" (click)="confirmDelete(catalog.item_id)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn-view" (click)="openViewForm(catalog)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-table">No hay catálogos registrados</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  
+</section>
+
+@if (showForm && (!isViewMode || selectedCatalog)) {
+    <div class="modal-overlay">
+      <app-catalog-form
+        [catalog]="selectedCatalog"
+        (save)="saveCatalog($event)"
+        (close)="onFormClosed()"
+        [isViewMode]="isViewMode">
+      </app-catalog-form>
+    </div>
+  }

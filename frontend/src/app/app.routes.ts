@@ -2,12 +2,13 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FabricsListComponent } from './pages/fabrics/fabrics-list/fabrics-list.component';
-import { CatalogComponent } from './pages/catalog/catalog.component';
+import { CatalogComponent } from './pages/catalog/catalog-list/catalog.component';
 import { LoginRedirectComponent } from './pages/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FabricsAdminComponent } from './pages/admin/fabrics-admin/fabrics-admin.component';
+import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,10 @@ export const routes: Routes = [
           { 
             path: 'fabrics', 
             component: FabricsAdminComponent // This will show on /admin/fabrics
+          },
+          {
+            path: 'catalog',
+            component: CatalogAdminComponent // Esto será visible en /admin/catalog
           }
         ]
       }
