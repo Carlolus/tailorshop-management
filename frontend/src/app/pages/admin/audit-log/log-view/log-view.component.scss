@@ -1,103 +1,111 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
 .form-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
+  background: #ffffff;
+  color: #333;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 640px;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 
-    h2 {
-        margin-bottom: 1.5rem;
-        color: #333;
-        font-size: 1.5rem;
+  @media (prefers-color-scheme: dark) {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: inherit;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    button.btn-cancel {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: inherit;
+      padding: 0;
+      line-height: 1;
+
+      &:hover {
+        color: #dc3545;
+      }
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    div {
+      span:first-child {
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      span:last-child {
+        color: inherit;
+      }
     }
 
-    .form-group {
-        margin-bottom: 1.5rem;
+    ul {
+      margin-top: 1rem;
+      padding-left: 1.25rem;
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #444;
+      li {
+        margin-bottom: 0.5rem;
+
+        span:first-child {
+          font-weight: 500;
         }
 
-        input,
-        textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
+        span:last-child {
+          font-size: 0.95rem;
+          color: #555;
 
-            &:focus {
-                outline: none;
-                border-color: #4a90e2;
-                box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-            }
+          @media (prefers-color-scheme: dark) {
+            color: #bbb;
+          }
         }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-        }
-
-        .image-preview {
-            margin-top: 1rem;
-
-            img {
-                max-width: 100%;
-                max-height: 400px;
-                border-radius: 4px;
-                border: 1px solid #eee;
-            }
-        }
-
-        .image-preview.large img {
-            max-width: 200%;
-            max-height: 800px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
+      }
     }
+  }
 
-    .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        margin-top: 2rem;
+  .form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
 
-        button {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
 
-            &.btn-cancel {
-                background-color: #f8f9fa;
-                color: #333;
-
-                &:hover {
-                    background-color: #e2e6ea;
-                }
-            }
-
-            &.btn-save {
-                background-color: #28a745;
-                color: white;
-
-                &:hover {
-                    background-color: #218838;
-                }
-
-                &:disabled {
-                    background-color: #6c757d;
-                    cursor: not-allowed;
-                }
-            }
-        }
+      &:hover {
+        background-color: #5a6268;
+      }
     }
+  }
 }

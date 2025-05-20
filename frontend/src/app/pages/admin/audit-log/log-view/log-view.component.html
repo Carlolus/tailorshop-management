@@ -1,56 +1,55 @@
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="modal-overlay">
     <div class="form-container">
-
-        <div class="flex justify-between items-center mb-4">
+        <div class="modal-header">
             <h2>Detalle del Registro</h2>
             <button class="btn-cancel" (click)="closeForm()" title="Cerrar">✕</button>
         </div>
 
         @if (logData) {
-        <div class="space-y-3">
-
-            <div>
-                <span class="font-semibold text-gray-700 dark:text-gray-300">Usuario:</span>
-                <span>{{ logData.user_name }}</span>
+        <div class="modal-content">
+            <div class="field">
+                <span class="label">Usuario:</span>
+                <span class="value">{{ logData.user_name }}</span>
             </div>
 
-            <div>
-                <span class="font-semibold text-gray-700 dark:text-gray-300">Acción:</span>
-                <span class="capitalize">{{ logData.action }}</span>
+            <div class="field">
+                <span class="label">Acción:</span>
+                <span class="value capitalize">{{ logData.action }}</span>
             </div>
 
-            <div>
-                <span class="font-semibold text-gray-700 dark:text-gray-300">Entidad:</span>
-                <span>{{ logData.entity }}</span>
+            <div class="field">
+                <span class="label">Entidad:</span>
+                <span class="value">{{ logData.entity }}</span>
             </div>
 
-            <div>
-                <span class="font-semibold text-gray-700 dark:text-gray-300">Fecha:</span>
-                <span>{{ logData.timestamp | date: 'medium' }}</span>
+            <div class="field">
+                <span class="label">Fecha:</span>
+                <span class="value">{{ logData.timestamp | date: 'medium' }}</span>
             </div>
 
-            <div>
-                <span class="font-semibold text-gray-700 dark:text-gray-300">Descripción:</span>
-                <span>{{ logData.description }}</span>
+            <div class="field">
+                <span class="label">Descripción:</span>
+                <span class="value">{{ logData.description }}</span>
             </div>
 
-            <ul class="list-disc list-inside mt-2">
-                @for (key of getChangeKeys(); track key) {
-                <li>
-                    <span class="font-medium">{{ key }}:</span>
-                    <span class="text-sm">
-                        "{{ logData?.changes?.[key]?.[0] }}" → "{{ logData?.changes?.[key]?.[1] }}"
-                    </span>
-                </li>
-                }
-            </ul>
-
+            <div class="field" *ngIf="logData?.changes && getChangeKeys().length">
+                <span class="label">Cambios:</span>
+                <ul class="change-list">
+                    @for (key of getChangeKeys(); track key) {
+                    <li>
+                        <span class="change-key">{{ key }}:</span>
+                        <span class="change-value">"{{ logData?.changes?.[key]?.[0] }}" → "{{
+                            logData?.changes?.[key]?.[1] }}"</span>
+                    </li>
+                    }
+                </ul>
+            </div>
         </div>
+
         }
 
         <div class="form-actions">
             <button class="btn-cancel" (click)="closeForm()">Cerrar</button>
         </div>
-
     </div>
 </div>
