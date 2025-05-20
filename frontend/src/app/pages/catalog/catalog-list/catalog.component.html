@@ -2,14 +2,15 @@
   <div class="catalog-hero-content">
     <h2>Modelos del diseñador</h2>
     <h1>Estilo de ropa única</h1>
-    <a href="#colecciones" class="catalog-button">Ver colecciones</a>
+    <button id="catalog-button"  (click)="scrollToSection()">Ver colecciones</button>
   </div>
 </section>
-<section>
-  <div class="catalog-collection">
-    <h2>Colección 2024/2025</h2>
-  </div>
-</section>
+<div class="search-bar">
+      <input 
+        type="text"
+        placeholder="Buscar..."
+        [formControl]="searchControl">
+</div>
 <section id="colecciones" class="catalog-cards-container">
   <div class="catalog-card" *ngFor="let item of catalogItems">
     <img [src]="item.image" [alt]="item.name" class="catalog-card-image" />

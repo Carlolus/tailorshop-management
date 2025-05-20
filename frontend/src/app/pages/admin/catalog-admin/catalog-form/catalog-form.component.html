@@ -1,0 +1,72 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="catalog-form modal-content" (click)="$event.stopPropagation()">
+    <h2>{{ isViewMode ? 'Ver Catálogo' : (catalog?.id ? 'Editar Catálogo' : 'Crear Nuevo Item') }}</h2>
+
+    <form [formGroup]="catalogForm" (ngSubmit)="onSubmit()" *ngIf="!isViewMode">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Nombre del catálogo"
+        />
+        <div class="error-message" *ngIf="catalogForm.get('name')?.invalid && catalogForm.get('name')?.touched">
+          El nombre es requerido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Descripción"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image">URL de la Imagen</label>
+        <input
+          type="url"
+          id="image"
+          formControlName="image"
+          placeholder="https://ejemplo.com/imagen.jpg"
+        />
+        <div class="error-message" *ngIf="catalogForm.get('image')?.invalid && catalogForm.get('image')?.touched">
+          {{ catalogForm.get('image')?.errors?.['required'] ? 'La imagen es requerida' : 'URL de imagen inválida' }}
+        </div>
+        <div class="image-preview" *ngIf="catalogForm.get('image')?.value">
+          <img [src]="catalogForm.get('image')?.value" alt="Vista previa de imagen" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fabric">Tela</label>
+        <input
+          type="text"
+          id="fabric"
+          formControlName="fabric"
+          placeholder="Tela"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save" [disabled]="catalogForm.invalid">Guardar</button>
+        <button type="button" class="btn-cancel" (click)="onClose()">Cancelar</button>
+      </div>
+    </form>
+
+    <div *ngIf="isViewMode">
+      <p><strong>Nombre:</strong> {{ catalog?.name }}</p>
+      <p><strong>Descripción:</strong> {{ catalog?.description }}</p>
+      <p><strong>Imagen:</strong></p>
+      <div class="image-preview large">
+        <img [src]="catalog?.image" alt="{{ catalog?.name }}" />
+      </div>
+      <p><strong>Tela:</strong> {{ catalog?.fabric }}</p>
+      <button type="button" class="btn-cancel" (click)="onClose()">Cerrar</button>
+    </div>
+  </div>
+</div>

@@ -297,9 +297,7 @@ async function seed() {
     } else {
       console.log("Ya existen medidas");
     }
-
     // Payments
-
     const countPayments = await Payment.count();
     if (countPayments === 0) {
       await Payment.bulkCreate([
@@ -337,7 +335,6 @@ async function seed() {
       console.log("Ya existen pagos");
     }
 
-    // Catalog
     const countCatalog = await Catalog.count();
     if (countCatalog === 0) {
       await Catalog.bulkCreate([
@@ -370,9 +367,9 @@ async function seed() {
     } else {
       console.log("Ya existen entradas en el catálogo");
     }
-    console.log("Seed finalizado correctamente");
+    console.log("✅ Seed finalizado correctamente");
   } catch (err) {
-    console.error("Error durante el seeding:", err);
+    console.error("❌ Error durante el seeding:", err);
     process.exit(1);
   }
 }
@@ -380,5 +377,5 @@ async function seed() {
 module.exports = seed;
 
 if (require.main === module) {
-  seed();
+  seed(); // Si lo ejecutas directamente: `node seed.js`
 }
