@@ -66,6 +66,8 @@ exports.getAllFabrics = async (req, res) => {
         }
       }
 
+      console.log(changes);
+
       // Actualizar la tela
       await fabric.update(newData);
 
@@ -93,6 +95,16 @@ exports.getAllFabrics = async (req, res) => {
     try {
       const fabric = await Fabric.findByPk(req.params.fabric_id);
       if (!fabric) return res.status(404).json({ message: "Tela no encontrada" });
+
+      await AuditLog.create({
+        user_id: req.user?.sub ?? null,
+        user_name: req.user?.name ?? "unknown",
+        action: "delete",
+        entity: "fabric",
+        entity_id: newFabric.fabric_id,
+        description: `Fabric named "${newFabric.fabric_name}" was created`,
+      });
+
   
       await fabric.destroy();
       res.json({ message: "Tela eliminada correctamente" });
