@@ -2,7 +2,7 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    position: relative; // Añade esto
+    position: relative;
 
     .admin-header {
         display: flex;
@@ -74,15 +74,14 @@
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border: 1px solid #eee;
-        overflow: hidden; // Crucial for border-radius to work with tables
+        overflow: hidden;
 
         table {
             width: 100%;
-            border-collapse: separate; // Required for border-radius
+            border-collapse: separate;
             border-spacing: 0;
             margin: 0;
 
-            // Apply borders to cells only (not rows)
             th,
             td {
                 padding: 1rem;
@@ -90,17 +89,14 @@
                 position: relative;
                 background-clip: padding-box;
 
-                // Horizontal borders
                 border-bottom: 1px solid #eee;
 
-                // Vertical borders
                 +th,
                 +td {
                     border-left: 1px solid #f0f0f0;
                 }
             }
 
-            // Header specific styles
             th {
                 background-color: #f8f9fa;
                 font-weight: 600;
@@ -111,17 +107,14 @@
                 z-index: 10;
             }
 
-            // Remove bottom border for last row
             tr:last-child td {
                 border-bottom: none;
             }
 
-            // Hover effects
             tr:hover td {
                 background-color: #f9f9f9;
             }
 
-            /* -- Special Cells -- */
             .thumbnail {
                 width: 60px;
                 height: 60px;
@@ -141,7 +134,7 @@
             .actions {
                 display: flex;
                 align-items: center;
-                gap: 0.5rem; // Igual que otras celdas si lo necesitas
+                gap: 0.5rem; 
 
                 button {
                     border: none;

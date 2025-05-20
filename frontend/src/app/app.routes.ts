@@ -24,12 +24,12 @@ export const routes: Routes = [
         children: [
           { 
             path: '', 
-            component: DashboardComponent, // This will show on /admin
+            component: DashboardComponent, // show on /admin
             pathMatch: 'full'
           },
           { 
             path: 'fabrics', 
-            component: FabricsAdminComponent // This will show on /admin/fabrics
+            component: FabricsAdminComponent
           }
         ]
       }

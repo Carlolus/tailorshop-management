@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
     standalone: true,
     imports: [
         FabricFormComponent,
-        FormsModule // ✅ Agrégalo aquí
+        FormsModule
     ],
     templateUrl: './fabrics-admin.component.html',
     styleUrls: ['./fabrics-admin.component.scss']
