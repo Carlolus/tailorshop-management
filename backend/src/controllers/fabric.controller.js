@@ -101,11 +101,9 @@ exports.getAllFabrics = async (req, res) => {
         user_name: req.user?.name ?? "unknown",
         action: "delete",
         entity: "fabric",
-        entity_id: newFabric.fabric_id,
-        description: `Fabric named "${newFabric.fabric_name}" was created`,
+        entity_id: fabric.fabric_id,
+        description: `Fabric named "${fabric.fabric_name}" was deleted`,
       });
-
-  
       await fabric.destroy();
       res.json({ message: "Tela eliminada correctamente" });
     } catch (error) {

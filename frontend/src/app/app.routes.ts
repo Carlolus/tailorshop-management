@@ -25,14 +25,22 @@ export const routes: Routes = [
         path: 'admin',
         canActivate: [AuthGuard], // Protection for all admin routes
         children: [
-          { 
-            path: '', 
+          {
+            path: '',
             component: DashboardComponent, // show on /admin
             pathMatch: 'full'
           },
-          { 
-            path: 'fabrics', 
+          {
+            path: 'fabrics',
             component: FabricsAdminComponent // This will show on /admin/fabrics
+          },
+          {
+            path: 'logs',
+            component: AuditLogComponent // This will show on /admin/fabrics
+          },
+          {
+            path: 'catalog',
+            component: CatalogAdminComponent // This will show on /admin/fabrics
           }
         ]
       }

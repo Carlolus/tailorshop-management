@@ -1,6 +1,6 @@
 <div class="modal-overlay" (click)="onClose()">
   <div class="catalog-form modal-content" (click)="$event.stopPropagation()">
-    <h2>{{ isViewMode ? 'Ver Catálogo' : (catalog?.id ? 'Editar Catálogo' : 'Crear Nuevo Item') }}</h2>
+    <h2>{{ isViewMode ? 'Ver Catálogo' : (catalog?.item_id ? 'Editar Catálogo' : 'Crear Nuevo Item') }}</h2>
 
     <form [formGroup]="catalogForm" (ngSubmit)="onSubmit()" *ngIf="!isViewMode">
       <div class="form-group">
