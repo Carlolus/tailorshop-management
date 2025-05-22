@@ -59,3 +59,8 @@ docker-volumes/
 # Archivos temporales
 .tmp/
 .temp/
+
+#
+/backend/bookstack/vendor/
+/backend/bookstack/storage/
+/backend/bookstack/bootstrap/cache/
