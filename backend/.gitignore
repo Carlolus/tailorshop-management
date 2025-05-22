@@ -61,6 +61,6 @@ docker-volumes/
 .temp/
 
 #
-/backend/bookstack/vendor/
-/backend/bookstack/storage/
-/backend/bookstack/bootstrap/cache/
+/bookstack/vendor/
+/bookstack/storage/
+/bookstack/bootstrap/cache/
