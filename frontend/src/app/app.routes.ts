@@ -10,6 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FabricsAdminComponent } from './pages/admin/fabrics-admin/fabrics-admin.component';
 import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
+import { SessionExpiredComponent } from './pages/session-expired/session-expired.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      { path: 'session-expired', component: SessionExpiredComponent },
       { path: 'fabrics', component: FabricsListComponent },
       { path: 'catalog', component: CatalogComponent },
       { path: 'login', component: LoginRedirectComponent, canActivate: [GuestGuard] },
