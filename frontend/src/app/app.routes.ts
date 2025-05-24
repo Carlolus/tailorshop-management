@@ -10,8 +10,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FabricsAdminComponent } from './pages/admin/fabrics-admin/fabrics-admin.component';
 import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
+import { CustomersComponent } from './pages/admin/customers/customers.component';
 import { SessionExpiredComponent } from './pages/session-expired/session-expired.component';
-
 
 export const routes: Routes = [
   {
@@ -35,6 +35,10 @@ export const routes: Routes = [
           {
             path: 'fabrics',
             component: FabricsAdminComponent // This will show on /admin/fabrics
+          },
+          {
+            path: 'customers',
+            component: CustomersComponent // This will show on /admin/fabrics
           },
           {
             path: 'logs',
