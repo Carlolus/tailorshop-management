@@ -25,6 +25,6 @@ export class MainLayoutComponent {
   }
 
   logout() {
-    this.keycloackService.logout();
+    this.keycloackService.logout('normal');
   }
 }
