@@ -52,6 +52,14 @@ export class KeycloakService {
     });
   }
 
+  getUsername() {
+    return this.keycloak.tokenParsed?.['preferred_username'];
+  }
+
+  getEmail() {
+    return this.keycloak.tokenParsed?.['email'];
+  }
+
   logout(reason: 'idle' | 'normal') {
     this.stopIdleMonitoring();
     const redirectUri = reason === 'idle'
