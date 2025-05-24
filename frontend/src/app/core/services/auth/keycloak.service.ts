@@ -9,7 +9,7 @@ export class KeycloakService {
 
   private keycloak: Keycloak;
 
-  private idleTimeoutMs = 1 * 30 * 1000; // 30 segundos por ejemplo
+  private idleTimeoutMs = 10 * 60 * 1000;
 
   private idleTimerSub?: Subscription;
   private activitySub?: Subscription;
