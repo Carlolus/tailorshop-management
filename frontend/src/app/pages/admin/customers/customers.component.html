@@ -1,1 +1,74 @@
-<p>customers works!</p>
+<div class="admin-container">
+
+    <!-- Header con título -->
+    <div class="admin-header">
+        <h2>Clientes</h2>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="search-bar">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por nombre, teléfono o dirección"
+            class="search-input" />
+    </div>
+
+    <!-- Tabla -->
+    <div class="responsive-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (customer of filteredCustomers; track customer.customer_id) {
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td class="capitalize">{{ customer.phone }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.mail }}</td>
+                    <td class="actions">
+                    
+                        <span class="actions">
+                            <button class="btn-edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn-view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Mensaje si no hay resultados -->
+        @if (!filteredCustomers.length && !isLoading) {
+        <div class="empty-table">No se encontraron clientes.</div>
+        }
+    </div>
+
+    <!-- Spinner de carga -->
+    @if (isLoading) {
+    <div class="loading-spinner">
+        <i class="fa fa-spinner fa-spin"></i> Cargando clientes...
+    </div>
+    }
+
+    <!-- Modal de vista 
+
+  @if (showForm && selectedLog) {
+  <div class="modal-overlay">
+    <app-log-view-form [logData]="selectedLog" (formClosed)="onFormClosed()" [isViewMode]="true"></app-log-view-form>
+  </div>
+  }
+  -->
+
+</div>
