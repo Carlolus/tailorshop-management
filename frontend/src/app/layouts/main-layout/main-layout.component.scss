@@ -66,6 +66,12 @@ body {
   }
 
   .logo {
+    display: flex;
+    /* Activa flexbox */
+    align-items: center;
+    /* Centra verticalmente */
+    gap: 10px;
+    /* Espacio entre icono y texto */
     font-size: 1.5rem;
     font-weight: 700;
     color: $primary-color;
@@ -305,7 +311,7 @@ body {
         flex: 1;
         overflow-y: auto;
         overscroll-behavior: contain;
-        
+
         // Scrollbar personalizada
         &::-webkit-scrollbar {
           width: 6px;
@@ -318,7 +324,7 @@ body {
         &::-webkit-scrollbar-thumb {
           background-color: $gray-300;
           border-radius: 3px;
-          
+
           &:hover {
             background-color: #111827;
           }
@@ -536,6 +542,7 @@ main {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
