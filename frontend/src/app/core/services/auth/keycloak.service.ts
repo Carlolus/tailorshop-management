@@ -53,12 +53,13 @@ export class KeycloakService {
   }
 
   getUsername() {
-    return this.keycloak.tokenParsed?.['preferred_username'];
+    return this.keycloak.tokenParsed?.['name'];
   }
 
   getEmail() {
     return this.keycloak.tokenParsed?.['email'];
   }
+
 
   logout(reason: 'idle' | 'normal') {
     this.stopIdleMonitoring();
