@@ -1,50 +1,107 @@
 /*
-  Description: Model for managing catalog in the application.
-  Author: Carlos
-  Fecha: 2025-04-23
+  Title: catalog.controller.js
+  Description: Controller for managing CRUD operations for the catalog items in the database.
+  Usage: This file contains functions to handle requests for creating, reading, updating, and deleting catalog items.
 */
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-// Import the Fabric and GarmentType models to establish relationships with the Catalog model
-const Fabric = require("./fabric.model");
-// Import the GarmentType model to establish a relationship with the Catalog model
-const GarmentType = require("./garment_type.model");
 
-const Catalog = sequelize.define("catalog", {
-  item_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  image: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  fabric: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    // Establish a foreign key relationship with the Fabric model
-    references: {
-      model: Fabric,
-      key: "fabric_id",
-    },
-  },
-  type: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    references: {
-      // Establish a foreign key relationship with the GarmentType model
-      model: GarmentType,
-      key: "garment_type_id",
-    },
-  },
-}, {
-  tableName: "catalog",
-  timestamps: false,
-});
+const { Catalog } = require("../models");
+const { logAudit } = require("../services/audit.service");
 
-module.exports = Catalog;
+exports.getAllCatalogs = async (req, res) => {
+  try {
+    const catalogs = await Catalog.findAll();
+    res.json(catalogs);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener items", error });
+  }
+};
+
+exports.getCatalogById = async (req, res) => {
+  try {
+    const catalog = await Catalog.findByPk(req.params.item_id);
+    if (!catalog) return res.status(404).json({ message: "Item no encontrado" });
+    res.json(catalog);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener el item", error });
+  }
+};
+
+exports.createCatalog = async (req, res) => {
+  try {
+    const newItem = await Catalog.create(req.body);
+
+    if (!req.user) {
+      console.warn("req.user está indefinido. ¿Falta el token?");
+    }
+
+    await logAudit({
+      user: req.user,
+      action: "create",
+      entity: "catalog",
+      entity_id: newItem.item_id,
+      description: `Catalog item created with description "${newItem.description}"`
+    });
+
+    res.status(201).json(newItem);
+  } catch (error) {
+    res.status(500).json({ message: "Error al crear el item", error });
+  }
+};
+
+exports.updateCatalog = async (req, res) => {
+  try {
+    const { item_id } = req.params;
+    const newData = req.body;
+
+    const catalog = await Catalog.findByPk(item_id);
+    if (!catalog) return res.status(404).json({ message: "Item no encontrado" });
+
+    // Comparar cambios
+    const changes = {};
+    for (const key in newData) {
+      if (catalog[key] !== undefined && catalog[key] !== newData[key]) {
+        changes[key] = [catalog[key], newData[key]];
+      }
+    }
+
+    console.log(changes);
+
+    // Actualizar
+    await catalog.update(newData);
+
+    if (Object.keys(changes).length > 0) {
+      await logAudit({
+        user: req.user,
+        action: "update",
+        entity: "catalog",
+        entity_id: catalog.item_id,
+        description: `Catalog item "${catalog.item_id}" updated`,
+        changes
+      });
+    }
+
+    res.json({ message: "Item actualizado correctamente", catalog });
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar el item", error });
+  }
+};
+
+exports.deleteCatalog = async (req, res) => {
+  try {
+    const catalog = await Catalog.findByPk(req.params.item_id);
+    if (!catalog) return res.status(404).json({ message: "Item no encontrado" });
+
+    await logAudit({
+      user: req.user,
+      action: "delete",
+      entity: "catalog",
+      entity_id: catalog.item_id,
+      description: `Catalog item with description "${catalog.description}" was deleted`
+    });
+
+    await catalog.destroy();
+    res.json({ message: "Item eliminado correctamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al eliminar el item", error });
+  }
+};
