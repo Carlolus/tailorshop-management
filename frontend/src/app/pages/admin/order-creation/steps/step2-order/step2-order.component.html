@@ -1,0 +1,72 @@
+<div class="step-content">
+    <div class="form-row">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Fecha de entrega *</mat-label>
+            <input 
+                matInput 
+                [matDatepicker]="deliveryPicker"
+                [min]="minDeliveryDate"
+                [matDatepickerFilter]="dateFilter"
+                (dateChange)="onDeliveryDateChange($event)"
+                placeholder="Seleccione la fecha de entrega"
+                readonly>
+            <mat-datepicker-toggle matIconSuffix [for]="deliveryPicker">
+                <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #deliveryPicker></mat-datepicker>
+            <mat-hint>La fecha debe ser posterior al día de hoy</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div class="form-row">
+        <mat-form-field appearance="fill" class="half-width">
+            <mat-label>Precio total *</mat-label>
+            <input 
+                matInput 
+                type="text"
+                [value]="priceFormatted"
+                (input)="onPriceChange($event)"
+                placeholder="0"
+                class="number-input">
+            <span matTextPrefix>$&nbsp;</span>
+            <mat-hint>Precio total del trabajo</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="half-width">
+            <mat-label>Abono inicial</mat-label>
+            <input 
+                matInput 
+                type="text"
+                [value]="balanceFormatted"
+                (input)="onBalanceChange($event)"
+                placeholder="0"
+                class="number-input">
+            <span matTextPrefix>$&nbsp;</span>
+            <mat-hint>Abono que hace el cliente</mat-hint>
+        </mat-form-field>
+    </div>
+
+    @if (orderDetails.price && orderDetails.price > 0) {
+        <div class="summary-section">
+            <div class="summary-card">
+                <h4>Resumen de pagos</h4>
+                <div class="summary-row">
+                    <span>Precio total:</span>
+                    <span class="amount">${{ formatNumber(orderDetails.price!) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Abono inicial:</span>
+                    <span class="amount">${{ formatNumber(orderDetails.balance || 0) }}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Saldo pendiente:</span>
+                    <span class="amount">${{ formatNumber((orderDetails.price!) - (orderDetails.balance || 0)) }}</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="required-note">
+        <small>* Campos obligatorios</small>
+    </div>
+</div>
