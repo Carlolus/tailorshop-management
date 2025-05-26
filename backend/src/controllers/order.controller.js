@@ -1,12 +1,10 @@
 /*
   Title: order.controller.js
-  Description: Controller for managing CRUD operations for the current model items in the database.
-  Usage: This file contains functions to handle requests for creating, reading, updating, and deleting current model items.
-  Each model contains a set of functions that correspond to the CRUD operations. Those functions are provided by 
-  Sequelize, which is the ORM used in this application.
+  Description: Controller for managing CRUD operations for orders in the database.
 */
 
 const { Order } = require("../models");
+const { logAudit } = require("../services/audit.service");
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -19,7 +17,6 @@ exports.getAllOrders = async (req, res) => {
 
 exports.getOrderById = async (req, res) => {
   try {
-    console.log(req.params)
     const order = await Order.findByPk(req.params.order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
     res.json(order);
@@ -31,6 +28,19 @@ exports.getOrderById = async (req, res) => {
 exports.createOrder = async (req, res) => {
   try {
     const newOrder = await Order.create(req.body);
+
+    if (!req.user) {
+      console.warn("req.user está indefinido. ¿Falta middleware de autenticación?");
+    }
+
+    await logAudit({
+      user: req.user,
+      action: "create",
+      entity: "order",
+      entity_id: newOrder.order_id,
+      description: `Orden creada para el cliente ID ${newOrder.customer_id} con fecha de entrega ${newOrder.delivery_date}`
+    });
+
     res.status(201).json(newOrder);
   } catch (error) {
     res.status(500).json({ message: "Error al crear la orden", error });
@@ -39,11 +49,34 @@ exports.createOrder = async (req, res) => {
 
 exports.updateOrder = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.order_id);
+    const { order_id } = req.params;
+    const newData = req.body;
+
+    const order = await Order.findByPk(order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
 
-    await order.update(req.body);
-    res.json(order);
+    // Detectar cambios
+    const changes = {};
+    for (const key in newData) {
+      if (order[key] !== undefined && order[key] !== newData[key]) {
+        changes[key] = [order[key], newData[key]];
+      }
+    }
+
+    await order.update(newData);
+
+    if (Object.keys(changes).length > 0) {
+      await logAudit({
+        user: req.user,
+        action: "update",
+        entity: "order",
+        entity_id: order.order_id,
+        description: `Orden ${order.order_id} actualizada`,
+        changes
+      });
+    }
+
+    res.json({ message: "Orden actualizada correctamente", order });
   } catch (error) {
     res.status(500).json({ message: "Error al actualizar la orden", error });
   }
@@ -53,6 +86,14 @@ exports.deleteOrder = async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.order_id);
     if (!order) return res.status(404).json({ message: "Orden no encontrada" });
+
+    await logAudit({
+      user: req.user,
+      action: "delete",
+      entity: "order",
+      entity_id: order.order_id,
+      description: `Orden para el cliente ID ${order.customer_id} fue eliminada`
+    });
 
     await order.destroy();
     res.json({ message: "Orden eliminada correctamente" });
