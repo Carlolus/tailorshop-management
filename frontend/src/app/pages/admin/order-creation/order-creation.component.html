@@ -6,7 +6,7 @@
       <form [formGroup]="clienteForm">
         <ng-template matStepLabel>Seleccionar o añadir cliente</ng-template>
         <div class="step-content">
-          <!-- Aquí va el componente o formulario de cliente -->
+          <app-step1-customer (clienteValido)="procesarCliente($event)" />
         </div>
         <div class="step-actions">
           <span></span> <!-- Placeholder para alineación -->
@@ -18,7 +18,7 @@
     <!-- Paso 2: Detalles de la orden -->
     <mat-step [stepControl]="ordenForm">
       <form [formGroup]="ordenForm">
-        <ng-template matStepLabel>Detalles de la orden</ng-template>
+        <ng-template matStepLabel >Detalles de la orden</ng-template>
         <div class="step-content">
           <!-- Aquí va el formulario de detalles de la orden -->
         </div>
@@ -38,7 +38,7 @@
         </div>
         <div class="step-actions">
           <button mat-button matStepperPrevious>Volver</button>
-          <button mat-flat-button color="primary" class="btn-continue" matStepperNext>Continuar</button>
+          <button mat-flat-button color="primary" class="btn-continue" (click)="confirmarOrden()" matStepperNext>Continuar</button>
         </div>
       </form>
     </mat-step>
