@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  color: #f9fafb; /* texto claro */
+  color: #000000; /* texto claro */
 }
 
 .btn-continue {
@@ -108,9 +108,128 @@
   background-color: rgba(255, 0, 0, 0.05); /* rojo claro al pasar */
 }
 
+/* Estilos para la sección de Resumen */
+.summary-section {
+  h3 {
+    text-align: center;
+    font-size: 1.8rem; // Más grande
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2.5rem; // Más espacio
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #059669; // Verde principal
+    display: inline-block; // Para que el borde no ocupe todo
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%); // Centrado real
+  }
+}
+
+.summary-grid {
+  display: grid;
+  // Crea columnas responsivas: 1 en móvil, hasta 3 en pantallas grandes
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem; // Espacio entre tarjetas
+  padding: 1rem 0;
+}
+
+.summary-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #000000;
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  h4 {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #252525;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+
+    mat-icon {
+      margin-right: 0.75rem;
+      color: #059669;
+    }
+  }
+
+  p {
+    margin: 0.6rem 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+
+    strong {
+      color: #333;
+      margin-right: 0.5em;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+
+    li {
+      background-color: #f8f9fa;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      border-radius: 6px;
+      border-left: 4px solid #000000; 
+      font-size: 0.95rem;
+      color: #444;
+      transition: background-color 0.2s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        background-color: #f1f3f5;
+      }
+
+      .garment-info {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+
+        .garment-type {
+          font-style: italic;
+          color: #777;
+          font-size: 0.85rem;
+        }
+      }
+
+      .garment-measures {
+        font-size: 0.85rem;
+        color: #666;
+        word-break: break-all;
+      }
+    }
+  }
+}
 
 
-/* Responsive */
+.summary-actions {
+  border-top: 1px solid #e0e0e0; 
+  padding-top: 2rem;
+  margin-top: 3rem; 
+}
+
 @media (max-width: 768px) {
   .custom-stepper {
     padding: 1rem;

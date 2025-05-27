@@ -13,7 +13,7 @@ export class CustomerService {
   constructor(
     private http: HttpClient,
     private httpHeaderService: HttpHeaderService
-  ) {}
+  ) { }
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl, { headers: this.httpHeaderService.getHeaders() });
@@ -33,6 +33,14 @@ export class CustomerService {
 
   deleteCustomer(id: number): Observable<void> {
     return this.http.delete<void>(
+      `${this.apiUrl}/${id}`,
+      { headers: this.httpHeaderService.getHeaders() }
+    );
+  }
+
+
+  getCustomerById(id: number): Observable<Customer> {
+    return this.http.get<Customer>(
       `${this.apiUrl}/${id}`,
       { headers: this.httpHeaderService.getHeaders() }
     );

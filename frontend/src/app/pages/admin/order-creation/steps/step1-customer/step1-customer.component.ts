@@ -7,10 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Customer } from '../../../../../core/models/customer.model';
+import { CustomerService } from '../../../../../core/services/customers/customers.service';
 
 type ClienteValido =
     | { tipo: 'nuevo'; data: Customer }
     | { tipo: 'existente'; id: number };
+
 
 @Component({
     selector: 'app-step1-customer',
@@ -29,6 +31,8 @@ type ClienteValido =
     ]
 })
 export class Step1CustomerComponent implements OnInit {
+
+    constructor(private customerService: CustomerService) { }
     @Output() clienteValido = new EventEmitter<ClienteValido | null>();
 
     mode: 'new' | 'select' = 'new';
@@ -42,35 +46,41 @@ export class Step1CustomerComponent implements OnInit {
 
     selectedClientId: number | null = null;
 
-    // Simulación de clientes existentes - en tu caso vendrían de un servicio
-    clients: Customer[] = [
-        { customer_id: 1, name: 'Juan Pérez', phone: '3210001111', address: 'Calle 123', mail: 'juan@email.com' },
-        { customer_id: 2, name: 'Laura Gómez', phone: '3102223333', address: 'Carrera 45', mail: 'laura@email.com' },
-        { customer_id: 3, name: 'Carlos Rodríguez', phone: '3156667777', address: 'Avenida 67', mail: 'carlos@email.com' }
-    ];
+    clients: Customer[] = [];
+
 
     clienteInput: string | Customer = '';
     clientesFiltrados = this.clients;
 
+    loadCustomers(): void {
+        this.customerService.getCustomers().subscribe({
+            next: (customers: Customer[]) => {
+                this.clients = customers;
+                this.clientesFiltrados = customers; 
+            },
+            error: (error) => {
+                console.error('Error fetching customers:', error);
+            }
+        });
+    }
+
+
     ngOnInit() {
-        // Emitir estado inicial
+        this.loadCustomers();
         this.validateAndEmit();
     }
 
     onModeChange() {
-        // Limpiar datos cuando cambie el modo
         this.resetData();
         this.validateAndEmit();
     }
 
     private resetData() {
         if (this.mode === 'new') {
-            // Limpiar selección de cliente existente
             this.selectedClientId = null;
             this.clienteInput = '';
             this.clientesFiltrados = this.clients;
         } else {
-            // Limpiar formulario de nuevo cliente
             this.newClient = {
                 name: '',
                 phone: '',
@@ -79,6 +89,8 @@ export class Step1CustomerComponent implements OnInit {
             };
         }
     }
+
+
 
     filtrarClientes() {
         if (typeof this.clienteInput !== 'string') {
@@ -101,7 +113,6 @@ export class Step1CustomerComponent implements OnInit {
     }
 
     onClientInputChange() {
-        // Si el input cambió y no es un objeto Customer, limpiar la selección
         if (typeof this.clienteInput === 'string') {
             this.selectedClientId = null;
             this.clienteValido.emit(null);
@@ -118,7 +129,7 @@ export class Step1CustomerComponent implements OnInit {
             const { name, phone } = this.newClient;
             if (name?.trim() && phone?.trim()) {
                 const cliente: Customer = {
-                    customer_id: 0, // Se asignará en el backend
+                    customer_id: 0,
                     name: name.trim(),
                     phone: phone.trim(),
                     address: this.newClient.address?.trim() || null,
@@ -129,7 +140,6 @@ export class Step1CustomerComponent implements OnInit {
                 this.clienteValido.emit(null);
             }
         } else {
-            // Modo seleccionar
             if (this.selectedClientId) {
                 this.clienteValido.emit({ tipo: 'existente', id: this.selectedClientId });
             } else {
@@ -138,12 +148,10 @@ export class Step1CustomerComponent implements OnInit {
         }
     }
 
-    // Método para mostrar el cliente en el autocomplete
     displayClient(client: Customer): string {
         return client ? client.name : '';
     }
 
-    // Getter para obtener el cliente seleccionado de forma segura
     get selectedClient(): Customer | null {
         return typeof this.clienteInput === 'object' && this.clienteInput ? this.clienteInput : null;
     }

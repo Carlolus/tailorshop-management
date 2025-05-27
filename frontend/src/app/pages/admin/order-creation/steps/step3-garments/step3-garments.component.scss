@@ -1,0 +1,344 @@
+.garments-container {
+  padding: 20px 0;
+
+  .garments-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .garments-description {
+      color: #7f8c8d;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+  .garments-form {
+    .garment-card {
+      background: #fff;
+      border: 2px solid #e1e8ed;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: border-color 0.3s ease;
+
+      &:hover {
+        border-color: #3498db;
+      }
+
+      .garment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+
+        h4 {
+          color: #2c3e50;
+          margin: 0;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        .btn-remove {
+          background: #e74c3c;
+          color: white;
+          border: none;
+          padding: 8px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+          }
+
+          i {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .garment-form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+
+        .form-group-full {
+          grid-column: 1 / -1;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+
+          label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+          }
+
+          .form-control {
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fff;
+
+            &:focus {
+              outline: none;
+              border-color: #3498db;
+              box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            }
+
+            &.error {
+              border-color: #e74c3c;
+              box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+            }
+
+            &::placeholder {
+              color: #bdc3c7;
+            }
+          }
+
+          .file-input {
+            padding: 8px;
+            cursor: pointer;
+
+            &::-webkit-file-upload-button {
+              background: #3498db;
+              color: white;
+              border: none;
+              padding: 8px 15px;
+              border-radius: 4px;
+              cursor: pointer;
+              margin-right: 10px;
+            }
+          }
+
+          .measurements-textarea {
+            resize: vertical;
+            min-height: 100px;
+          }
+
+          .measurements-help {
+            margin-top: 5px;
+
+            small {
+              color: #7f8c8d;
+              font-style: italic;
+            }
+          }
+
+          .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 500;
+          }
+
+          .image-preview {
+            margin-top: 10px;
+            position: relative;
+            display: inline-block;
+
+            .preview-image {
+              max-width: 200px;
+              max-height: 200px;
+              border-radius: 8px;
+              border: 2px solid #e1e8ed;
+              object-fit: cover;
+            }
+
+            .btn-remove-image {
+              position: absolute;
+              top: -5px;
+              right: -5px;
+              background: #e74c3c;
+              color: white;
+              border: none;
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 12px;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background: #c0392b;
+                transform: scale(1.1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .add-garment-section {
+      text-align: center;
+      margin: 30px 0;
+
+      .btn-add-garment {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+
+        &:hover {
+          background: #229954;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        i {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .garments-summary {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+      border: 1px solid #dee2e6;
+
+      h4 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 15px;
+
+        .summary-item {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          display: flex;
+          align-items: flex-start;
+          gap: 15px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          border: 1px solid #e9ecef;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          }
+
+          .summary-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+          }
+
+          .summary-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+
+            strong {
+              color: #2c3e50;
+              font-size: 16px;
+            }
+
+            span {
+              font-size: 14px;
+              color: #7f8c8d;
+
+              &.fabric-info {
+                color: #8e44ad;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .garments-container {
+      padding: 15px 0;
+    }
+
+    .garment-card {
+      .garment-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .garments-summary {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .add-garment-section {
+      .btn-add-garment {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .garment-card {
+      padding: 20px 15px;
+      margin: 0 -10px 20px;
+      border-radius: 8px;
+
+      .garment-header {
+        h4 {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .garments-summary {
+      padding: 20px 15px;
+      margin: 20px -10px;
+    }
+  }
+}
