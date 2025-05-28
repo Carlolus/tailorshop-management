@@ -11,13 +11,15 @@ import { Step3GarmentsComponent } from './steps/step3-garments/step3-garments.co
 // Models
 import { Customer } from '../../../core/models/customer.model';
 import { Order } from '../../../core/models/order.model';
-import { Garment } from '../../../core/models/garment.model'; // Ensure this model includes 'measures: string;'
+import { Garment } from '../../../core/models/garment.model';
+import { GarmentType } from '../../../core/models/garment-type.model';
 
 // Services
 import { CustomerService } from '../../../core/services/customers/customers.service';
 import { GarmentService } from '../../../core/services/garment/garment.service';
 import { OrderService } from '../../../core/services/orders/order.service';
 import { PaymentService } from '../../../core/services/payments/payment.service';
+import { GarmentTypeService } from '../../../core/services/garment-types/garment-types.service';
 
 // Angular Material
 import { MatStepperModule } from '@angular/material/stepper';
@@ -52,6 +54,7 @@ export class OrderCreationComponent {
   ordenForm: FormGroup;
   prendasForm: FormGroup;
   clienteExistenteData?: Customer;
+  garmentTypes: GarmentType[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -59,7 +62,8 @@ export class OrderCreationComponent {
     private orderService: OrderService,
     private garmentService: GarmentService,
     private router: Router, 
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private garmentTypeService: GarmentTypeService
   ) {
     this.clienteForm = this.fb.group({
       clienteValido: [false, Validators.requiredTrue]
@@ -115,6 +119,7 @@ export class OrderCreationComponent {
   }
 
   procesarOrden(orderDetails: OrderDetails | null) {
+    this.loadGarmentTypes();
     this.orderDetails = orderDetails;
     this.pasoOrdenValido = !!orderDetails; 
 
@@ -126,7 +131,7 @@ export class OrderCreationComponent {
     });
 
     if (orderDetails) {
-      console.log('Detalles de orden válidos:', orderDetails);
+      //console.log('Detalles de orden válidos:', orderDetails);
     }
   }
 
@@ -224,15 +229,13 @@ export class OrderCreationComponent {
           }
         }
 
-        // Assign order_id to each garment and create them
         if (this.garmentsData && this.garmentsData.length > 0) {
           console.log('Creando prendas para la orden...');
           console.log("Datos a cargar: ", this.garmentsData);
 
-          // Create all garments with selected fields (excluding garment_id)
           const garmentPromises = this.garmentsData.map(garment => {
             const camposSeleccionadosGarment = {
-              order_id: orderId, // Asignamos el order_id aquí
+              order_id: orderId, 
               garment_type_id: garment?.garment_type_id,
               fabric_id: garment?.fabric_id,
               quantity: garment?.quantity,
@@ -247,11 +250,8 @@ export class OrderCreationComponent {
 
           const createdGarments = await Promise.all(garmentPromises);
 
-          console.log('Prendas creadas exitosamente:', createdGarments);
-          console.log('=== ORDEN CONFIRMADA EXITOSAMENTE ===');
-
-
-          //this.router.navigate(['/orders']);
+          //console.log('Prendas creadas exitosamente:', createdGarments);
+          //console.log('=== ORDEN CONFIRMADA EXITOSAMENTE ===');
 
         } else {
           throw new Error('No se encontraron datos válidos de prendas');
@@ -262,20 +262,14 @@ export class OrderCreationComponent {
 
     } catch (error) {
       console.error('Error al confirmar la orden:', error);
-      // Handle error appropriately (show user message, etc.)
     }
   }
 
 
-  /**
-   * Provides client information for the summary section.
-   */
   getClienteInfo(): string {
     if (this.clienteNuevo) {
       return `${this.clienteNuevo.name} - ${this.clienteNuevo.phone} (Nuevo cliente)`;
     } else if (this.clienteExistenteId) {
-      // If customer data isn't loaded yet, fetch it. This assumes getCustomerById
-      // updates clienteExistenteData which will then trigger template refresh.
       if (!this.clienteExistenteData || this.clienteExistenteData.customer_id !== this.clienteExistenteId) {
         this.customerService.getCustomerById(this.clienteExistenteId).subscribe({
           next: (customer) => {
@@ -283,7 +277,7 @@ export class OrderCreationComponent {
           },
           error: (err) => {
             console.error('Error loading existing customer data:', err);
-            this.clienteExistenteData = undefined; // Clear data on error
+            this.clienteExistenteData = undefined;
           }
         });
         return `Cargando información del cliente...`;
@@ -293,23 +287,20 @@ export class OrderCreationComponent {
     return 'No hay cliente seleccionado';
   }
 
-  // Hardcoded garment types for display purposes in the summary
-  garmentTypes = [
-    { id: 1, name: "Pantalón" }, // Added id for consistency
-    { id: 2, name: "Chaqueta" },
-    { id: 3, name: "Chaleco" },
-    { id: 4, name: "Camisa" },
-    { id: 5, name: "Traje completo sin chaleco" },
-    { id: 6, name: "Traje completo con chaleco" }
-  ];
+  loadGarmentTypes() {
+        this.garmentTypeService.getGarmentTypes().subscribe({
+            next: (garmentTypes) => {
+                this.garmentTypes = garmentTypes;
+            },
+            error: (error) => {
+                console.error('Error loading garment types:', error);
+            }
+        });
+    }
 
-  /**
-   * Helper to get garment type name by its ID.
-   * @param id The garment type ID.
-   */
   getGarmentTypeName(id: number): string {
     // Find by id directly, assuming id correlates to an actual ID in your data, not just index + 1
-    const garmentType = this.garmentTypes.find(type => type.id === id);
+    const garmentType = this.garmentTypes.find(type => type.garment_type_id === id);
     return garmentType?.name || 'Desconocido';
   }
 }
