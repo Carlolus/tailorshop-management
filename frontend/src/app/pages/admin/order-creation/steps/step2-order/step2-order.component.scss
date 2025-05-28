@@ -1,0 +1,123 @@
+.step-content {
+  .form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    
+    .full-width {
+      width: 100%;
+    }
+    
+    .half-width {
+      flex: 1;
+    }
+  }
+  
+  .number-input {
+    text-align: right;
+    font-weight: 500;
+  }
+  
+  .required-note {
+    margin-top: 20px;
+    color: #666;
+    font-style: italic;
+  }
+}
+
+.summary-section {
+  margin-top: 24px;
+  
+  .summary-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    
+    h4 {
+      margin: 0 0 16px 0;
+      color: #3f51b5;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px 0;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      &.total {
+        font-weight: 600;
+        font-size: 16px;
+        color: #2e7d32;
+        border-top: 2px solid #3f51b5;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-bottom: none;
+      }
+      
+      span {
+        &:first-child {
+          color: #555;
+        }
+        
+        &.amount {
+          font-family: 'Roboto Mono', monospace;
+          font-weight: 500;
+          color: #333;
+        }
+      }
+    }
+  }
+}
+.warning{
+  color: red !important;
+}
+
+// Estilos para el datepicker
+::ng-deep {
+  .mat-mdc-form-field-hint-wrapper {
+    .mat-mdc-form-field-hint {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+  
+  .mat-datepicker-toggle {
+    color: #3f51b5;
+  }
+}
+
+// Responsividad
+@media (max-width: 768px) {
+  .step-content {
+    .form-row {
+      flex-direction: column;
+      gap: 12px;
+      
+      .half-width {
+        width: 100%;
+      }
+    }
+  }
+  
+  .summary-section {
+    .summary-card {
+      padding: 16px;
+      
+      .summary-row {
+        font-size: 14px;
+        
+        &.total {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

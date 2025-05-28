@@ -48,9 +48,13 @@ const Garment = sequelize.define("garment", {
   },
   person_name: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   details: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  measures: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

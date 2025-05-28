@@ -12,6 +12,7 @@ import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
 import { CustomersComponent } from './pages/admin/customers/customers.component';
 import { SessionExpiredComponent } from './pages/session-expired/session-expired.component';
+import { OrderCreationComponent } from './pages/admin/order-creation/order-creation.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
           {
             path: 'catalog',
             component: CatalogAdminComponent // This will show on /admin/fabrics
+          },
+          {
+            path: 'order',
+            component: OrderCreationComponent
           }
         ]
       }

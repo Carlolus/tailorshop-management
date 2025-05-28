@@ -1,0 +1,99 @@
+<div class="step-header">
+    <mat-button-toggle-group 
+        [(ngModel)]="mode" 
+        appearance="legacy" 
+        class="mode-toggle"
+        (change)="onModeChange()">
+        <mat-button-toggle class="custom-toggle" value="new">Crear nuevo cliente</mat-button-toggle>
+        <mat-button-toggle class="custom-toggle" value="select">Seleccionar cliente</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+
+@if (mode === 'new') {
+    <div class="step-content">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nombre *</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="newClient.name" 
+                (ngModelChange)="onNewClientChange()"
+                required 
+                placeholder="Ingrese el nombre completo" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Teléfono *</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="newClient.phone" 
+                (ngModelChange)="onNewClientChange()"
+                required 
+                placeholder="Ej: 3101234567" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Dirección</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="newClient.address" 
+                (ngModelChange)="onNewClientChange()"
+                placeholder="Dirección completa" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Correo electrónico</mat-label>
+            <input 
+                matInput 
+                type="email"
+                [(ngModel)]="newClient.mail" 
+                (ngModelChange)="onNewClientChange()"
+                placeholder="correo@ejemplo.com" />
+        </mat-form-field>
+
+        <div class="required-note">
+            <small>* Campos obligatorios</small>
+        </div>
+    </div>
+}
+
+@if (mode === 'select') {
+    <div class="step-content">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Buscar cliente</mat-label>
+            <input 
+                type="text" 
+                matInput 
+                [matAutocomplete]="auto" 
+                [(ngModel)]="clienteInput"
+                (ngModelChange)="onClientInputChange()" 
+                placeholder="Buscar por nombre o teléfono" />
+            <mat-autocomplete 
+                #auto="matAutocomplete" 
+                [displayWith]="displayClient"
+                (optionSelected)="seleccionarCliente($event.option.value)">
+                <mat-option *ngFor="let client of clientesFiltrados" [value]="client">
+                    <div class="client-option">
+                        <div class="client-name">{{ client.name }}</div>
+                        <div class="client-details">{{ client.phone }}</div>
+                    </div>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        @if (selectedClientId && selectedClient) {
+            <div class="selected-client-info">
+                <h4>Cliente seleccionado:</h4>
+                <div class="client-card">
+                    <p><strong>Nombre:</strong> {{ selectedClient.name }}</p>
+                    <p><strong>Teléfono:</strong> {{ selectedClient.phone }}</p>
+                    @if (selectedClient.address) {
+                        <p><strong>Dirección:</strong> {{ selectedClient.address }}</p>
+                    }
+                    @if (selectedClient.mail) {
+                        <p><strong>Email:</strong> {{ selectedClient.mail }}</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

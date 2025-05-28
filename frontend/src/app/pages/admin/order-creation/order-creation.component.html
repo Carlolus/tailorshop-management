@@ -1,0 +1,97 @@
+<div class="order-container">
+  <mat-horizontal-stepper [linear]="true" class="custom-stepper">
+
+    <mat-step [stepControl]="clienteForm">
+      <form [formGroup]="clienteForm">
+        <ng-template matStepLabel>Seleccionar o añadir cliente</ng-template>
+        <div class="step-content">
+          <app-step1-customer (clienteValido)="procesarCliente($event)" />
+        </div>
+        <div class="step-actions">
+          <span></span> <button mat-flat-button color="primary" class="btn-continue" matStepperNext
+            [disabled]="!pasoClienteValido">Continuar</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="prendasForm">
+      <form [formGroup]="prendasForm">
+        <ng-template matStepLabel>Prendas y medidas</ng-template>
+        <div class="step-content">
+          <app-step3-garments (garmentsDataValid)="procesarPrendas($event)" />
+        </div>
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Volver</button>
+          <button mat-flat-button color="primary" class="btn-continue" matStepperNext
+            [disabled]="!pasoPrendasValido">Continuar</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="ordenForm">
+      <form [formGroup]="ordenForm">
+        <ng-template matStepLabel>Detalles de la orden</ng-template>
+        <div class="step-content">
+          <app-step2-order (orderDetailsValid)="procesarOrden($event)" />
+        </div>
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Volver</button>
+          <button mat-flat-button color="primary" class="btn-continue" matStepperNext
+            [disabled]="!pasoOrdenValido">Continuar</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Resumen</ng-template>
+      <div class="step-content">
+        <div class="summary-section">
+          <h3>Resumen de la orden</h3>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <h4><mat-icon>person</mat-icon> Cliente</h4>
+              <p>{{ getClienteInfo() }}</p>
+            </div>
+
+            @if (orderDetails) {
+            <div class="summary-card">
+              <h4><mat-icon>receipt_long</mat-icon> Detalles de la orden</h4>
+              <p><strong>Fecha de entrega:</strong> {{ orderDetails.delivery_date | date:'fullDate':'':'es' }}</p>
+              <p><strong>Precio total:</strong> ${{ orderDetails.price.toLocaleString('es-CO') }}</p>
+              <p><strong>Abono inicial:</strong> ${{ orderDetails.balance.toLocaleString('es-CO') }}</p>
+              <p><strong>Saldo pendiente:</strong> ${{ (orderDetails.price -
+                orderDetails.balance).toLocaleString('es-CO') }}</p>
+            </div>
+            }
+
+            @if (garmentsData && garmentsData.length > 0) {
+            <div class="summary-card">
+              <h4><mat-icon>checkroom</mat-icon> Prendas ({{ garmentsData.length }})</h4>
+              <ul>
+                @for(garment of garmentsData; track garment; let i = $index) {
+                <li>
+                  <div class="garment-info">
+                    <span>Cantidad: {{ garment.quantity }}</span>
+                    <span class="garment-type">{{ getGarmentTypeName(garment.garment_type_id) }}</span>
+                  </div>
+                  <div class="garment-info">
+                    <span>Para: {{ garment.person_name }} </span>
+                  </div>
+                  <div class="garment-measures">
+                    {{ garment.measures }} </div>
+                </li>
+                }
+              </ul>
+            </div>
+            }
+
+          </div>
+        </div>
+      </div>
+      <div class="step-actions summary-actions"> <button mat-button matStepperPrevious>Volver</button>
+        <button mat-flat-button color="primary" class="btn-continue" (click)="confirmOrder()">Confirmar órden</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

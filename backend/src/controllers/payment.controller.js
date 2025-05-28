@@ -3,8 +3,9 @@
   Description: Controller for managing CRUD operations for payments in the database.
 */
 
-const { Payment } = require("../models");
+const { Payment, Order } = require("../models");
 const { logAudit } = require("../services/audit.service");
+const sequelize = require("../config/database");
 
 exports.getAllPayments = async (req, res) => {
   try {
@@ -26,22 +27,64 @@ exports.getPaymentById = async (req, res) => {
 };
 
 exports.createPayment = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const newPayment = await Payment.create(req.body);
+    const { order_id, amount, payment_date, payment_method, description } = req.body;
 
+    const orderToUpdate = await Order.findByPk(order_id, { transaction: t });
+
+    if (!orderToUpdate) {
+      await t.rollback();
+      return res.status(404).json({ message: "Orden no encontrada" });
+    }
+
+    // Verify numbers
+    const currentBalance = parseFloat(orderToUpdate.balance);
+    const paymentAmount = parseFloat(amount);
+
+    if (paymentAmount > currentBalance) {
+      await t.rollback();
+      return res.status(400).json({
+        message: `El monto del pago (${paymentAmount}) excede el balance actual (${currentBalance}) de la orden.`,
+      });
+    }
+
+    // Create payment
+    const newPayment = await Payment.create(
+      {
+        order_id,
+        amount,
+        payment_date,
+        payment_method,
+        description,
+      },
+      { transaction: t }
+    );
+
+    // Update balance
+    orderToUpdate.balance = currentBalance - paymentAmount;
+    await orderToUpdate.save({ transaction: t });
+
+    // Execute t
+    await t.commit();
+
+    // Save in logs
     await logAudit({
       user: req.user,
       action: "create",
       entity: "payment",
       entity_id: newPayment.payment_id,
-      description: `Pago creado con ID ${newPayment.payment_id}`
+      description: `Pago creado con ID ${newPayment.payment_id} para orden con ID ${order_id}`,
     });
 
-    res.status(201).json(newPayment);
+    return res.status(201).json(newPayment);
+
   } catch (error) {
-    res.status(500).json({ message: "Error al crear el pago", error });
+    await t.rollback();
+    return res.status(500).json({ message: "Error al crear el pago", error });
   }
 };
+
 
 exports.updatePayment = async (req, res) => {
   try {

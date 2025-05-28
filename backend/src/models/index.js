@@ -12,7 +12,6 @@ const Customer = require("./customer.model");
 const Order = require("./order.model");
 const GarmentType = require("./garment_type.model");
 const Garment = require("./garment.model");
-const Measurement = require("./measurement.model");
 const Payment = require("./payment.model");
 const Fabric = require("./fabric.model");
 const Catalog = require("./catalog.model");
@@ -33,9 +32,6 @@ GarmentType.hasMany(Garment, { foreignKey: "garment_type", as: "garmentList" });
 Garment.belongsTo(Fabric, { foreignKey: "fabric", as: "garmentFabric" });
 Fabric.hasMany(Garment, { foreignKey: "fabric", as: "fabricGarments" });
 
-Garment.hasOne(Measurement, { foreignKey: "garment_id", as: "garmentMeasurements" });
-Measurement.belongsTo(Garment, { foreignKey: "garment_id", as: "measurementGarment" });
-
 Order.hasMany(Payment, { foreignKey: "order_id", as: "orderPayments" });
 Payment.belongsTo(Order, { foreignKey: "order_id", as: "paymentOrder" });
 
@@ -53,7 +49,6 @@ module.exports = {
   Order,
   GarmentType,
   Garment,
-  Measurement,
   Payment,
   Fabric,
   Catalog,
