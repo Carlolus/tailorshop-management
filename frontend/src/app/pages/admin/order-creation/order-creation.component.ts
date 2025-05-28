@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { firstValueFrom, Observable } from 'rxjs';
+
 
 // Steps component
 import { Step1CustomerComponent } from './steps/step1-customer/step1-customer.component';
 import { Step2OrderComponent } from './steps/step2-order/step2-order.component';
 import { Step3GarmentsComponent } from './steps/step3-garments/step3-garments.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog.component';
 
 // Models
 import { Customer } from '../../../core/models/customer.model';
@@ -27,7 +30,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
-import { firstValueFrom, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from './dialogs/success-dialog.component';
 
 type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 
@@ -57,11 +61,12 @@ export class OrderCreationComponent {
   garmentTypes: GarmentType[] = [];
 
   constructor(
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private customerService: CustomerService,
     private orderService: OrderService,
     private garmentService: GarmentService,
-    private router: Router, 
+    private router: Router,
     private paymentService: PaymentService,
     private garmentTypeService: GarmentTypeService
   ) {
@@ -103,7 +108,7 @@ export class OrderCreationComponent {
     if (event.tipo === 'nuevo') {
       this.clienteNuevo = {
         ...event.data,
-        customer_id: 0 
+        customer_id: 0
       } as Customer;
       this.clienteExistenteId = null;
       this.pasoClienteValido = true;
@@ -121,7 +126,7 @@ export class OrderCreationComponent {
   procesarOrden(orderDetails: OrderDetails | null) {
     this.loadGarmentTypes();
     this.orderDetails = orderDetails;
-    this.pasoOrdenValido = !!orderDetails; 
+    this.pasoOrdenValido = !!orderDetails;
 
     this.ordenForm.patchValue({
       ordenValida: !!orderDetails,
@@ -145,7 +150,7 @@ export class OrderCreationComponent {
 
       this.pasoPrendasValido = true;
       this.prendasForm.patchValue({ prendasValidas: true });
-      console.log('Datos de prendas válidos:', this.garmentsData);
+      //console.log('Datos de prendas válidos:', this.garmentsData);
     } else {
       this.garmentsData = null;
       this.pasoPrendasValido = false;
@@ -153,18 +158,26 @@ export class OrderCreationComponent {
     }
   }
 
-  async confirmarOrden() {
-    console.log('=== CONFIRMANDO ORDEN ===');
+  confirmOrder() {
+    this.dialog.open(ConfirmDialogComponent).afterClosed().subscribe(result => {
+      if (result) {
+        this.sendOrder();
+      }
+    });
+  }
+
+  async sendOrder() {
+    //console.log('=== CONFIRMANDO ORDEN ===');
 
     if (!this.pasoClienteValido || !this.pasoOrdenValido || !this.pasoPrendasValido) {
-      console.warn('Faltan datos válidos en uno or más pasos para confirmar la orden.');
+      //console.warn('Faltan datos válidos en uno or más pasos para confirmar la orden.');
       return;
     }
 
     try {
       let customerId: number;
       if (this.clienteNuevo) {
-        console.log('Creando nuevo cliente:', this.clienteNuevo);
+        //console.log('Creando nuevo cliente:', this.clienteNuevo);
         const camposSeleccionados = {
           name: this.clienteNuevo?.name,
           phone: this.clienteNuevo?.phone,
@@ -179,10 +192,10 @@ export class OrderCreationComponent {
         }
 
         customerId = newCustomer.customer_id;
-        console.log('Nuevo cliente creado con ID:', customerId);
+        //console.log('Nuevo cliente creado con ID:', customerId);
 
       } else if (this.clienteExistenteId) {
-        console.log('Usando cliente existente ID:', this.clienteExistenteId);
+        //console.log('Usando cliente existente ID:', this.clienteExistenteId);
 
         customerId = this.clienteExistenteId;
       } else {
@@ -192,7 +205,7 @@ export class OrderCreationComponent {
       if (this.orderDetails) {
         this.orderDetails.customer_id = customerId;
 
-        console.log('Creando orden con detalles:', this.orderDetails);
+        //console.log('Creando orden con detalles:', this.orderDetails);
 
         const camposSeleccionados = {
           customer_id: this.orderDetails?.customer_id,
@@ -210,7 +223,7 @@ export class OrderCreationComponent {
         }
 
         const orderId = newOrder.order_id;
-        console.log('Nueva orden creada con ID:', orderId);
+        //console.log('Nueva orden creada con ID:', orderId);
 
         if (this.orderDetails.balance > 0) {
           const currentDate = new Date();
@@ -230,12 +243,12 @@ export class OrderCreationComponent {
         }
 
         if (this.garmentsData && this.garmentsData.length > 0) {
-          console.log('Creando prendas para la orden...');
-          console.log("Datos a cargar: ", this.garmentsData);
+          //console.log('Creando prendas para la orden...');
+          //console.log("Datos a cargar: ", this.garmentsData);
 
           const garmentPromises = this.garmentsData.map(garment => {
             const camposSeleccionadosGarment = {
-              order_id: orderId, 
+              order_id: orderId,
               garment_type_id: garment?.garment_type_id,
               fabric_id: garment?.fabric_id,
               quantity: garment?.quantity,
@@ -263,6 +276,9 @@ export class OrderCreationComponent {
     } catch (error) {
       console.error('Error al confirmar la orden:', error);
     }
+    this.dialog.open(SuccessDialogComponent).afterClosed().subscribe(() => {
+      this.router.navigate(['/admin']);
+    });
   }
 
 
@@ -288,18 +304,17 @@ export class OrderCreationComponent {
   }
 
   loadGarmentTypes() {
-        this.garmentTypeService.getGarmentTypes().subscribe({
-            next: (garmentTypes) => {
-                this.garmentTypes = garmentTypes;
-            },
-            error: (error) => {
-                console.error('Error loading garment types:', error);
-            }
-        });
-    }
+    this.garmentTypeService.getGarmentTypes().subscribe({
+      next: (garmentTypes) => {
+        this.garmentTypes = garmentTypes;
+      },
+      error: (error) => {
+        console.error('Error loading garment types:', error);
+      }
+    });
+  }
 
   getGarmentTypeName(id: number): string {
-    // Find by id directly, assuming id correlates to an actual ID in your data, not just index + 1
     const garmentType = this.garmentTypes.find(type => type.garment_type_id === id);
     return garmentType?.name || 'Desconocido';
   }
