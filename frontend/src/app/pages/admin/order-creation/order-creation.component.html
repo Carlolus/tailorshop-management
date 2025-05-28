@@ -1,7 +1,6 @@
 <div class="order-container">
   <mat-horizontal-stepper [linear]="true" class="custom-stepper">
 
-    <!-- Paso 1: Cliente -->
     <mat-step [stepControl]="clienteForm">
       <form [formGroup]="clienteForm">
         <ng-template matStepLabel>Seleccionar o añadir cliente</ng-template>
@@ -9,14 +8,12 @@
           <app-step1-customer (clienteValido)="procesarCliente($event)" />
         </div>
         <div class="step-actions">
-          <span></span> <!-- Placeholder para alineación -->
-          <button mat-flat-button color="primary" class="btn-continue" matStepperNext
+          <span></span> <button mat-flat-button color="primary" class="btn-continue" matStepperNext
             [disabled]="!pasoClienteValido">Continuar</button>
         </div>
       </form>
     </mat-step>
 
-    <!-- Paso 2: Detalles de la orden -->
     <mat-step [stepControl]="ordenForm">
       <form [formGroup]="ordenForm">
         <ng-template matStepLabel>Detalles de la orden</ng-template>
@@ -31,7 +28,6 @@
       </form>
     </mat-step>
 
-    <!-- Paso 3: Prendas -->
     <mat-step [stepControl]="prendasForm">
       <form [formGroup]="prendasForm">
         <ng-template matStepLabel>Prendas y medidas</ng-template>
@@ -46,7 +42,6 @@
       </form>
     </mat-step>
 
-    <!-- Paso 4: Resumen -->
     <mat-step>
       <ng-template matStepLabel>Resumen</ng-template>
       <div class="step-content">
@@ -84,8 +79,7 @@
                     <span>Para: {{ garment.person_name }} </span>
                   </div>
                   <div class="garment-measures">
-                    {{ measurementsData?.[i]?.measures }}
-                  </div>
+                    {{ garment.measures }} </div>
                 </li>
                 }
               </ul>

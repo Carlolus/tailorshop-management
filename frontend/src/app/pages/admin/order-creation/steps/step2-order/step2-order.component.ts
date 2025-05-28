@@ -8,7 +8,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Order } from '../../../../../core/models/order.model';
 
-type OrderDetails = Omit<Order, 'order_id' | 'customer_id' | 'createdAt' | 'updatedAt'>;
+type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 
 @Component({
     selector: 'app-step2-order',
@@ -30,6 +30,7 @@ export class Step2OrderComponent implements OnInit {
     @Output() orderDetailsValid = new EventEmitter<OrderDetails | null>();
 
     orderDetails: Partial<OrderDetails> = {
+        customer_id: 0,
         order_date: new Date().toISOString().split('T')[0],
         delivery_date: '',
         status: 'pendiente',
@@ -96,6 +97,7 @@ export class Step2OrderComponent implements OnInit {
         
         if (delivery_date && price && price > 0) {
             const validOrderDetails: OrderDetails = {
+                customer_id: 0,
                 order_date: this.orderDetails.order_date!,
                 delivery_date: delivery_date,
                 status: 'pendiente',
@@ -113,6 +115,7 @@ export class Step2OrderComponent implements OnInit {
         
         if (delivery_date && price && price > 0) {
             return {
+                customer_id: 0,
                 order_date: this.orderDetails.order_date!,
                 delivery_date: delivery_date,
                 status: 'pendiente',

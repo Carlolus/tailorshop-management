@@ -22,7 +22,6 @@
         </div>
 
         <div class="garment-form-grid">
-          <!-- Tipo de Prenda -->
           <div class="form-group">
             <label for="garment_type_id_{{i}}">Tipo de Prenda *</label>
             <select formControlName="garment_type_id" 
@@ -41,7 +40,6 @@
             </div>
           </div>
 
-          <!-- Tela -->
           <div class="form-group">
             <label for="fabric_id_{{i}}">Tela *</label>
             <select formControlName="fabric_id" 
@@ -59,7 +57,6 @@
             </div>
           </div>
 
-          <!-- Cantidad -->
           <div class="form-group">
             <label for="quantity_{{i}}">Cantidad *</label>
             <input type="number" 
@@ -75,7 +72,6 @@
             </div>
           </div>
 
-          <!-- Nombre de la Persona -->
           <div class="form-group">
             <label for="person_name_{{i}}">Nombre de la Persona *</label>
             <input type="text" 
@@ -90,7 +86,6 @@
             </div>
           </div>
 
-          <!-- Detalles -->
           <div class="form-group form-group-full">
             <label for="details_{{i}}">Detalles Adicionales</label>
             <textarea formControlName="details"
@@ -100,25 +95,19 @@
                       placeholder="Detalles adicionales, especificaciones especiales, etc."></textarea>
           </div>
 
-          <!-- Medidas -->
           <div class="form-group form-group-full">
-            <label for="measurements_{{i}}">Medidas *</label>
-            <textarea formControlName="measurements"
-                      id="measurements_{{i}}"
-                      class="form-control measurements-textarea"
-                      [class.error]="garmentForm.get('measurements')?.invalid && garmentForm.get('measurements')?.touched"
-                      rows="4"
+            <label for="measures_{{i}}">Medidas *</label>
+            <textarea formControlName="measures" id="measures_{{i}}"         class="form-control measurements-textarea"
+                      [class.error]="garmentForm.get('measures')?.invalid && garmentForm.get('measures')?.touched" rows="4"
                       placeholder="Ingrese las medidas detalladas (ej: Pecho: 40cm, Cintura: 35cm, Largo: 65cm, etc.)"></textarea>
             <div class="measurements-help">
               <small>Ingrese todas las medidas necesarias para esta prenda separadas por comas o en líneas diferentes</small>
             </div>
             <div class="error-message" 
-                 *ngIf="garmentForm.get('measurements')?.invalid && garmentForm.get('measurements')?.touched">
-              Las medidas son requeridas
+                 *ngIf="garmentForm.get('measures')?.invalid && garmentForm.get('measures')?.touched"> Las medidas son requeridas
             </div>
           </div>
 
-          <!-- Imagen (opcional) -->
           <div class="form-group form-group-full">
             <label for="img_{{i}}">Imagen de Referencia</label>
             <input type="file" 
@@ -140,7 +129,6 @@
       </div>
     </div>
 
-    <!-- Botón para agregar más prendas -->
     <div class="add-garment-section">
       <button type="button" 
               class="btn-add-garment" 
@@ -150,7 +138,6 @@
       </button>
     </div>
 
-    <!-- Resumen -->
     <div class="garments-summary" *ngIf="garmentsArray.length > 0">
       <h4>Resumen de Prendas ({{ garmentsArray.length }})</h4>
       <div class="summary-grid">

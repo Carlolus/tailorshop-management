@@ -6,5 +6,6 @@ export interface Garment {
   quantity: number;
   person_name: string;
   details: string;
-  img?: string; 
+  img?: string;
+  measures: string; 
 }

@@ -54,6 +54,10 @@ const Garment = sequelize.define("garment", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  measures: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   img: {
     type: DataTypes.TEXT,
     allowNull: true,

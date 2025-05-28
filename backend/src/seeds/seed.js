@@ -5,7 +5,6 @@ const GarmentType = require("../models/garment_type.model");
 const Customer = require("../models/customer.model");
 const Garment = require("../models/garment.model");
 const Order = require("../models/order.model");
-const Measurement  = require("../models/measurement.model");
 const Payment = require("../models/payment.model");
 const Catalog = require("../models/catalog.model");
 
@@ -217,7 +216,8 @@ async function seed() {
           fabric_id: 3,
           quantity: 2,
           person_name: "Carlos David Córdoba",
-          details: "Primer pantalón corte recto, segundo pantalón corte campana, bolsillo secreto"
+          details: "Primer pantalón corte recto, segundo pantalón corte campana, bolsillo secreto",
+          measures: "Cintura: 10 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         },
         {
           order_id: 1,
@@ -225,7 +225,8 @@ async function seed() {
           fabric_id: 5,
           quantity: 1,
           person_name: "Carlos David Córdoba",
-          details: "Chaqueta con doble forro térmico y bolsillos con cierre"
+          details: "Chaqueta con doble forro térmico y bolsillos con cierre",
+          measures: "Cintura: 20 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         },
         {
           order_id: 1,
@@ -233,7 +234,8 @@ async function seed() {
           fabric_id: 1,
           quantity: 3,
           person_name: "Carlos David Córdoba",
-          details: "Camisas blancas entalladas, una con cuello italiano"
+          details: "Camisas blancas entalladas, una con cuello italiano",
+          measures: "Cintura: 30 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         },
         {
           order_id: 2,
@@ -241,7 +243,8 @@ async function seed() {
           fabric_id: 2,
           quantity: 2,
           person_name: "Diego Germán Delgado",
-          details: "Chalecos formales con botón metálico, uno con bordado personalizado"
+          details: "Chalecos formales con botón metálico, uno con bordado personalizado",
+          measures: "Cintura: 40 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         },
         {
           order_id: 2,
@@ -249,7 +252,8 @@ async function seed() {
           fabric_id: 8,
           quantity: 1,
           person_name: "Diego Delgado",
-          details: "Gabardina impermeable con capucha desmontable"
+          details: "Gabardina impermeable con capucha desmontable",
+          measures: "Cintura: 50 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         },
         {
           order_id: 2,
@@ -257,45 +261,13 @@ async function seed() {
           fabric_id: 6,
           quantity: 1,
           person_name: "María Martínez",
-          details: "Vestido largo de gala, espalda descubierta, bordado en cintura"
+          details: "Vestido largo de gala, espalda descubierta, bordado en cintura",
+          measures: "Cintura: 60 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm"
         }
       ]);
       console.log("Prendas insertados");
     } else {
       console.log("Prendas ya existen, se omite inserción");
-    }
-
-    const countMeasures = await Measurement.count();
-    if(countMeasures === 0){
-      await Measurement.bulkCreate([
-        {
-          garment_id: 1,
-          measures: "Cintura: 90 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm, Comentario: bolsillo secreto en lado derecho"
-        },
-        {
-          garment_id: 2,
-          measures: "Hombros: 48 cm, Pecho: 110 cm, Largo manga: 62 cm, Largo total: 75 cm, Comentario: agregar forro térmico completo"
-        },
-        {
-          garment_id: 3,
-          measures: "Cuello: 41 cm, Pecho: 108 cm, Largo manga: 64 cm, Largo total: 72 cm, Comentario: una camisa con cuello italiano"
-        },
-        {
-          garment_id: 4,
-          measures: "Hombros: 46 cm, Pecho: 104 cm, Largo: 58 cm, Comentario: botón metálico en centro; bordado personalizado en la espalda"
-        },
-        {
-          garment_id: 5,
-          measures: "Hombros: 50 cm, Pecho: 114 cm, Largo manga: 67 cm, Largo total: 110 cm, Comentario: incluir capucha desmontable con cremallera"
-        },
-        {
-          garment_id: 6,
-          measures: "Busto: 88 cm, Cintura: 70 cm, Cadera: 95 cm, Largo total: 140 cm, Comentario: ajustar a espalda descubierta y bordado fino en cintura"
-        }
-      ]);
-      console.log("Medidas insertadas correctamente");
-    } else {
-      console.log("Ya existen medidas");
     }
     // Payments
     const countPayments = await Payment.count();
