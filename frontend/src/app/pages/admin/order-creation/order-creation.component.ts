@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 // Steps component
 import { Step1CustomerComponent } from './steps/step1-customer/step1-customer.component';
@@ -43,7 +44,8 @@ type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
     Step1CustomerComponent,
     Step2OrderComponent,
     Step3GarmentsComponent,
-    MatIcon
+    MatIcon,
+    Router
   ]
 })
 export class OrderCreationComponent {
@@ -57,7 +59,8 @@ export class OrderCreationComponent {
     private customerService: CustomerService,
     private orderService: OrderService,
     private garmentTypeService: GarmentTypeService, // Injected but not used directly in this snippet
-    private garmentService: GarmentService, // Injected but not used directly in this snippet
+    private garmentService: GarmentService,
+    private router: Router // Injected but not used directly in this snippet
   ) {
     // Form for the customer step - validation is handled manually by emitting from Step1CustomerComponent
     this.clienteForm = this.fb.group({
@@ -267,9 +270,8 @@ export class OrderCreationComponent {
           console.log('Prendas creadas exitosamente:', createdGarments);
           console.log('=== ORDEN CONFIRMADA EXITOSAMENTE ===');
 
-          // Optionally reset the form or navigate to another page
-          // this.resetForm();
-          // this.router.navigate(['/orders']);
+
+          //this.router.navigate(['/orders']);
 
         } else {
           throw new Error('No se encontraron datos válidos de prendas');
