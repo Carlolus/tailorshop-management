@@ -44,8 +44,7 @@ type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
     Step1CustomerComponent,
     Step2OrderComponent,
     Step3GarmentsComponent,
-    MatIcon,
-    Router
+    MatIcon
   ]
 })
 export class OrderCreationComponent {
