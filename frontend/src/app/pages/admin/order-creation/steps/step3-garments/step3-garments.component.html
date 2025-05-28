@@ -73,17 +73,12 @@
           </div>
 
           <div class="form-group">
-            <label for="person_name_{{i}}">Nombre de la Persona *</label>
+            <label for="person_name_{{i}}">Usuario de la prenda.</label>
             <input type="text" 
                    formControlName="person_name"
                    id="person_name_{{i}}"
                    class="form-control"
-                   [class.error]="garmentForm.get('person_name')?.invalid && garmentForm.get('person_name')?.touched"
                    placeholder="Nombre completo">
-            <div class="error-message" 
-                 *ngIf="garmentForm.get('person_name')?.invalid && garmentForm.get('person_name')?.touched">
-              El nombre de la persona es requerido
-            </div>
           </div>
 
           <div class="form-group form-group-full">

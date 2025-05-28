@@ -28,6 +28,7 @@ type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 })
 export class Step2OrderComponent implements OnInit {
     @Output() orderDetailsValid = new EventEmitter<OrderDetails | null>();
+    balanceError: boolean = false;
 
     orderDetails: Partial<OrderDetails> = {
         customer_id: 0,
@@ -66,12 +67,12 @@ export class Step2OrderComponent implements OnInit {
         const value = event.target.value;
         const cleanValue = value.replace(/[^\d]/g, '');
         const numericValue = parseInt(cleanValue) || 0;
-        
+
         this.orderDetails.price = numericValue;
         this.priceFormatted = this.formatNumber(numericValue);
-        
+
         event.target.value = this.priceFormatted;
-        
+
         this.validateAndEmit();
     }
 
@@ -79,12 +80,18 @@ export class Step2OrderComponent implements OnInit {
         const value = event.target.value;
         const cleanValue = value.replace(/[^\d]/g, '');
         const numericValue = parseInt(cleanValue) || 0;
-        
+
         this.orderDetails.balance = numericValue;
         this.balanceFormatted = this.formatNumber(numericValue);
-        
+
         event.target.value = this.balanceFormatted;
-        
+
+        if (this.orderDetails.price !== undefined && numericValue > this.orderDetails.price) {
+            this.balanceError = true;
+        } else {
+            this.balanceError = false;
+        }
+
         this.validateAndEmit();
     }
 
@@ -94,8 +101,10 @@ export class Step2OrderComponent implements OnInit {
 
     validateAndEmit() {
         const { delivery_date, price, balance } = this.orderDetails;
-        
-        if (delivery_date && price && price > 0) {
+
+        const isValid = delivery_date && price && price > 0 && (!this.balanceError);
+
+        if (isValid) {
             const validOrderDetails: OrderDetails = {
                 customer_id: 0,
                 order_date: this.orderDetails.order_date!,
@@ -112,7 +121,7 @@ export class Step2OrderComponent implements OnInit {
 
     getOrderDetails(): OrderDetails | null {
         const { delivery_date, price } = this.orderDetails;
-        
+
         if (delivery_date && price && price > 0) {
             return {
                 customer_id: 0,

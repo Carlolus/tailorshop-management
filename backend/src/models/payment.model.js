@@ -15,7 +15,7 @@ const Payment = sequelize.define("payment", {
     primaryKey: true,
     autoIncrement: true,
   },
-  order: {
+  order_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {

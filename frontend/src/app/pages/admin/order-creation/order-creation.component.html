@@ -14,20 +14,6 @@
       </form>
     </mat-step>
 
-    <mat-step [stepControl]="ordenForm">
-      <form [formGroup]="ordenForm">
-        <ng-template matStepLabel>Detalles de la orden</ng-template>
-        <div class="step-content">
-          <app-step2-order (orderDetailsValid)="procesarOrden($event)" />
-        </div>
-        <div class="step-actions">
-          <button mat-button matStepperPrevious>Volver</button>
-          <button mat-flat-button color="primary" class="btn-continue" matStepperNext
-            [disabled]="!pasoOrdenValido">Continuar</button>
-        </div>
-      </form>
-    </mat-step>
-
     <mat-step [stepControl]="prendasForm">
       <form [formGroup]="prendasForm">
         <ng-template matStepLabel>Prendas y medidas</ng-template>
@@ -38,6 +24,20 @@
           <button mat-button matStepperPrevious>Volver</button>
           <button mat-flat-button color="primary" class="btn-continue" matStepperNext
             [disabled]="!pasoPrendasValido">Continuar</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="ordenForm">
+      <form [formGroup]="ordenForm">
+        <ng-template matStepLabel>Detalles de la orden</ng-template>
+        <div class="step-content">
+          <app-step2-order (orderDetailsValid)="procesarOrden($event)" />
+        </div>
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Volver</button>
+          <button mat-flat-button color="primary" class="btn-continue" matStepperNext
+            [disabled]="!pasoOrdenValido">Continuar</button>
         </div>
       </form>
     </mat-step>

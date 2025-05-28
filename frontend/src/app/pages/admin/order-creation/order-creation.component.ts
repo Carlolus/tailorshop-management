@@ -16,8 +16,8 @@ import { Garment } from '../../../core/models/garment.model'; // Ensure this mod
 // Services
 import { CustomerService } from '../../../core/services/customers/customers.service';
 import { GarmentService } from '../../../core/services/garment/garment.service';
-import { GarmentTypeService } from '../../../core/services/garment-types/garment-types.service';
 import { OrderService } from '../../../core/services/orders/order.service';
+import { PaymentService } from '../../../core/services/payments/payment.service';
 
 // Angular Material
 import { MatStepperModule } from '@angular/material/stepper';
@@ -25,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
-import { GarmentType } from '../../../core/models/garment-type.model'; // Assuming you still need this for getGarmentTypeName
+import { firstValueFrom, Observable } from 'rxjs';
 
 type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 
@@ -50,23 +50,21 @@ type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 export class OrderCreationComponent {
   clienteForm: FormGroup;
   ordenForm: FormGroup;
-  prendasForm: FormGroup; // This form group exists but its internal structure is managed by step3-garments
+  prendasForm: FormGroup;
   clienteExistenteData?: Customer;
 
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerService,
     private orderService: OrderService,
-    private garmentTypeService: GarmentTypeService, // Injected but not used directly in this snippet
     private garmentService: GarmentService,
-    private router: Router // Injected but not used directly in this snippet
+    private router: Router, 
+    private paymentService: PaymentService
   ) {
-    // Form for the customer step - validation is handled manually by emitting from Step1CustomerComponent
     this.clienteForm = this.fb.group({
       clienteValido: [false, Validators.requiredTrue]
     });
 
-    // Form for the order details step - validation is handled manually by emitting from Step2OrderComponent
     this.ordenForm = this.fb.group({
       ordenValida: [false, Validators.requiredTrue],
       fechaEntrega: ['', Validators.required],
@@ -74,30 +72,21 @@ export class OrderCreationComponent {
       abono: [0]
     });
 
-    // Form for the garments step - validation is handled manually by emitting from Step3GarmentsComponent
-    // The specific controls for garments are within Step3GarmentsComponent itself.
     this.prendasForm = this.fb.group({
-      prendasValidas: [false, Validators.requiredTrue] // A simple control to mark the step as valid/invalid
+      prendasValidas: [false, Validators.requiredTrue]
     });
   }
 
-  // Variables to manage customer state
   clienteExistenteId: number | null = null;
   clienteNuevo: Customer | null = null;
   pasoClienteValido = false;
 
-  // Variables to manage order state
   orderDetails: OrderDetails | null = null;
   pasoOrdenValido = false;
 
-  // Variables to store garment data (updated type)
   garmentsData: Garment[] | null = null;
   pasoPrendasValido = false;
 
-  /**
-   * Processes data emitted from Step1CustomerComponent.
-   * @param event The customer data (new or existing ID) or null if invalid.
-   */
   procesarCliente(event: { tipo: 'nuevo'; data: Customer } | { tipo: 'existente'; id: number } | null) {
     if (!event) {
       this.clienteExistenteId = null;
@@ -108,15 +97,14 @@ export class OrderCreationComponent {
     }
 
     if (event.tipo === 'nuevo') {
-      // Convert CustomerForOrder to Customer format for internal use
       this.clienteNuevo = {
         ...event.data,
-        customer_id: 0 // Temporary ID, will be set when created
+        customer_id: 0 
       } as Customer;
       this.clienteExistenteId = null;
       this.pasoClienteValido = true;
       console.log('Nuevo cliente preparado:', this.clienteNuevo);
-    } else { // tipo === 'existente'
+    } else {
       this.clienteExistenteId = event.id;
       this.clienteNuevo = null;
       this.pasoClienteValido = true;
@@ -126,16 +114,10 @@ export class OrderCreationComponent {
     this.clienteForm.patchValue({ clienteValido: true });
   }
 
-
-  /**
-   * Processes order details data emitted from Step2OrderComponent.
-   * @param orderDetails The order details or null if invalid.
-   */
   procesarOrden(orderDetails: OrderDetails | null) {
     this.orderDetails = orderDetails;
-    this.pasoOrdenValido = !!orderDetails; // Set to true if orderDetails is not null
+    this.pasoOrdenValido = !!orderDetails; 
 
-    // Update the local form group for the stepper control
     this.ordenForm.patchValue({
       ordenValida: !!orderDetails,
       fechaEntrega: orderDetails?.delivery_date || '',
@@ -148,12 +130,6 @@ export class OrderCreationComponent {
     }
   }
 
-  /**
-   * Processes garment data emitted from Step3GarmentsComponent.
-   * @param garments The array of Garment objects or null if invalid.
-   *
-   * This is the method that was causing the error and has been corrected.
-   */
   procesarPrendas(garments: any[] | null) {
     if (garments && garments.length > 0) {
       this.garmentsData = garments.map(garment => ({
@@ -172,35 +148,26 @@ export class OrderCreationComponent {
     }
   }
 
-  /**
-   * Confirms and processes the complete order.
-   */
   async confirmarOrden() {
     console.log('=== CONFIRMANDO ORDEN ===');
 
-    // Basic validation before proceeding
     if (!this.pasoClienteValido || !this.pasoOrdenValido || !this.pasoPrendasValido) {
       console.warn('Faltan datos válidos en uno or más pasos para confirmar la orden.');
-      // Optionally, show a user-friendly message
       return;
     }
 
     try {
       let customerId: number;
-
-      // Handle customer creation or use existing customer
       if (this.clienteNuevo) {
         console.log('Creando nuevo cliente:', this.clienteNuevo);
         const camposSeleccionados = {
           name: this.clienteNuevo?.name,
           phone: this.clienteNuevo?.phone,
-          email: this.clienteNuevo?.mail,
+          mail: this.clienteNuevo?.mail,
           address: this.clienteNuevo?.address
-          // agrega los campos que necesites
         };
 
-        // Create new customer and get the returned ID
-        const newCustomer = await this.customerService.createCustomer(camposSeleccionados).toPromise();
+        const newCustomer = await firstValueFrom(this.customerService.createCustomer(camposSeleccionados));
 
         if (!newCustomer || !newCustomer.customer_id) {
           throw new Error('Error al crear el cliente: respuesta inválida del servidor');
@@ -212,13 +179,11 @@ export class OrderCreationComponent {
       } else if (this.clienteExistenteId) {
         console.log('Usando cliente existente ID:', this.clienteExistenteId);
 
-        // Use existing customer ID
         customerId = this.clienteExistenteId;
       } else {
         throw new Error('No se encontró información válida del cliente');
       }
 
-      // Assign customer_id to order details
       if (this.orderDetails) {
         this.orderDetails.customer_id = customerId;
 
@@ -229,12 +194,11 @@ export class OrderCreationComponent {
           order_date: this.orderDetails?.order_date,
           delivery_date: this.orderDetails?.delivery_date,
           price: this.orderDetails?.price,
-          balance: this.orderDetails?.balance,
+          balance: this.orderDetails?.price,
           status: this.orderDetails?.status
         };
 
-        // Create the order and get the returned ID
-        const newOrder = await this.orderService.createOrder(camposSeleccionados).toPromise();
+        const newOrder = await firstValueFrom(this.orderService.createOrder(camposSeleccionados));
 
         if (!newOrder || !newOrder.order_id) {
           throw new Error('Error al crear la orden: respuesta inválida del servidor');
@@ -242,6 +206,23 @@ export class OrderCreationComponent {
 
         const orderId = newOrder.order_id;
         console.log('Nueva orden creada con ID:', orderId);
+
+        if (this.orderDetails.balance > 0) {
+          const currentDate = new Date();
+          const payment = await firstValueFrom(this.paymentService.createPayment(
+            {
+              order_id: orderId,
+              amount: this.orderDetails.balance,
+              payment_date: currentDate.toISOString().split('T')[0],
+              payment_method: 'efectivo',
+              description: 'Abono inicial'
+            }
+          ));
+
+          if (!payment) {
+            throw new Error('Error al realizar el pago inicial: respuesta inválida del servidor');
+          }
+        }
 
         // Assign order_id to each garment and create them
         if (this.garmentsData && this.garmentsData.length > 0) {
@@ -258,7 +239,7 @@ export class OrderCreationComponent {
               person_name: garment?.person_name,
               details: garment?.details,
               img: garment?.img,
-              measures: garment?.measures           
+              measures: garment?.measures
             };
 
             return this.garmentService.createGarment(camposSeleccionadosGarment).toPromise();
