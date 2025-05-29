@@ -8,6 +8,7 @@ import { HttpHeaderService } from '../httpHeader';
   providedIn: 'root'
 })
 export class GarmentService {
+  
   private apiUrl = 'http://localhost:3000/garments';
 
   constructor(
@@ -41,6 +42,14 @@ export class GarmentService {
   getGarmentById(id: number): Observable<Garment> {
     return this.http.get<Garment>(
       `${this.apiUrl}/${id}`,
+      { headers: this.httpHeaderService.getHeaders() }
+    );
+  }
+
+  getGarmentsByOrderId(order_id: number): Observable<Garment[]> {
+    console.log("Order_id recibida: ", order_id)
+    return this.http.get<Garment[]>(
+      `${this.apiUrl}?order_id=${order_id}`,
       { headers: this.httpHeaderService.getHeaders() }
     );
   }
