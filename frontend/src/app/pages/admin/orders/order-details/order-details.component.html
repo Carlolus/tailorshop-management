@@ -1,0 +1,121 @@
+<div class="order-container">
+  @if (isLoading) {
+  <div class="loading-container">
+    <mat-icon class="loading-spinner">refresh</mat-icon>
+    <p>Cargando detalles de la orden...</p>
+  </div>
+  } @else {
+  <div class="order-viewer">
+    <!-- Header de la orden -->
+    <div class="order-header">
+      <div class="order-title">
+        <h1>Orden #{{ orderData.id }}</h1>
+        <mat-chip-set>
+          <mat-chip [class]="getStatusClass(orderData.status)">
+            <mat-icon>{{ getStatusIcon(orderData.status) }}</mat-icon>
+            {{ getStatusLabel(orderData.status) }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="order-dates">
+        <p><mat-icon>event</mat-icon> <strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}
+        </p>
+        <p><mat-icon>schedule</mat-icon> <strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'
+          }}</p>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="order-content">
+      <div class="summary-section">
+        <h3>Detalles de la orden</h3>
+
+        <div class="summary-grid">
+          <!-- Cliente -->
+          <div class="summary-card">
+            <h4><mat-icon>person</mat-icon> Cliente</h4>
+            <p><strong>Nombre:</strong> {{ orderData.client.name }}</p>
+            <p><strong>Email:</strong> {{ orderData.client.email }}</p>
+            <p><strong>Teléfono:</strong> {{ orderData.client.phone }}</p>
+            @if (orderData.client.address) {
+            <p><strong>Dirección:</strong> {{ orderData.client.address }}</p>
+            }
+          </div>
+
+          <!-- Información financiera -->
+          <div class="summary-card">
+            <h4><mat-icon>receipt_long</mat-icon> Información de pago</h4>
+            <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
+            <p><strong>Abono inicial:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
+            <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
+            </p>
+            <div class="payment-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="getPaymentPercentage()"></div>
+              </div>
+              <span class="progress-text">{{ getPaymentPercentage() }}% pagado</span>
+            </div>
+          </div>
+
+          <!-- Prendas -->
+          @if (orderData.garments && orderData.garments.length > 0) {
+          <div class="summary-card garments-card">
+            <h4><mat-icon>checkroom</mat-icon> Prendas ({{ orderData.garments.length }})</h4>
+            <ul>
+              @for(garment of orderData.garments; track garment.id) {
+              <li>
+                <div class="garment-info">
+                  <span>Cantidad: {{ garment.quantity }}</span>
+                  <span class="garment-type">{{ garment.garment_type_name }}</span>
+                </div>
+                <div class="garment-info">
+                  <span>Para: {{ garment.person_name }}</span>
+                </div>
+                <div class="garment-measures">
+                  {{ garment.measures }}
+                </div>
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </div>
+
+        <!-- Notas adicionales -->
+        @if (orderData.notes) {
+        <div class="notes-section">
+          <mat-card class="notes-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>note</mat-icon>
+              <mat-card-title>Notas adicionales</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ orderData.notes }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="order-actions">
+      <button mat-button (click)="onBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Volver
+      </button>
+
+      @if (orderData.status !== 'completed' && orderData.status !== 'cancelled') {
+      <button mat-flat-button color="primary" class="btn-continue" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+        Editar orden
+      </button>
+      }
+
+      <button mat-stroked-button (click)="onPrint()">
+        <mat-icon>print</mat-icon>
+        Imprimir
+      </button>
+    </div>
+  </div>
+  }

@@ -33,7 +33,7 @@ export const routes: Routes = [
           { path: 'customers', component: CustomersComponent},
           { path: 'logs', component: AuditLogComponent},
           { path: 'catalog', component: CatalogAdminComponent},
-          { path: 'orders', component: OrderCreationComponent,
+          { path: 'orders',
             children: [
               { path: '', component: OrderListComponent },
               { path: 'new', component: OrderCreationComponent},
