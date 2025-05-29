@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { FabricService } from '../../../../../core/services/fabrics/fabric.service';
-import { Fabric } from '../../../../../core/models/fabric.model';
-import { GarmentType } from '../../../../../core/models/garment-type.model';
-import { GarmentTypeService } from '../../../../../core/services/garment-types/garment-types.service';
+import { FabricService } from '../../../../../../core/services/fabrics/fabric.service';
+import { Fabric } from '../../../../../../core/models/fabric.model';
+import { GarmentType } from '../../../../../../core/models/garment-type.model';
+import { GarmentTypeService } from '../../../../../../core/services/garment-types/garment-types.service';
 
 export interface Garment {
     garment_id?: number;

@@ -12,7 +12,9 @@ import { AuditLogComponent } from './pages/admin/audit-log/audit-log.component';
 import { CatalogAdminComponent } from './pages/admin/catalog-admin/catalog-admin.component';
 import { CustomersComponent } from './pages/admin/customers/customers.component';
 import { SessionExpiredComponent } from './pages/session-expired/session-expired.component';
-import { OrderCreationComponent } from './pages/admin/order-creation/order-creation.component';
+import { OrderCreationComponent } from './pages/admin/orders/order-creation/order-creation.component';
+import { OrderListComponent } from './pages/admin/orders/order-list/order-list.component';
+import { OrderDetailsComponent } from './pages/admin/orders/order-details/order-details.component';
 
 export const routes: Routes = [
   {
@@ -24,34 +26,19 @@ export const routes: Routes = [
       { path: 'fabrics', component: FabricsListComponent },
       { path: 'catalog', component: CatalogComponent },
       { path: 'login', component: LoginRedirectComponent, canActivate: [GuestGuard] },
-      {
-        path: 'admin',
-        canActivate: [AuthGuard], // Protection for all admin routes
+      { path: 'admin', canActivate: [AuthGuard],
         children: [
-          {
-            path: '',
-            component: DashboardComponent, // show on /admin
-            pathMatch: 'full'
-          },
-          {
-            path: 'fabrics',
-            component: FabricsAdminComponent // This will show on /admin/fabrics
-          },
-          {
-            path: 'customers',
-            component: CustomersComponent // This will show on /admin/fabrics
-          },
-          {
-            path: 'logs',
-            component: AuditLogComponent // This will show on /admin/fabrics
-          },
-          {
-            path: 'catalog',
-            component: CatalogAdminComponent // This will show on /admin/fabrics
-          },
-          {
-            path: 'order',
-            component: OrderCreationComponent
+          { path: '', component: DashboardComponent, pathMatch: 'full'},
+          { path: 'fabrics', component: FabricsAdminComponent},
+          { path: 'customers', component: CustomersComponent},
+          { path: 'logs', component: AuditLogComponent},
+          { path: 'catalog', component: CatalogAdminComponent},
+          { path: 'orders', component: OrderCreationComponent,
+            children: [
+              { path: '', component: OrderListComponent },
+              { path: 'new', component: OrderCreationComponent},
+              { path: ':id', component: OrderDetailsComponent },
+            ]
           }
         ]
       }
