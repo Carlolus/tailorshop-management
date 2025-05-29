@@ -11,13 +11,19 @@
         placeholder="Buscar..."
         [formControl]="searchControl">
 </div>
+<!-- Cambiar esta línea en el template -->
 <section id="colecciones" class="catalog-cards-container">
-  <div class="catalog-card" *ngFor="let item of catalogItems">
+  <div class="catalog-card" *ngFor="let item of filteredItems">
     <img [src]="item.image" [alt]="item.name" class="catalog-card-image" />
     <div class="catalog-card-content">
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
     </div>
+  </div>
+  
+  <!-- Opcional: Mensaje cuando no hay resultados -->
+  <div *ngIf="filteredItems.length === 0 && searchControl.value" class="no-results">
+    <p>No se encontraron resultados para "{{ searchControl.value }}"</p>
   </div>
 </section>
 <section></section>
