@@ -7,7 +7,6 @@ import { DialogService } from '../../../core/services/dialog.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-catalog-admin',
   standalone: true,
@@ -58,12 +57,15 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Getter que se ejecuta automáticamente cuando cambia searchTerm
   get filteredCatalogs() {
     if (!this.searchTerm.trim()) return this.catalogs;
     const term = this.searchTerm.toLowerCase();
-    return this.catalogs.filter(c =>
-      c.name.toLowerCase().includes(term) ||
-      c.description.toLowerCase().includes(term)
+    return this.catalogs.filter(catalog =>
+      catalog.item_id?.toString().includes(term) ||
+      catalog.name?.toLowerCase().includes(term) ||
+      catalog.description?.toLowerCase().includes(term) ||
+      (typeof catalog.fabric === 'string' ? catalog.fabric.toLowerCase().includes(term) : false)
     );
   }
 
@@ -135,7 +137,8 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   trackByCatalogId(index: number, catalog: CatalogItem): number {
-  return catalog.item_id ?? index;
+    return catalog.item_id ?? index;
   }
 }

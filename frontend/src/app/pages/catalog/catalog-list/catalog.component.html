@@ -19,9 +19,10 @@
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
     </div>
+    
   </div>
   
-  <!-- Opcional: Mensaje cuando no hay resultados -->
+  <!--Mensaje cuando no hay resultados -->
   <div *ngIf="filteredItems.length === 0 && searchControl.value" class="no-results">
     <p>No se encontraron resultados para "{{ searchControl.value }}"</p>
   </div>

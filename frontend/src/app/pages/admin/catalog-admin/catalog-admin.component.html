@@ -9,7 +9,7 @@
   <div class="search-bar">
     <input
       type="text"
-      placeholder="Buscar por nombre"
+      placeholder="Buscar por ID o descripción"
       [(ngModel)]="searchTerm"
       class="search-input"
     />
@@ -65,10 +65,7 @@
     </div>
   }
 
-  
-</section>
-
-@if (showForm && (!isViewMode || selectedCatalog)) {
+  @if (showForm && (!isViewMode || selectedCatalog)) {
     <div class="modal-overlay">
       <app-catalog-form
         [catalog]="selectedCatalog"
@@ -78,3 +75,4 @@
       </app-catalog-form>
     </div>
   }
+</section>
