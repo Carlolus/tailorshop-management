@@ -127,8 +127,8 @@ export class OrderDetailsComponent implements OnInit {
             created_date: this.order.order_date,
             delivery_date: this.order.delivery_date,
             status: this.order.status as OrderData['status'], // Asegurar el tipo
-            price: this.order.price,
-            balance: this.order.balance,
+            price: Math.round(this.order.price),
+            balance: Math.round(this.order.balance),
             client: {
               name: this.customer?.name || 'N/A', // Añadir fallback por si customer es undefined
               phone: this.customer?.phone || 'N/A',
@@ -156,7 +156,7 @@ export class OrderDetailsComponent implements OnInit {
           console.error("La orden no fue encontrada.");
         }
         this.isLoading = false;
-      }, 1000);
+      }, 500);
     } else {
       console.error("ID de orden inválido.");
       this.isLoading = false;

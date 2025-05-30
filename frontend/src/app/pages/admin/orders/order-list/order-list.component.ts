@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,10 +13,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+// Models
 import { Order } from '../../../../core/models/order.model';
+import { Customer } from '../../../../core/models/customer.model';
+
+// Services
+import { OrderService } from '../../../../core/services/orders/order.service';
+import { CustomerService } from '../../../../core/services/customers/customers.service';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
+  standalone: true,
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.scss'],
@@ -31,49 +41,33 @@ import { Order } from '../../../../core/models/order.model';
   ]
 })
 export class OrderListComponent implements OnInit {
+
+  orders: Order[] = [];
+  customers: Customer[] = [];
+
   displayedColumns: string[] = ['id', 'client', 'status', 'createdDate', 'deliveryDate', 'price', 'actions'];
   dataSource = new MatTableDataSource();
   isLoading = true;
 
   // Datos de ejemplo - reemplaza con tu servicio real
-  sampleOrders = [
-    {
-      id: 1001,
-      client: { name: 'Juan Pérez', email: 'juan@example.com', phone: '3001234567' },
-      status: 'en_progreso',
-      created_date: new Date('2023-05-15'),
-      delivery_date: new Date('2023-06-10'),
-      price: 250000,
-      balance: 150000
-    },
-    {
-      id: 1002,
-      client: { name: 'María Gómez', email: 'maria@example.com', phone: '3102345678' },
-      status: 'pendiente',
-      created_date: new Date('2023-05-18'),
-      delivery_date: new Date('2023-06-15'),
-      price: 180000,
-      balance: 0
-    },
-    {
-      id: 1003,
-      client: { name: 'Carlos Rodríguez', email: 'carlos@example.com', phone: '3203456789' },
-      status: 'entregado',
-      created_date: new Date('2023-04-20'),
-      delivery_date: new Date('2023-05-25'),
-      price: 320000,
-      balance: 320000
-    }
-  ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private orderService: OrderService,
+    private customerService: CustomerService,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {
-    // Simular carga de datos
-    setTimeout(() => {
-      this.dataSource.data = this.sampleOrders;
+  async ngOnInit(): Promise<void> {
+    try {
+      this.isLoading = true;
+      await this.loadData();
+      this.dataSource.data = this.orders; // Mover esto después de loadData
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
       this.isLoading = false;
-    }, 1000);
+    }
   }
 
   getStatusLabel(status: string): string {
@@ -87,23 +81,28 @@ export class OrderListComponent implements OnInit {
     return statusMap[status] || status;
   }
 
+  getCustomerNameById(id: number): string {
+    const customer = this.customers.find(c => c.customer_id === id);
+    return customer ? `${customer.name}` : 'Cliente no encontrado';
+  }
+
+  async loadData() {
+    this.customers = await firstValueFrom(this.customerService.getCustomers());
+    this.orders = await firstValueFrom(this.orderService.getOrders());
+    this.dataSource.data = this.orders;
+  }
+
   getStatusClass(status: string): string {
     return `status-${status.replace(' ', '_')}`;
   }
 
-  onViewOrder(orderId: number): void {
-    console.log('Ver orden:', orderId);
-    // Aquí puedes implementar la navegación o diálogo para ver la orden
+  onViewOrder(order_id: number): void {
+    this.router.navigate(['admin/orders/',order_id]);
   }
 
-  onEditOrder(orderId: number): void {
-    console.log('Editar orden:', orderId);
-    // Implementar lógica de edición
-  }
-
-  onDeleteOrder(orderId: number): void {
-    console.log('Eliminar orden:', orderId);
-    // Implementar lógica de eliminación con confirmación
+  getPrice(order_id: number): number {
+    const order = this.orders.find(o => o.order_id === order_id);
+    return Math.round(order?.price || 1);
   }
 
   applyFilter(event: Event): void {
