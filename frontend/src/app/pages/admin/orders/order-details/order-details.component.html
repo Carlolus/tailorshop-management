@@ -62,8 +62,8 @@
             <p><strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}</p>
             <p><strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'}}</p>
             <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
-            <p><strong>Cancelado:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
-            <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
+            <p><strong>Cancelado:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}</p>
+            <p><strong>Saldo pendiente:</strong> ${{ (orderData.balance).toLocaleString('es-CO') }}
             </p>
             <div class="payment-progress">
               <div class="progress-bar">

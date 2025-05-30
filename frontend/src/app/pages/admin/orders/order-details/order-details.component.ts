@@ -222,7 +222,7 @@ export class OrderDetailsComponent implements OnInit {
     if (!this.orderData || this.orderData.price === 0) {
       return 0;
     }
-    return Math.round((this.orderData.balance / this.orderData.price) * 100);
+    return Math.round((this.orderData.price - this.orderData.balance)/this.orderData.price * 100);
   }
 
   onBack(): void {
