@@ -2,12 +2,12 @@
   @if (isLoading) {
   <div class="loading-container">
     <mat-spinner diameter="50"></mat-spinner>
-    <p>Cargando lista de órdenes...</p>
+    <p>Cargando lista de ordenes...</p>
   </div>
   } @else {
   <div class="order-list-header">
     <div class="header-title-and-button">
-      <h1>Listado de Órdenes</h1>
+      <h1>Listado de Ordenes</h1>
       <button mat-raised-button color="primary" (click)="onCreateOrder()">
         <mat-icon>add</mat-icon>
         Nueva Orden
@@ -16,7 +16,7 @@
 
     <div class="search-and-filter">
       <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Buscar órdenes</mat-label>
+        <mat-label>Buscar ordenes</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por cliente, ID, etc.">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
