@@ -35,7 +35,6 @@ export class PaymentTableComponent implements OnInit {
         // Initialization logic here if needed
     }
 
-
     payments = [
         { id: 1, customerName: 'Juan Pérez', orderId: 'ORD-1001', price: 150.75 },
         { id: 2, customerName: 'María García', orderId: 'ORD-1002', price: 89.99 },
