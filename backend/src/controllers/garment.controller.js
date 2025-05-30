@@ -7,11 +7,20 @@ const { Garment } = require("../models");
 const { logAudit } = require("../services/audit.service");
 
 exports.getAllGarments = async (req, res) => {
+  console.log("Req query:", req.query )
   try {
-    const garments = await Garment.findAll();
+    const whereClause = {};
+    if (req.query.order_id) {
+      whereClause.order_id = req.query.order_id;
+    }
+
+    const garments = await Garment.findAll({
+      where: whereClause
+    });
     res.json(garments);
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener prendas", error });
+    console.error("Error al obtener prendas:", error);
+    res.status(500).json({ message: "Error al obtener prendas", error: error.message });
   }
 };
 

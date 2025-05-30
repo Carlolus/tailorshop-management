@@ -1,0 +1,160 @@
+<div class="order-container">
+  @if (isLoading) {
+  <div class="loading-container">
+    <mat-icon class="loading-spinner">refresh</mat-icon>
+    <p>Cargando detalles de la orden...</p>
+  </div>
+  } @else {
+  <div class="order-viewer">
+    <!-- Header de la orden -->
+    <div class="order-header">
+      <div class="order-title">
+        <h1>Orden #{{ orderData.id }}</h1>
+        <mat-chip-set>
+          <mat-chip [class]="getStatusClass(orderData.status)">
+            <mat-icon>{{ getStatusIcon(orderData.status) }}</mat-icon>
+            {{ getStatusLabel(orderData.status) }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="order-dates">
+        <p><mat-icon>event</mat-icon> <strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}
+        </p>
+        <p><mat-icon>schedule</mat-icon> <strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'
+          }}</p>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="order-content">
+      <div class="summary-section">
+        <h3>Detalles de la orden</h3>
+
+        <div class="summary-grid">
+          <!-- Cliente -->
+          <div class="summary-card">
+            <div class="summary-header">
+              <h4>
+                <mat-icon>person</mat-icon> Cliente
+              </h4>
+              <button mat-icon-button color="primary" (click)="onEditClient()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <p><strong>Nombre:</strong> {{ orderData.client.name }}</p>
+            <p><strong>Email:</strong> {{ orderData.client.email }}</p>
+            <p><strong>Teléfono:</strong> {{ orderData.client.phone }}</p>
+            @if (orderData.client.address) {
+            <p><strong>Dirección:</strong> {{ orderData.client.address }}</p>
+            }
+          </div>
+
+          <!-- Información financiera -->
+          <div class="summary-card">
+            <div class="summary-header">
+              <h4>
+                <mat-icon>receipt_long</mat-icon> Información de orden
+              </h4>
+              <button mat-icon-button color="primary" (click)="onEditOrder()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <p><strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}</p>
+            <p><strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'}}</p>
+            <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
+            <p><strong>Cancelado:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
+            <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
+            </p>
+            <div class="payment-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="getPaymentPercentage()"></div>
+              </div>
+              <span class="progress-text">{{ getPaymentPercentage() }}% pagado</span>
+            </div>
+            
+
+          </div>
+
+          <!-- Prendas -->
+          @if (orderData.garments && orderData.garments.length > 0) {
+          <div class="summary-card garments-card">
+            <div class="summary-header">
+              <h4>
+                <h4><mat-icon>checkroom</mat-icon> Prendas ({{ orderData.garments.length }})</h4>
+              </h4>
+              <button mat-icon-button color="primary" (click)="onAddGarment()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            
+            <ul>
+              @for (garment of orderData.garments; track garment.id) {
+              <li>
+                <div class="garment-details-container">
+                  <div class="garment-info">
+                    <span><strong>Cantidad:</strong> {{ garment.quantity }}</span>
+                    <span class="garment-type-name">{{ garment.garment_type_name }}</span>
+                  </div>
+                  @if (garment.person_name != ''){
+                  <div class="garment-info">
+                    <span><strong>Para:</strong> {{ garment.person_name }}</span>
+                  </div>
+                  }
+                  <div class="garment-measures">
+                    <strong>Tela:</strong> {{ garment.fabric_name }}
+                  </div>
+
+                  <div class="garment-measures">
+                    <strong>Medidas:</strong> {{ garment.measures }}
+                  </div>
+                </div>
+
+                <div class="garment-actions"> <button mat-icon-button [matMenuTriggerFor]="garmentActionMenu"
+                    [attr.aria-label]="'Acciones para la prenda ' + garment.garment_type_name + ' de ' + garment.person_name">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #garmentActionMenu="matMenu">
+                    <button mat-menu-item (click)="onViewGarmentDetails(garment.id)">
+                      <mat-icon>visibility</mat-icon>
+                      <span>Ver detalles</span>
+                    </button>
+                    <button mat-menu-item (click)="onEditGarment(garment.id)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <button mat-menu-item (click)="confirmDelete(garment.id)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="order-actions">
+      <button mat-button (click)="onBack()" class = "btn-back">
+        <mat-icon>arrow_back</mat-icon>
+        Volver
+      </button>
+
+      @if (orderData.status !== 'entregado') {
+      <button mat-flat-button class = "btn-primary" (click)="confirmDeleteOrder(orderId)">
+        <mat-icon>delete</mat-icon>
+        Eliminar orden
+      </button>
+      }
+
+      <button mat-stroked-button class = "btn-print" (click)="onPrint()">
+        <mat-icon>print</mat-icon>
+        Imprimir
+      </button>
+    </div>
+  </div>
+  }

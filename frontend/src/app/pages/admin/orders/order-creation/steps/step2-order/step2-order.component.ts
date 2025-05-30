@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Order } from '../../../../../core/models/order.model';
+import { Order } from '../../../../../../core/models/order.model';
 
 type OrderDetails = Omit<Order, 'order_id' | 'createdAt' | 'updatedAt'>;
 

@@ -13,7 +13,7 @@ export class FabricService {
   constructor(
     private http: HttpClient,
     private httpHeaderService: HttpHeaderService
-  ) {}
+  ) { }
 
   getFabrics(): Observable<Fabric[]> {
     return this.http.get<Fabric[]>(this.apiUrl, { headers: this.httpHeaderService.getHeaders() });
@@ -33,6 +33,13 @@ export class FabricService {
 
   deleteFabric(id: number): Observable<void> {
     return this.http.delete<void>(
+      `${this.apiUrl}/${id}`,
+      { headers: this.httpHeaderService.getHeaders() }
+    );
+  }
+
+  getFabricById(id: number): Observable<Fabric> {
+    return this.http.get<Fabric>(
       `${this.apiUrl}/${id}`,
       { headers: this.httpHeaderService.getHeaders() }
     );

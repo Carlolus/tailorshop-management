@@ -12,17 +12,17 @@ import { Step3GarmentsComponent } from './steps/step3-garments/step3-garments.co
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog.component';
 
 // Models
-import { Customer } from '../../../core/models/customer.model';
-import { Order } from '../../../core/models/order.model';
-import { Garment } from '../../../core/models/garment.model';
-import { GarmentType } from '../../../core/models/garment-type.model';
+import { Customer } from '../../../../core/models/customer.model';
+import { Order } from '../../../../core/models/order.model';
+import { Garment } from '../../../../core/models/garment.model';
+import { GarmentType } from '../../../../core/models/garment-type.model';
 
 // Services
-import { CustomerService } from '../../../core/services/customers/customers.service';
-import { GarmentService } from '../../../core/services/garment/garment.service';
-import { OrderService } from '../../../core/services/orders/order.service';
-import { PaymentService } from '../../../core/services/payments/payment.service';
-import { GarmentTypeService } from '../../../core/services/garment-types/garment-types.service';
+import { CustomerService } from '../../../../core/services/customers/customers.service';
+import { GarmentService } from '../../../../core/services/garment/garment.service';
+import { OrderService } from '../../../../core/services/orders/order.service';
+import { PaymentService } from '../../../../core/services/payments/payment.service';
+import { GarmentTypeService } from '../../../../core/services/garment-types/garment-types.service';
 
 // Angular Material
 import { MatStepperModule } from '@angular/material/stepper';
@@ -150,7 +150,7 @@ export class OrderCreationComponent {
 
       this.pasoPrendasValido = true;
       this.prendasForm.patchValue({ prendasValidas: true });
-      //console.log('Datos de prendas válidos:', this.garmentsData);
+      console.log('Datos de prendas válidos:', this.garmentsData);
     } else {
       this.garmentsData = null;
       this.pasoPrendasValido = false;

@@ -81,6 +81,7 @@ services:
     volumes:
       - ./backend:/app             # Mounts the backend source code for development
       - /app/node_modules          # Mounts the node_modules directory
+      - ./backend/uploads:/app/src/uploads
     networks:
       - backend                    # Connects to the backend network
 
