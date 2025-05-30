@@ -1,66 +1,113 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { OrderService } from '../../../../core/services/orders/order.service';
-import { Order } from '../../../../core/models/order.model';
-import { CustomerService } from '../../../../core/services/customers/customers.service';
-import { Customer } from '../../../../core/models/customer.model';
-
-// Material
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+import { Order } from '../../../../core/models/order.model';
+
 
 @Component({
   selector: 'app-order-list',
-  standalone: true,
+  templateUrl: './order-list.component.html',
+  styleUrls: ['./order-list.component.scss'],
   imports: [
     CommonModule,
     MatTableModule,
+    MatProgressSpinnerModule, // Este es el módulo para mat-spinner
+    MatIconModule,
+    MatMenuModule,
     MatButtonModule,
-    RouterModule,
-  ],
-  templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.scss']
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule
+  ]
 })
 export class OrderListComponent implements OnInit {
-  orders: Order[] = [];
-  displayedColumns: string[] = ['order_id', 'customer', 'delivery_date', 'price', 'status', 'actions'];
-  customers: Record<number, Customer> = {};
+  displayedColumns: string[] = ['id', 'client', 'status', 'createdDate', 'deliveryDate', 'price', 'actions'];
+  dataSource = new MatTableDataSource();
+  isLoading = true;
 
-  constructor(
-    private orderService: OrderService,
-    private customerService: CustomerService
-  ) {}
+  // Datos de ejemplo - reemplaza con tu servicio real
+  sampleOrders = [
+    {
+      id: 1001,
+      client: { name: 'Juan Pérez', email: 'juan@example.com', phone: '3001234567' },
+      status: 'en_progreso',
+      created_date: new Date('2023-05-15'),
+      delivery_date: new Date('2023-06-10'),
+      price: 250000,
+      balance: 150000
+    },
+    {
+      id: 1002,
+      client: { name: 'María Gómez', email: 'maria@example.com', phone: '3102345678' },
+      status: 'pendiente',
+      created_date: new Date('2023-05-18'),
+      delivery_date: new Date('2023-06-15'),
+      price: 180000,
+      balance: 0
+    },
+    {
+      id: 1003,
+      client: { name: 'Carlos Rodríguez', email: 'carlos@example.com', phone: '3203456789' },
+      status: 'entregado',
+      created_date: new Date('2023-04-20'),
+      delivery_date: new Date('2023-05-25'),
+      price: 320000,
+      balance: 320000
+    }
+  ];
+
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.loadOrders();
+    // Simular carga de datos
+    setTimeout(() => {
+      this.dataSource.data = this.sampleOrders;
+      this.isLoading = false;
+    }, 1000);
   }
 
-  loadOrders(): void {
-    this.orderService.getOrders().subscribe({
-      next: (orders) => {
-        this.orders = orders;
-        this.loadCustomersForOrders(orders);
-      },
-      error: (err) => console.error('Error loading orders:', err)
-    });
+  getStatusLabel(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'pendiente': 'Pendiente',
+      'en_progreso': 'En progreso',
+      'terminado': 'Terminado',
+      'entregado': 'Entregado',
+      'cancelado': 'Cancelado'
+    };
+    return statusMap[status] || status;
   }
 
-  loadCustomersForOrders(orders: Order[]) {
-    const uniqueCustomerIds = [...new Set(orders.map(o => o.customer_id))];
-    uniqueCustomerIds.forEach(id => {
-      this.customerService.getCustomerById(id).subscribe({
-        next: (customer) => {
-          this.customers[id] = customer;
-        },
-        error: () => {
-          this.customers[id] = { name: 'Desconocido', phone: '', address: '', mail: '', customer_id: id };
-        }
-      });
-    });
+  getStatusClass(status: string): string {
+    return `status-${status.replace(' ', '_')}`;
   }
 
-  getCustomerName(id: number): string {
-    return this.customers[id]?.name || 'Cargando...';
+  onViewOrder(orderId: number): void {
+    console.log('Ver orden:', orderId);
+    // Aquí puedes implementar la navegación o diálogo para ver la orden
+  }
+
+  onEditOrder(orderId: number): void {
+    console.log('Editar orden:', orderId);
+    // Implementar lógica de edición
+  }
+
+  onDeleteOrder(orderId: number): void {
+    console.log('Eliminar orden:', orderId);
+    // Implementar lógica de eliminación con confirmación
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
