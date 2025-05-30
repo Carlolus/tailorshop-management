@@ -184,7 +184,7 @@ export class EditOrderDialogComponent implements OnInit {
         
         this.orderForm.get('price')?.setValue(numericValue, { emitEvent: false });
         this.priceToShow = this.formatNumber(numericValue);
-        event.target.value = this.priceToShow; // Actualizar el valor visual del input
+        event.target.value = this.priceToShow;
     }
 
     formatNumber(num: number): string {

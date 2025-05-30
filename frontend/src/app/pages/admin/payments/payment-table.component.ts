@@ -8,66 +8,91 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { PaymentService } from '../../../core/services/payments/payment.service';
+
+interface LocalPayment {
+  payment_id: number;
+  amount: number;
+  order_id: number;
+  payment_date: string;
+  paymentOrder?: {
+    order_id: number;
+    customer_id: number;
+    orderCustomer?: {
+      customer_id: number;
+      name: string;
+    };
+  };
+}
+
+interface PaymentTableItem {
+  id: number;
+  customerName: string;
+  orderId: number;
+  price: number;
+  raw: LocalPayment;
+}
 
 @Component({
-    selector: 'app-payment-table',
-    standalone: true,
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule
-    ],
-    templateUrl: './payment-table.component.html',
-    styleUrls: ['./payment-table.component.scss']
+  selector: 'app-payment-table',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
+  ],
+  templateUrl: './payment-table.component.html',
+  styleUrls: ['./payment-table.component.scss']
 })
-
 export class PaymentTableComponent implements OnInit {
-    displayedColumns: string[] = ['id', 'customerName', 'orderId', 'price', 'actions'];
-    searchText: string = '';
+  displayedColumns: string[] = ['id', 'orderId',  'customerName', 'date', 'price', 'actions'];
+  searchText: string = '';
+  payments2: PaymentTableItem[] = [];
 
-    ngOnInit(): void {
-        // Initialization logic here if needed
-    }
+  constructor(private paymentService: PaymentService) {}
 
-    payments = [
-        { id: 1, customerName: 'Juan Pérez', orderId: 'ORD-1001', price: 150.75 },
-        { id: 2, customerName: 'María García', orderId: 'ORD-1002', price: 89.99 },
-        { id: 3, customerName: 'Carlos López', orderId: 'ORD-1003', price: 225.50 },
-        { id: 4, customerName: 'Ana Martínez', orderId: 'ORD-1004', price: 45.25 },
-        { id: 5, customerName: 'Luís Rodríguez', orderId: 'ORD-1005', price: 199.99 },
-    ];
+  async ngOnInit(): Promise<void> {
+    const rawPayments = await firstValueFrom(this.paymentService.getPayments());
+    this.payments2 = rawPayments.map((p: LocalPayment) => ({
+      id: p.payment_id,
+      customerName: p.paymentOrder?.orderCustomer?.name || 'N/A',
+      orderId: p.order_id,
+      payment_date: p.payment_date,
+      price: p.amount,
+      raw: p
+    }));
+  }
 
-    get filteredPayments(): any[] {
-        if (!this.searchText) return this.payments;
+  get filteredPayments(): PaymentTableItem[] {
+    if (!this.searchText) return this.payments2;
 
-        const searchLower = this.searchText.toLowerCase();
-        return this.payments.filter(payment =>
-            payment.id.toString().includes(searchLower) ||
-            payment.customerName.toLowerCase().includes(searchLower) ||
-            payment.orderId.toLowerCase().includes(searchLower)
-        );
-    }
+    const searchLower = this.searchText.toLowerCase();
+    return this.payments2.filter(payment =>
+      payment.id.toString().includes(searchLower) ||
+      payment.customerName.toLowerCase().includes(searchLower) ||
+      payment.orderId.toString().includes(searchLower)
+    );
+  }
 
-    viewPayment(payment: any): void {
-        console.log('Ver pago:', payment);
-        // Lógica para ver el pago
-    }
+  viewPayment(payment: PaymentTableItem): void {
+    console.log('Ver pago:', payment);
+    // Lógica para ver el pago
+  }
 
-    editPayment(payment: any): void {
-        console.log('Editar pago:', payment);
-        // Lógica para editar el pago
-    }
+  editPayment(payment: PaymentTableItem): void {
+    console.log('Editar pago:', payment);
+    // Lógica para editar el pago
+  }
 
-    deletePayment(payment: any): void {
-        console.log('Eliminar pago:', payment);
-        // Lógica para eliminar el pago
-    }
-
-
+  deletePayment(payment: PaymentTableItem): void {
+    console.log('Eliminar pago:', payment);
+    // Lógica para eliminar el pago
+  }
 }

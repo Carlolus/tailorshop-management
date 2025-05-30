@@ -2,7 +2,7 @@
   Title: payment.controller.js
   Description: Controller for managing CRUD operations for payments in the database.
 */
-const { Payment, Order } = require("../models");
+const { Payment, Order, Customer } = require("../models");
 const { logAudit } = require("../services/audit.service");
 const sequelize = require("../config/database");
 
@@ -12,9 +12,21 @@ exports.getAllPayments = async (req, res) => {
     if (req.query.order_id) {
       whereClause.order_id = req.query.order_id;
     }
+
     const payments = await Payment.findAll({
-      where: whereClause
+      where: whereClause,
+      include: {
+        model: Order,
+        as: "paymentOrder",
+        include: {
+          model: Customer,
+          as: "orderCustomer",
+          attributes: ["customer_id", "name"] 
+        }
+      },
+      order: [["payment_date", "DESC"]]
     });
+
     res.json(payments);
   } catch (error) {
     console.error("Error al obtener los pagos:", error);
