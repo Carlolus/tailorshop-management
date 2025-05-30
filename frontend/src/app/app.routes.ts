@@ -41,7 +41,7 @@ export const routes: Routes = [
               { path: ':id', component: OrderDetailsComponent },
             ]
           },
-          { path: 'garments',
+          { path: 'garments', component: OrderListComponent,
             children: [
               { path: ':id', component: GarmentDetailsComponent },
             ]
