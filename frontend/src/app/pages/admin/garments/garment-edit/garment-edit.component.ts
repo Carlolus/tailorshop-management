@@ -10,13 +10,16 @@ import { Garment } from '../../../../core/models/garment.model';
 import { GarmentService } from '../../../../core/services/garment/garment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { DialogService } from '../../../../core/services/dialog.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-garment-edit',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule
   ],
   templateUrl: './garment-edit.component.html',
   styleUrls: ['./garment-edit.component.scss']
@@ -38,7 +41,8 @@ export class GarmentEditComponent implements OnInit {
     private garmentReferenceUploadService: GarmentReferenceUploadService,
     private garmentService: GarmentService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: DialogService
   ) {
     this.garmentForm = this.fb.group({
       garment_type_id: ['', Validators.required],
@@ -122,7 +126,16 @@ export class GarmentEditComponent implements OnInit {
     this.garmentForm.get('img')?.setValue('');
   }
 
-  onSave() {
+  confirmUpdate(): void {
+    this.dialogService.confirm(
+      'Actualizar preda',
+      '¿Está seguro de actualizar información?'
+    ).then(confirmed => {
+      if (confirmed) this.save();
+    });
+  }
+
+  save() {
     if (this.garmentForm.valid) {
       this.isLoading = true;
       this.errorMessage = null;

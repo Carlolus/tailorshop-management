@@ -41,7 +41,7 @@
       border-radius: 12px;
       padding: 25px;
       margin-bottom: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       transition: border-color 0.3s ease;
 
       &:hover {
@@ -175,8 +175,8 @@
       margin-top: 20px;
 
       .btn-cancel {
-        background: #e74c3c;
-        color: white;
+        background: #b9b6b5;
+        color: rgb(3, 3, 3);
         border: none;
         padding: 12px 25px;
         border-radius: 8px;
@@ -185,7 +185,7 @@
         font-weight: 600;
 
         &:hover:not(:disabled) {
-          background: #c0392b;
+          background: #6e6c6c;
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
@@ -193,6 +193,21 @@
         &:disabled {
           background: #bdc3c7;
           cursor: not-allowed;
+        }
+      }
+
+      .btn-continue {
+        background-color: #252525 !important;
+        color: white !important;
+
+        &:hover {
+          background-color: #494949 !important;
+        }
+
+        &:disabled {
+          background-color: #374151 !important;
+          color: #d1d5db !important;
+          cursor: not-allowed !important;
         }
       }
 

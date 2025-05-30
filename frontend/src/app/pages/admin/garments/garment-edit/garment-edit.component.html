@@ -135,9 +135,10 @@
               [disabled]="isLoading">
         Cancelar
       </button>
-      <button type="button" 
-              class="btn-save"
-              (click)="onSave()"
+      <button mat-flat-button type="button"
+              color="primary" 
+              class="btn-continue"
+              (click)="confirmUpdate()"
               [disabled]="garmentForm.invalid || isLoading">
         @if (isLoading) {
           <i class="fas fa-spinner fa-spin"></i>
