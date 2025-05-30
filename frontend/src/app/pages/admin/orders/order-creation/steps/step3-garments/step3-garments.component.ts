@@ -5,6 +5,7 @@ import { FabricService } from '../../../../../../core/services/fabrics/fabric.se
 import { Fabric } from '../../../../../../core/models/fabric.model';
 import { GarmentType } from '../../../../../../core/models/garment-type.model';
 import { GarmentTypeService } from '../../../../../../core/services/garment-types/garment-types.service';
+import { GarmentReferenceUploadService } from '../../../../../../core/services/uploads/garment-reference-upload.service';
 
 export interface Garment {
     garment_id?: number;
@@ -22,7 +23,7 @@ export interface Garment {
     selector: 'app-step3-garments',
     standalone: true,
     imports: [
-        CommonModule, 
+        CommonModule,
         ReactiveFormsModule
     ],
     templateUrl: './step3-garments.component.html',
@@ -39,6 +40,7 @@ export class Step3GarmentsComponent implements OnInit {
         private fb: FormBuilder,
         private fabricService: FabricService,
         private garmentTypeService: GarmentTypeService,
+        private garmentReferenceUploadService : GarmentReferenceUploadService
     ) {
         this.garmentsForm = this.fb.group({
             garments: this.fb.array([])
@@ -112,11 +114,16 @@ export class Step3GarmentsComponent implements OnInit {
     onImageSelected(event: any, index: number) {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-                this.garmentsArray.at(index).get('img')?.setValue(e.target.result);
-            };
-            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append('image', file);
+            this.garmentReferenceUploadService.uploadImage(formData).subscribe({
+                next: (res) => {
+                    this.garmentsArray.at(index).get('img')?.setValue(res.url);
+                },
+                error: (err) => {
+                    console.error('Error subiendo imagen:', err);
+                }
+            });
         }
     }
 
@@ -139,7 +146,7 @@ export class Step3GarmentsComponent implements OnInit {
 
             formValue.garments.forEach((garmentData: any) => {
                 const garment: Garment = {
-                    
+
                     order_id: 0,   // Placeholder, adjust if needed for actual ID
                     garment_type_id: parseInt(garmentData.garment_type_id),
                     fabric_id: parseInt(garmentData.fabric_id),
@@ -173,7 +180,6 @@ export class Step3GarmentsComponent implements OnInit {
         return this.garmentsForm.valid && this.garmentsArray.length > 0;
     }
 
-    // Returns the garment data if the form is valid, otherwise null
     getGarmentsData(): Garment[] | null {
         if (!this.isFormValid()) {
             return null;
@@ -196,7 +202,6 @@ export class Step3GarmentsComponent implements OnInit {
             };
             garments.push(garment);
         });
-
         return garments; // Return the array of Garment objects
     }
 }

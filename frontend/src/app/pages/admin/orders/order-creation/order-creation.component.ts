@@ -150,7 +150,7 @@ export class OrderCreationComponent {
 
       this.pasoPrendasValido = true;
       this.prendasForm.patchValue({ prendasValidas: true });
-      //console.log('Datos de prendas válidos:', this.garmentsData);
+      console.log('Datos de prendas válidos:', this.garmentsData);
     } else {
       this.garmentsData = null;
       this.pasoPrendasValido = false;
