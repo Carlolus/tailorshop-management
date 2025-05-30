@@ -531,22 +531,22 @@
 
 .btn-print {
   // Botón para imprimir la orden general
-  background-color: #0dcaf0 !important;
+  background-color: #059669 !important;
   color: white !important;
 
   &:hover {
-    background-color: #0b99b8 !important;
+    background-color: #059669 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   }
 }
 
 .btn-back {
   // Renombrado desde btn-continue para mayor claridad
-  background-color: #343a40 !important;
+  background-color: #313131 !important;
   color: white !important;
 
   &:hover {
-    background-color: #23272b !important;
+    background-color: #505050 !important;
   }
 }
 

@@ -139,19 +139,19 @@
 
     <!-- Acciones -->
     <div class="order-actions">
-      <button mat-button (click)="onBack()">
+      <button mat-button (click)="onBack()" class = "btn-back">
         <mat-icon>arrow_back</mat-icon>
         Volver
       </button>
 
       @if (orderData.status !== 'entregado') {
-      <button mat-flat-button color="warning" class="btn-warning" (click)="onEdit()">
+      <button mat-flat-button class = "btn-primary" (click)="onEdit()">
         <mat-icon>delete</mat-icon>
         Eliminar orden
       </button>
       }
 
-      <button mat-stroked-button (click)="onPrint()">
+      <button mat-stroked-button class = "btn-print" (click)="onPrint()">
         <mat-icon>print</mat-icon>
         Imprimir
       </button>
