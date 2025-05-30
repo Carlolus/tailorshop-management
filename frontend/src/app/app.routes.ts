@@ -15,6 +15,7 @@ import { SessionExpiredComponent } from './pages/session-expired/session-expired
 import { OrderCreationComponent } from './pages/admin/orders/order-creation/order-creation.component';
 import { OrderListComponent } from './pages/admin/orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './pages/admin/orders/order-details/order-details.component';
+import { GarmentDetailsComponent } from './pages/admin/garments/garment-details.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,11 @@ export const routes: Routes = [
               { path: '', component: OrderListComponent },
               { path: 'new', component: OrderCreationComponent},
               { path: ':id', component: OrderDetailsComponent },
+            ]
+          },
+          { path: 'garments',
+            children: [
+              { path: ':id', component: GarmentDetailsComponent },
             ]
           }
         ]
