@@ -44,7 +44,7 @@ export class CatalogComponent {
   private filterItems(term: string): void {
     const normalized = term.toLowerCase();
     this.filteredItems = this.catalogItems.filter(item =>
-      (item.name?.toLowerCase().includes(normalized) || '') ||
+      //(item.name?.toLowerCase().includes(normalized) || '') ||
       (item.description?.toLowerCase().includes(normalized) || '')
     );
   }

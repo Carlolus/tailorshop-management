@@ -76,12 +76,8 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
     if (!this.searchTerm.trim()) return this.catalogs;
     const term = this.searchTerm.toLowerCase();
     return this.catalogs.filter(catalog => {
-      // Buscar por ID
       const matchesId = catalog.item_id?.toString().includes(term);
-      
-      // Buscar por descripción
       const matchesDescription = catalog.description?.toLowerCase().includes(term);
-            
       return matchesId || matchesDescription 
     });
   }
