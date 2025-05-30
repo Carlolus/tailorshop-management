@@ -232,3 +232,16 @@ app-catalog-form {
         }
     }
 }
+
+.fabric-thumbnail {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.no-fabric {
+  color: #999;
+  font-style: italic;
+}
