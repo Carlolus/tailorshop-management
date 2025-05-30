@@ -34,7 +34,9 @@
       <!-- Client Column -->
       <ng-container matColumnDef="client">
         <th mat-header-cell *matHeaderCellDef>Cliente</th>
-        <td mat-cell *matCellDef="let order">{{getCustomerNameById(order.order_id)}}</td>
+        <td mat-cell *matCellDef="let order">
+          {{ getCustomerNameById(order.customer_id) }}
+        </td>
       </ng-container>
 
       <!-- Status Column -->

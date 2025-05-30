@@ -41,6 +41,7 @@ import { firstValueFrom } from 'rxjs';
   ]
 })
 export class OrderListComponent implements OnInit {
+  customerNameMap: Map<number, string> = new Map();
 
   orders: Order[] = [];
   customers: Customer[] = [];
@@ -81,13 +82,17 @@ export class OrderListComponent implements OnInit {
     return statusMap[status] || status;
   }
 
-  getCustomerNameById(id: number): string {
-    const customer = this.customers.find(c => c.customer_id === id);
+  getCustomerNameById(customer_id: number): string {
+    console.log('Buscando cliente:', customer_id);
+    const customer = this.customers.find(c => c.customer_id == customer_id);
     return customer ? `${customer.name}` : 'Cliente no encontrado';
   }
 
   async loadData() {
-    this.customers = await firstValueFrom(this.customerService.getCustomers());
+    const customers = await firstValueFrom(this.customerService.getCustomers());
+    this.customers = customers;
+    this.customerNameMap = new Map(customers.map(c => [c.customer_id, c.name]));
+
     this.orders = await firstValueFrom(this.orderService.getOrders());
     this.dataSource.data = this.orders;
   }
@@ -101,7 +106,7 @@ export class OrderListComponent implements OnInit {
   }
 
   onViewOrder(order_id: number): void {
-    this.router.navigate(['admin/orders/',order_id]);
+    this.router.navigate(['admin/orders/', order_id]);
   }
 
   getPrice(order_id: number): number {
