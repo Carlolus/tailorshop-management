@@ -33,7 +33,14 @@
         <div class="summary-grid">
           <!-- Cliente -->
           <div class="summary-card">
-            <h4><mat-icon>person</mat-icon> Cliente</h4>
+            <div class="summary-header">
+              <h4>
+                <mat-icon>person</mat-icon> Cliente
+              </h4>
+              <button mat-icon-button color="primary" (click)="onEditClient()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
             <p><strong>Nombre:</strong> {{ orderData.client.name }}</p>
             <p><strong>Email:</strong> {{ orderData.client.email }}</p>
             <p><strong>Teléfono:</strong> {{ orderData.client.phone }}</p>
@@ -44,7 +51,16 @@
 
           <!-- Información financiera -->
           <div class="summary-card">
-            <h4><mat-icon>receipt_long</mat-icon> Información de pago</h4>
+            <div class="summary-header">
+              <h4>
+                <mat-icon>receipt_long</mat-icon> Información de órden
+              </h4>
+              <button mat-icon-button color="primary" (click)="onEditOrder()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <p><strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}</p>
+            <p><strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'}}</p>
             <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
             <p><strong>Cancelado:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
             <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
@@ -55,12 +71,22 @@
               </div>
               <span class="progress-text">{{ getPaymentPercentage() }}% pagado</span>
             </div>
+            
+
           </div>
 
           <!-- Prendas -->
           @if (orderData.garments && orderData.garments.length > 0) {
           <div class="summary-card garments-card">
-            <h4><mat-icon>checkroom</mat-icon> Prendas ({{ orderData.garments.length }})</h4>
+            <div class="summary-header">
+              <h4>
+                <h4><mat-icon>checkroom</mat-icon> Prendas ({{ orderData.garments.length }})</h4>
+              </h4>
+              <button mat-icon-button color="primary" (click)="onAddGarment()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            
             <ul>
               @for (garment of orderData.garments; track garment.id) {
               <li>
@@ -143,11 +169,6 @@
       <button mat-stroked-button (click)="onPrint()">
         <mat-icon>print</mat-icon>
         Imprimir
-      </button>
-
-      <button mat-stroked-button (click)="onAddGarment()">
-        <mat-icon>print</mat-icon>
-        Añadir prenda
       </button>
     </div>
   </div>

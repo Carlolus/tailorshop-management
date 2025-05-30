@@ -6,7 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatDialog } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import { EditCustomerDialogComponent } from './edit-client/edit-customer-dialog.component';
+import { EditOrderDialogComponent } from './edit-order/edit-order-dialog.component';
 // Models
 import { Order } from '../../../../core/models/order.model';
 import { Customer } from '../../../../core/models/customer.model';
@@ -61,7 +64,8 @@ export interface OrderData {
     MatIconModule,
     MatButtonModule,
     MatChipsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatNativeDateModule
   ],
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
@@ -88,12 +92,12 @@ export class OrderDetailsComponent implements OnInit {
     private garmentService: GarmentService,
     private garmentTypeService: GarmentTypeService,
     private paymentService: PaymentService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.orderId = +(this.route.snapshot.paramMap.get('id') || '');
-    console.log("Receipt ID: ", this.orderId)
     this.loadOrderData();
   }
 
@@ -248,6 +252,53 @@ export class OrderDetailsComponent implements OnInit {
   onAddGarment(): void {
     console.log('Editar prenda ID:', this.order?.order_id || '');
     this.router.navigate(['/admin/garments/new', this.order?.order_id]);
+  }
+
+  onEditClient(): void {
+    const dialogRef = this.dialog.open(EditCustomerDialogComponent, {
+      width: '500px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const orderToUpdate = {
+          order_id: this.orderData.id,
+          customer_id: result.customer_id,
+          order_date: this.orderData.created_date,
+          delivery_date: this.orderData.delivery_date,
+          status: this.orderData.status,
+          price: this.orderData.price,
+          balance: this.orderData.balance
+        }
+        this.orderService.updateOrder(orderToUpdate).subscribe({
+          next: () => {
+            this.orderData.client = result;
+            this.loadOrderData();
+          },
+          error: err => {
+            console.error('Error actualizando cliente:', err);
+          }
+        });
+      }
+    });
+  }
+
+  onEditOrder(): void {
+    const dialogRef = this.dialog.open(EditOrderDialogComponent, {
+      width: '600px',
+      data: { order_id: this.orderData.id },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.orderService.updateOrder(result).subscribe({
+          next: () => {
+            this.loadOrderData();
+          },
+          error: err => {
+            console.error('Error actualizando order:', err);
+          }
+        });
+      }
+    });
   }
 
 
