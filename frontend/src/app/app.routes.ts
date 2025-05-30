@@ -17,6 +17,7 @@ import { OrderListComponent } from './pages/admin/orders/order-list/order-list.c
 import { OrderDetailsComponent } from './pages/admin/orders/order-details/order-details.component';
 import { GarmentDetailsComponent } from './pages/admin/garments/garment-details.component';
 import { GarmentEditComponent } from './pages/admin/garments/garment-edit/garment-edit.component';
+import { PaymentTableComponent } from './pages/admin/payments/payment-table.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,11 @@ export const routes: Routes = [
           { path: 'customers', component: CustomersComponent },
           { path: 'logs', component: AuditLogComponent },
           { path: 'catalog', component: CatalogAdminComponent },
+          { path: 'finance', component: PaymentTableComponent,
+            children:[
+              { path: 'payments', component: PaymentTableComponent}
+            ]
+          },
           {
             path: 'orders',
             children: [
