@@ -1,0 +1,54 @@
+.dialog-container {
+  padding: 12px 0;
+  background-color: #f3f3f3;
+  color: #000000;
+}
+
+mat-form-field.full-width {
+  width: 100%;
+}
+
+.client-option {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.client-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.client-details {
+  font-size: 13px;
+  color: #1b1b1b;
+}
+
+.selected-client-info {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #f3f3f3;
+}
+
+.client-card p {
+  margin: 4px 0;
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+}
+
+button[mat-button] {
+  color: #181818;
+}
+
+button[mat-raised-button] {
+  background-color: #252525;
+  color: white;
+}
+
+button[mat-raised-button][disabled] {
+  background-color: #555;
+  color: #aaa;
+}
