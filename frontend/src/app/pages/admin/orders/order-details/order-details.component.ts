@@ -229,7 +229,7 @@ export class OrderDetailsComponent implements OnInit {
     this.router.navigate(['/orders']);
   }
 
-  onEdit(): void {
+  onDelete(): void {
     this.router.navigate(['/orders', this.orderId, 'edit']);
   }
 
@@ -301,6 +301,38 @@ export class OrderDetailsComponent implements OnInit {
     });
   }
 
+  confirmDeleteOrder(order_id: number) {
+    this.dialogService.confirm(
+      'Eliminar',
+      '¿Está seguro de eliminar esta orden?'
+    ).then(confirmed => {
+      if (confirmed) this.deleteOrder(order_id);
+    });
+  }
+
+  deleteOrder(order_id: number): void {
+    console.log('Intentando eliminar orden ID:', order_id); // Cambiado a "Intentando eliminar" para más claridad en el log
+    this.orderService.deleteOrder(order_id).subscribe({
+      next: () => {
+        this.dialogService.notify(
+          'Eliminación Exitosa', // Título
+          `La orden No. ${order_id} ha sido eliminada correctamente.`, // Mensaje
+          'success' // Tipo de notificación
+        );
+        // Aquí iría tu navegación, por ejemplo:
+        this.router.navigate(['/admin/orders']); 
+      },
+      error: (err) => {
+        console.error(`Error al eliminar la orden No. ${order_id}:`, err); // Es buena práctica loguear el error completo
+        this.dialogService.notify(
+          'Error al Eliminar', // Título
+          `No se pudo eliminar la orden No. ${order_id}. Debido a las referencias existentes.`, // Mensaje
+          'error' // Tipo de notificación
+        );
+      }
+    });
+  }
+
 
   confirmDelete(garmentId: string) {
     this.dialogService.confirm(
@@ -321,4 +353,6 @@ export class OrderDetailsComponent implements OnInit {
       error: (err) => console.error('Error al eliminar la prenda', err)
     });
   }
+
+
 }

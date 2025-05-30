@@ -145,7 +145,7 @@
       </button>
 
       @if (orderData.status !== 'entregado') {
-      <button mat-flat-button class = "btn-primary" (click)="onEdit()">
+      <button mat-flat-button class = "btn-primary" (click)="confirmDeleteOrder(orderId)">
         <mat-icon>delete</mat-icon>
         Eliminar orden
       </button>
