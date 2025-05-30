@@ -16,6 +16,7 @@ import { OrderCreationComponent } from './pages/admin/orders/order-creation/orde
 import { OrderListComponent } from './pages/admin/orders/order-list/order-list.component';
 import { OrderDetailsComponent } from './pages/admin/orders/order-details/order-details.component';
 import { GarmentDetailsComponent } from './pages/admin/garments/garment-details.component';
+import { GarmentEditComponent } from './pages/admin/garments/garment-edit/garment-edit.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,11 @@ export const routes: Routes = [
           { path: 'garments',
             children: [
               { path: ':id', component: GarmentDetailsComponent },
+              { path: 'edit', 
+                children: [
+                  { path: ':id', component: GarmentEditComponent}
+                ]
+              },
             ]
           }
         ]

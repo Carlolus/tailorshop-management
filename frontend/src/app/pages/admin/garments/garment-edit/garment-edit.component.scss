@@ -1,0 +1,254 @@
+.garments-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-weight: 500;
+
+    &-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  }
+
+  .garments-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .garments-description {
+      color: #7f8c8d;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+  .garments-form {
+    .garment-card {
+      background: #fff;
+      border: 2px solid #e1e8ed;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: border-color 0.3s ease;
+
+      &:hover {
+        border-color: #3498db;
+      }
+
+      .garment-form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+
+        .form-group-full {
+          grid-column: 1 / -1;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+
+          label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+          }
+
+          .form-control {
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fff;
+
+            &:focus {
+              outline: none;
+              border-color: #3498db;
+              box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            }
+
+            &.error {
+              border-color: #e74c3c;
+              box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+            }
+
+            &::placeholder {
+              color: #bdc3c7;
+            }
+          }
+
+          .file-input {
+            padding: 8px;
+            cursor: pointer;
+
+            &::-webkit-file-upload-button {
+              background: #3498db;
+              color: white;
+              border: none;
+              padding: 8px 15px;
+              border-radius: 4px;
+              cursor: pointer;
+              margin-right: 10px;
+            }
+          }
+
+          .measurements-textarea {
+            resize: vertical;
+            min-height: 100px;
+          }
+
+          .measurements-help {
+            margin-top: 5px;
+
+            small {
+              color: #7f8c8d;
+              font-style: italic;
+            }
+          }
+
+          .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 500;
+          }
+
+          .image-preview {
+            margin-top: 10px;
+            position: relative;
+            display: inline-block;
+
+            .preview-image {
+              max-width: 200px;
+              max-height: 200px;
+              border-radius: 8px;
+              border: 2px solid #e1e8ed;
+              object-fit: cover;
+            }
+
+            .btn-remove-image {
+              position: absolute;
+              top: -5px;
+              right: -5px;
+              background: #e74c3c;
+              color: white;
+              border: none;
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 12px;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background: #c0392b;
+                transform: scale(1.1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 20px;
+
+      .btn-cancel {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+
+        &:hover:not(:disabled) {
+          background: #c0392b;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        &:disabled {
+          background: #bdc3c7;
+          cursor: not-allowed;
+        }
+      }
+
+      .btn-save {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover:not(:disabled) {
+          background: #229954;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        &:disabled {
+          background: #bdc3c7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .garments-container {
+    padding: 15px;
+
+    .garment-card {
+      .garment-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-actions {
+      justify-content: center;
+      flex-wrap: wrap;
+
+      button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .garment-card {
+    padding: 20px 15px;
+  }
+}

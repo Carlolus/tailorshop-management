@@ -96,6 +96,10 @@ export class OrderListComponent implements OnInit {
     return `status-${status.replace(' ', '_')}`;
   }
 
+  onCreateOrder(): void {
+    this.router.navigate(['admin/orders/new']);
+  }
+
   onViewOrder(order_id: number): void {
     this.router.navigate(['admin/orders/',order_id]);
   }

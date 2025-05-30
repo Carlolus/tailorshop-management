@@ -1,0 +1,150 @@
+<div class="garments-container">
+  <div class="garments-header">
+    <h3>Editar Prenda</h3>
+    <p class="garments-description">Modifica los detalles de esta prenda</p>
+  </div>
+
+  @if (errorMessage) {
+    <div class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form [formGroup]="garmentForm" class="garments-form">
+    <div class="garment-card">
+      <div class="garment-form-grid">
+        <!-- Tipo de Prenda -->
+        <div class="form-group">
+          <label for="garment_type_id">Tipo de Prenda *</label>
+          <select formControlName="garment_type_id" 
+                  id="garment_type_id"
+                  class="form-control"
+                  [class.error]="garmentForm.get('garment_type_id')?.invalid && garmentForm.get('garment_type_id')?.touched">
+            <option value="">Seleccionar tipo</option>
+            <option *ngFor="let type of garmentTypes" 
+                    [value]="type.garment_type_id"
+                    [selected]="type.garment_type_id === garmentForm.value.garment_type_id">
+              {{ type.name }}
+            </option>
+          </select>
+          <div class="error-message" 
+               *ngIf="garmentForm.get('garment_type_id')?.invalid && garmentForm.get('garment_type_id')?.touched">
+            El tipo de prenda es requerido
+          </div>
+        </div>
+
+        <!-- Tela -->
+        <div class="form-group">
+          <label for="fabric_id">Tela *</label>
+          <select formControlName="fabric_id" 
+                  id="fabric_id"
+                  class="form-control"
+                  [class.error]="garmentForm.get('fabric_id')?.invalid && garmentForm.get('fabric_id')?.touched">
+            <option value="">Seleccionar tela</option>
+            <option *ngFor="let fabric of fabrics" 
+                    [value]="fabric.fabric_id"
+                    [selected]="fabric.fabric_id === garmentForm.value.fabric_id">
+              {{ fabric.fabric_name }}
+            </option>
+          </select>
+          <div class="error-message" 
+               *ngIf="garmentForm.get('fabric_id')?.invalid && garmentForm.get('fabric_id')?.touched">
+            La tela es requerida
+          </div>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="form-group">
+          <label for="quantity">Cantidad *</label>
+          <input type="number" 
+                 formControlName="quantity"
+                 id="quantity"
+                 class="form-control"
+                 [class.error]="garmentForm.get('quantity')?.invalid && garmentForm.get('quantity')?.touched"
+                 min="1"
+                 placeholder="Ej: 2">
+          <div class="error-message" 
+               *ngIf="garmentForm.get('quantity')?.invalid && garmentForm.get('quantity')?.touched">
+            La cantidad es requerida y debe ser mayor a 0
+          </div>
+        </div>
+
+        <!-- Persona -->
+        <div class="form-group">
+          <label for="person_name">Usuario de la prenda</label>
+          <input type="text" 
+                 formControlName="person_name"
+                 id="person_name"
+                 class="form-control"
+                 placeholder="Nombre completo">
+        </div>
+
+        <!-- Detalles -->
+        <div class="form-group form-group-full">
+          <label for="details">Detalles Adicionales</label>
+          <textarea formControlName="details"
+                    id="details"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Detalles adicionales, especificaciones especiales, etc."></textarea>
+        </div>
+
+        <!-- Medidas -->
+        <div class="form-group form-group-full">
+          <label for="measures">Medidas *</label>
+          <textarea formControlName="measures" 
+                    id="measures" 
+                    class="form-control measurements-textarea"
+                    [class.error]="garmentForm.get('measures')?.invalid && garmentForm.get('measures')?.touched" 
+                    rows="4"
+                    placeholder="Ingrese las medidas detalladas (ej: Pecho: 40cm, Cintura: 35cm, Largo: 65cm, etc.)"></textarea>
+          <div class="measurements-help">
+            <small>Ingrese todas las medidas necesarias para esta prenda separadas por comas o en líneas diferentes</small>
+          </div>
+          <div class="error-message" 
+               *ngIf="garmentForm.get('measures')?.invalid && garmentForm.get('measures')?.touched"> 
+            Las medidas son requeridas
+          </div>
+        </div>
+
+        <!-- Imagen -->
+        <div class="form-group form-group-full">
+          <label for="img">Imagen de Referencia</label>
+          <input type="file" 
+                 (change)="onImageSelected($event)"
+                 id="img"
+                 class="form-control file-input"
+                 accept="image/*">
+          <div class="image-preview" *ngIf="garmentForm.get('img')?.value">
+            <img [src]="garmentForm.get('img')?.value" alt="Preview" class="preview-image">
+            <button type="button" 
+                    class="btn-remove-image" 
+                    (click)="removeImage()"
+                    title="Eliminar imagen">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" 
+              class="btn-cancel"
+              (click)="onCancel()"
+              [disabled]="isLoading">
+        Cancelar
+      </button>
+      <button type="button" 
+              class="btn-save"
+              (click)="onSave()"
+              [disabled]="garmentForm.invalid || isLoading">
+        @if (isLoading) {
+          <i class="fas fa-spinner fa-spin"></i>
+        } @else {
+          Guardar Cambios
+        }
+      </button>
+    </div>
+  </form>
+</div>

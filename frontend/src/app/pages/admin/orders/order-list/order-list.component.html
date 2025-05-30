@@ -6,8 +6,14 @@
   </div>
   } @else {
   <div class="order-list-header">
-    <h1>Listado de Órdenes</h1>
-    
+    <div class="header-title-and-button">
+      <h1>Listado de Órdenes</h1>
+      <button mat-raised-button color="primary" (click)="onCreateOrder()">
+        <mat-icon>add</mat-icon>
+        Nueva Orden
+      </button>
+    </div>
+
     <div class="search-and-filter">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Buscar órdenes</mat-label>
@@ -70,7 +76,7 @@
             <button mat-menu-item (click)="onViewOrder(order.order_id)">
               <mat-icon>visibility</mat-icon>
               <span>Ver detalles</span>
-            </button>  
+            </button>
           </mat-menu>
         </td>
       </ng-container>
