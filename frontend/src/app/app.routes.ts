@@ -28,28 +28,27 @@ export const routes: Routes = [
       { path: 'fabrics', component: FabricsListComponent },
       { path: 'catalog', component: CatalogComponent },
       { path: 'login', component: LoginRedirectComponent, canActivate: [GuestGuard] },
-      { path: 'admin', canActivate: [AuthGuard],
+      {
+        path: 'admin', canActivate: [AuthGuard],
         children: [
-          { path: '', component: DashboardComponent, pathMatch: 'full'},
-          { path: 'fabrics', component: FabricsAdminComponent},
-          { path: 'customers', component: CustomersComponent},
-          { path: 'logs', component: AuditLogComponent},
-          { path: 'catalog', component: CatalogAdminComponent},
-          { path: 'orders',
+          { path: '', component: DashboardComponent, pathMatch: 'full' },
+          { path: 'fabrics', component: FabricsAdminComponent },
+          { path: 'customers', component: CustomersComponent },
+          { path: 'logs', component: AuditLogComponent },
+          { path: 'catalog', component: CatalogAdminComponent },
+          {
+            path: 'orders',
             children: [
               { path: '', component: OrderListComponent },
-              { path: 'new', component: OrderCreationComponent},
-              { path: ':id', component: OrderDetailsComponent },
+              { path: 'new', component: OrderCreationComponent },
+              { path: ':id', component: OrderDetailsComponent }
             ]
           },
-          { path: 'garments',
+          {
+            path: 'garments',
             children: [
               { path: ':id', component: GarmentDetailsComponent },
-              { path: 'edit', 
-                children: [
-                  { path: ':id', component: GarmentEditComponent}
-                ]
-              },
+              { path: ':mode/:id', component: GarmentEditComponent }
             ]
           }
         ]

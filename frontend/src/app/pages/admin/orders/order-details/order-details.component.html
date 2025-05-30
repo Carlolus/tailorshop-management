@@ -96,7 +96,7 @@
                       <mat-icon>edit</mat-icon>
                       <span>Editar</span>
                     </button>
-                    <button mat-menu-item (click)="onDeleteGarment(garment.id)">
+                    <button mat-menu-item (click)="confirmDelete(garment.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Eliminar</span>
                     </button>
@@ -143,6 +143,11 @@
       <button mat-stroked-button (click)="onPrint()">
         <mat-icon>print</mat-icon>
         Imprimir
+      </button>
+
+      <button mat-stroked-button (click)="onAddGarment()">
+        <mat-icon>print</mat-icon>
+        Añadir prenda
       </button>
     </div>
   </div>

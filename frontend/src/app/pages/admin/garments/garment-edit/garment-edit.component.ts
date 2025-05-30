@@ -25,8 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./garment-edit.component.scss']
 })
 export class GarmentEditComponent implements OnInit {
-  garmentData!: Garment; // Ahora es obligatorio
+  garmentData!: Garment;
   garment_id!: number;
+  order_id!: number;
+  mode!: string;
 
   garmentForm: FormGroup;
   fabrics: Fabric[] = [];
@@ -49,19 +51,28 @@ export class GarmentEditComponent implements OnInit {
       fabric_id: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       person_name: [''],
-      details: [''],
+      details: ['', [Validators.required]],
       img: [''],
       measures: ['', Validators.required]
     });
   }
 
   async ngOnInit() {
-    this.garment_id = +(this.route.snapshot.paramMap.get('id') || '');
-    console.log("Receipt ID: ", this.garment_id)
+    this.mode = this.route.snapshot.paramMap.get('mode') || 'nan';
+    const id = this.route.snapshot.paramMap.get('id');
     this.loadFabrics();
     this.loadGarmentTypes();
-    this.garmentData = await firstValueFrom(this.garmentService.getGarmentById(this.garment_id));
-    this.loadGarmentData(this.garmentData);
+    if(this.mode == 'edit' && id){
+      this.garment_id = +(this.route.snapshot.paramMap.get('id') || '');
+      this.garmentData = await firstValueFrom(this.garmentService.getGarmentById(this.garment_id));
+      this.loadGarmentData(this.garmentData);
+    }
+    else if (this.mode == 'new' && id){
+      this.order_id = +(this.route.snapshot.paramMap.get('id') || '');
+    }
+    else{
+      this.errorMessage = "Ruta inválida";
+    }
   }
 
   loadGarmentData(garment: Garment) {
@@ -135,6 +146,15 @@ export class GarmentEditComponent implements OnInit {
     });
   }
 
+  confirmAddition(): void {
+    this.dialogService.confirm(
+      'Añadir prenda',
+      '¿Está seguro de añadir esta prenda'
+    ).then(confirmed => {
+      if (confirmed) this.add();
+    });
+  }
+
   save() {
     if (this.garmentForm.valid) {
       this.isLoading = true;
@@ -170,8 +190,42 @@ export class GarmentEditComponent implements OnInit {
     }
   }
 
+  add() {
+    if (this.garmentForm.valid) {
+      this.isLoading = true;
+      this.errorMessage = null;
+      
+      const formValue = this.garmentForm.value;
+      const newGarment = {
+        order_id: this.order_id,
+        garment_type_id: parseInt(formValue.garment_type_id),
+        fabric_id: parseInt(formValue.fabric_id),
+        quantity: formValue.quantity,
+        person_name: formValue.person_name || null,
+        details: formValue.details || null,
+        img: formValue.img || null,
+        measures: formValue.measures
+      };
+
+
+      this.garmentService.createGarment(newGarment).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate(['/admin/orders', this.order_id]);
+        },
+        error: (error) => {
+          console.error('Error creando prenda:', error);
+          this.errorMessage = 'Error al crear prenda';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.markAllAsTouched();
+      this.errorMessage = 'Por favor completa todos los campos requeridos';
+    }
+  }
+
   onCancel() {
-    // Redirigir a la vista anterior
     this.router.navigate(['/admin/orders', this.garmentData.order_id]);
   }
 

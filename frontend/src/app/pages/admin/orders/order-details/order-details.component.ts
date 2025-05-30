@@ -10,10 +10,10 @@ import { MatMenuModule } from '@angular/material/menu';
 // Models
 import { Order } from '../../../../core/models/order.model';
 import { Customer } from '../../../../core/models/customer.model';
-import { Garment } from '../../../../core/models/garment.model'; 
+import { Garment } from '../../../../core/models/garment.model';
 import { Fabric } from '../../../../core/models/fabric.model';
-import { GarmentType } from '../../../../core/models/garment-type.model'; 
-import { Payment } from '../../../../core/models/payment.model'; 
+import { GarmentType } from '../../../../core/models/garment-type.model';
+import { Payment } from '../../../../core/models/payment.model';
 
 // Services
 import { OrderService } from '../../../../core/services/orders/order.service';
@@ -22,6 +22,7 @@ import { GarmentService } from '../../../../core/services/garment/garment.servic
 import { FabricService } from '../../../../core/services/fabrics/fabric.service';
 import { GarmentTypeService } from '../../../../core/services/garment-types/garment-types.service';
 import { PaymentService } from '../../../../core/services/payments/payment.service';
+import { DialogService } from '../../../../core/services/dialog.service';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -39,9 +40,9 @@ export interface OrderData {
     address?: string;
   };
   garments: Array<{
-    id: string; 
-    quantity: number; 
-    garment_type_id: string; 
+    id: string;
+    quantity: number;
+    garment_type_id: string;
     garment_type_name: string;
     fabric_id: string;
     fabric_name: string;
@@ -69,7 +70,7 @@ export class OrderDetailsComponent implements OnInit {
   orderData!: OrderData;
   order: Order | undefined;
   customer: Customer | undefined;
-  garments: Garment[] = []; 
+  garments: Garment[] = [];
   payments: Payment[] = [];
   fabrics: Fabric[] = [];
   garmentTypes: GarmentType[] = [];
@@ -86,7 +87,8 @@ export class OrderDetailsComponent implements OnInit {
     private customerService: CustomerService,
     private garmentService: GarmentService,
     private garmentTypeService: GarmentTypeService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -125,7 +127,7 @@ export class OrderDetailsComponent implements OnInit {
             price: Math.round(this.order.price),
             balance: Math.round(this.order.balance),
             client: {
-              name: this.customer?.name || 'N/A', 
+              name: this.customer?.name || 'N/A',
               phone: this.customer?.phone || 'N/A',
               email: this.customer?.mail || 'NA',
               address: this.customer?.address || 'NA',
@@ -136,11 +138,11 @@ export class OrderDetailsComponent implements OnInit {
               return {
                 id: garment.garment_id.toString(),
                 quantity: garment.quantity,
-                garment_type_id: garment.garment_type_id.toString(), 
+                garment_type_id: garment.garment_type_id.toString(),
                 garment_type_name: garmentTypeName,
                 fabric_id: garment.fabric_id.toString(),
                 fabric_name: fabric_name,
-                person_name: garment.person_name || '', 
+                person_name: garment.person_name || '',
                 measures: garment.measures || garment.details || 'No especificadas'
               };
             }),
@@ -205,15 +207,15 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   getGarmentTypeName(garment_type_id: number): string {
-    if (!this.garmentTypes || this.garmentTypes.length === 0) { 
+    if (!this.garmentTypes || this.garmentTypes.length === 0) {
       return 'Tipo Desconocido';
     }
     const garmentType = this.garmentTypes.find(gt => gt.garment_type_id === garment_type_id);
-    return garmentType ? garmentType.name : 'Tipo Desconocido'; 
+    return garmentType ? garmentType.name : 'Tipo Desconocido';
   }
 
   getPaymentPercentage(): number {
-    if (!this.orderData || this.orderData.price === 0) { 
+    if (!this.orderData || this.orderData.price === 0) {
       return 0;
     }
     return Math.round((this.orderData.balance / this.orderData.price) * 100);
@@ -240,25 +242,32 @@ export class OrderDetailsComponent implements OnInit {
 
   onEditGarment(garmentId: string): void {
     console.log('Editar prenda ID:', garmentId);
-    this.router.navigate(['/admin/garments/edit/',garmentId])
+    this.router.navigate(['/admin/garments/edit', garmentId]);
   }
 
-  onDeleteGarment(garmentId: string): void {
+  onAddGarment(): void {
+    console.log('Editar prenda ID:', this.order?.order_id || '');
+    this.router.navigate(['/admin/garments/new', this.order?.order_id]);
+  }
+
+
+  confirmDelete(garmentId: string) {
+    this.dialogService.confirm(
+      'Eliminar',
+      '¿Está seguro de eliminar esta prenda?'
+    ).then(confirmed => {
+      if (confirmed) this.deleteGarment(garmentId);
+    });
+  }
+
+  deleteGarment(garmentId: string): void {
     console.log('Eliminar prenda ID:', garmentId);
-    // Aquí implementas la lógica para eliminar la prenda.
-    // Es MUY RECOMENDABLE pedir confirmación al usuario antes de eliminar.
-    // const confirmDelete = confirm('¿Estás seguro de que quieres eliminar esta prenda? Esta acción no se puede deshacer.');
-    // if (confirmDelete) {
-    //   this.garmentService.deleteGarment(garmentId).subscribe({
-    //     next: () => {
-    //       console.log('Prenda eliminada con éxito');
-    //       // Actualizar la UI: remover la prenda de this.orderData.garments
-    //       this.orderData.garments = this.orderData.garments.filter(g => g.id !== garmentId);
-    //       // Opcionalmente, recargar los datos de la orden si hay cálculos dependientes
-    //       // this.loadOrderData();
-    //     },
-    //     error: (err) => console.error('Error al eliminar la prenda', err)
-    //   });
-    // }
+    this.garmentService.deleteGarment(+(garmentId)).subscribe({
+      next: () => {
+        console.log('Prenda eliminada con éxito');
+        this.orderData.garments = this.orderData.garments.filter(g => g.id !== garmentId);
+      },
+      error: (err) => console.error('Error al eliminar la prenda', err)
+    });
   }
 }
