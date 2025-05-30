@@ -46,7 +46,7 @@
           <div class="summary-card">
             <h4><mat-icon>receipt_long</mat-icon> Información de pago</h4>
             <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
-            <p><strong>Abono inicial:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
+            <p><strong>Cancelado:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
             <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
             </p>
             <div class="payment-progress">
@@ -62,17 +62,45 @@
           <div class="summary-card garments-card">
             <h4><mat-icon>checkroom</mat-icon> Prendas ({{ orderData.garments.length }})</h4>
             <ul>
-              @for(garment of orderData.garments; track garment.id) {
+              @for (garment of orderData.garments; track garment.id) {
               <li>
-                <div class="garment-info">
-                  <span>Cantidad: {{ garment.quantity }}</span>
-                  <span class="garment-type">{{ garment.garment_type_name }}</span>
+                <div class="garment-details-container">
+                  <div class="garment-info">
+                    <span><strong>Cantidad:</strong> {{ garment.quantity }}</span>
+                    <span class="garment-type-name">{{ garment.garment_type_name }}</span>
+                  </div>
+                  @if (garment.person_name != ''){
+                  <div class="garment-info">
+                    <span><strong>Para:</strong> {{ garment.person_name }}</span>
+                  </div>
+                  }
+                  <div class="garment-measures">
+                    <strong>Tela:</strong> {{ garment.fabric_name }}
+                  </div>
+
+                  <div class="garment-measures">
+                    <strong>Medidas:</strong> {{ garment.measures }}
+                  </div>
                 </div>
-                <div class="garment-info">
-                  <span>Para: {{ garment.person_name }}</span>
-                </div>
-                <div class="garment-measures">
-                  {{ garment.measures }}
+
+                <div class="garment-actions"> <button mat-icon-button [matMenuTriggerFor]="garmentActionMenu"
+                    [attr.aria-label]="'Acciones para la prenda ' + garment.garment_type_name + ' de ' + garment.person_name">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #garmentActionMenu="matMenu">
+                    <button mat-menu-item (click)="onViewGarmentDetails(garment.id)">
+                      <mat-icon>visibility</mat-icon>
+                      <span>Ver detalles</span>
+                    </button>
+                    <button mat-menu-item (click)="onEditGarment(garment.id)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <button mat-menu-item (click)="onDeleteGarment(garment.id)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
                 </div>
               </li>
               }
@@ -105,7 +133,7 @@
         Volver
       </button>
 
-      @if (orderData.status !== 'completed' && orderData.status !== 'cancelled') {
+      @if (orderData.status !== 'entregado') {
       <button mat-flat-button color="primary" class="btn-continue" (click)="onEdit()">
         <mat-icon>edit</mat-icon>
         Editar orden

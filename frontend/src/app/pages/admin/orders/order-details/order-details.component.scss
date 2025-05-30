@@ -1,3 +1,4 @@
+/* Estilos para el contenedor de carga */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -5,54 +6,84 @@
   justify-content: center;
   padding: 4rem;
   background-color: #f5f1f1;
+  /* Un gris muy claro y suave */
   border-radius: 1rem;
+  /* Bordes más redondeados */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  /* Sombra más pronunciada */
+  text-align: center;
+  /* Centrar el texto también */
 
   .loading-spinner {
     font-size: 3rem;
+    /* Tamaño del ícono de carga */
     width: 3rem;
     height: 3rem;
     color: #059669;
+    /* Verde esmeralda (principal de la paleta) */
     animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
+    /* Animación de rotación */
+    margin-bottom: 1.5rem;
+    /* Más espacio debajo del spinner */
   }
 
   p {
-    color: #666;
+    color: #555;
+    /* Un gris un poco más oscuro para mejor contraste */
     font-size: 1.1rem;
+    font-weight: 500;
+    /* Ligeramente más grueso */
     margin: 0;
   }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-/* Reutilizando estilos del componente original */
+/* Contenedor principal de la orden */
 .order-container {
   padding: 2rem;
+  /* Espaciado generoso */
   background-color: #fafbfc;
+  /* Fondo ligeramente texturizado */
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  color: #000000;
+  /* Alinear al inicio para scrolls largos */
+  color: #333;
+  /* Color de texto base oscuro */
 }
 
+/* Visor de la orden (tarjeta principal) */
 .order-viewer {
   width: 100%;
   max-width: 1200px;
-  background-color: #f5f1f1;
+  /* Ancho máximo para legibilidad */
+  background-color: #ffffff;
+  /* Fondo blanco para contenido principal */
   border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  /* Bordes redondeados consistentes */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* Sombra suave y moderna */
   overflow: hidden;
+  /* Para que los bordes redondeados afecten a los hijos */
 }
 
+/* Cabecera de la orden */
 .order-header {
   background: linear-gradient(135deg, #252525 0%, #494949 100%);
+  /* Gradiente oscuro elegante */
   color: white;
-  padding: 2rem;
+  padding: 2rem 2.5rem;
+  /* Más padding horizontal */
 }
 
 .order-title {
@@ -63,55 +94,97 @@
 
   h1 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    /* Título más grande */
     font-weight: 600;
+    /* Semibold */
   }
 }
 
 .order-dates {
   display: flex;
   gap: 2rem;
+  /* Espacio entre fechas */
   align-items: center;
+  font-size: 0.95rem;
+  /* Tamaño de fuente para fechas */
 
   p {
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
+    /* Espacio entre ícono y texto */
 
     mat-icon {
-      opacity: 0.8;
+      opacity: 0.85;
+      /* Íconos ligeramente más visibles */
     }
   }
 }
 
+/* Contenido principal de la orden */
 .order-content {
-  padding: 2rem;
+  padding: 2.5rem;
+  /* Padding generoso */
 }
 
-/* Estilos de estado */
+/* --- Estilos de estado de la orden --- */
+.status-chip {
+  /* Clase genérica para aplicar a mat-chip si la usas */
+  padding: 0.5em 1em !important;
+  border-radius: 16px !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  text-transform: capitalize;
+}
+
 .status-pending {
   background-color: #fef3c7 !important;
+  /* Amarillo claro */
   color: #92400e !important;
+  /* Marrón oscuro */
 }
 
 .status-in_progress {
+  /* Para 'en proceso' */
   background-color: #dbeafe !important;
+  /* Azul claro */
   color: #1e40af !important;
+  /* Azul oscuro */
 }
 
 .status-completed {
+  /* Para 'terminado' */
   background-color: #d1fae5 !important;
+  /* Verde claro */
   color: #065f46 !important;
+  /* Verde oscuro */
+}
+
+.status-entregado {
+  /* Para 'entregado' */
+  background-color: #ccfbf1 !important;
+  /* Verde azulado claro (teal) */
+  color: #0d9488 !important;
+  /* Verde azulado oscuro (teal) */
 }
 
 .status-cancelled {
   background-color: #fee2e2 !important;
+  /* Rojo claro */
   color: #991b1b !important;
+  /* Rojo oscuro */
 }
 
-/* Reutilizando estilos del summary */
+/* --- Fin de Estilos de estado --- */
+
+
+/* Sección de resumen (donde irían cliente, prendas, etc.) */
 .summary-section {
+  margin-bottom: 2.5rem;
+  /* Espacio después de la sección */
+
   h3 {
     text-align: center;
     font-size: 1.8rem;
@@ -120,56 +193,72 @@
     margin-bottom: 2.5rem;
     padding-bottom: 0.8rem;
     border-bottom: 2px solid #059669;
+    /* Verde esmeralda */
     display: inline-block;
+    /* Para que el borde solo ocupe el ancho del texto */
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    /* Centrado */
   }
 }
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Ajuste de minmax */
+  gap: 2.5rem;
+  /* Más espacio entre tarjetas */
   padding: 1rem 0;
 }
 
 .summary-card {
   background-color: #ffffff;
   border-radius: 12px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-  border-top: 4px solid #000000;
-  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  /* Bordes más suaves */
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  /* Sombra sutil */
+  border-top: 4px solid #059669;
+  /* Borde superior verde esmeralda */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  /* Para que el ul pueda crecer */
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    /* Efecto hover más notable */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
   }
 
   h4 {
     display: flex;
     align-items: center;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+    /* Título de tarjeta más grande */
     font-weight: 600;
     color: #252525;
+    /* Color oscuro para títulos */
     margin-top: 0;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e9ecef;
+    /* Separador más suave */
 
     mat-icon {
-      margin-right: 0.75rem;
+      margin-right: 0.85rem;
+      /* Espacio para ícono */
       color: #059669;
+      /* Color del ícono */
     }
   }
 
   p {
-    margin: 0.6rem 0;
+    // Estilos generales para párrafos dentro de la tarjeta (ej. info del cliente)
+    margin: 0.7rem 0;
     font-size: 1rem;
-    line-height: 1.7;
+    line-height: 1.65;
     color: #555;
 
     strong {
@@ -178,21 +267,26 @@
     }
   }
 
+  /* Estilos para la lista de prendas */
   ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0.5rem 0 0 0;
     flex-grow: 1;
 
     li {
       background-color: #f8f9fa;
       padding: 1rem 1.25rem;
-      margin-bottom: 0.75rem;
-      border-radius: 6px;
-      border-left: 4px solid #000000;
-      font-size: 0.95rem;
+      margin-bottom: 0.85rem;
+      border-radius: 8px;
+      border-left: 4px solid #059669;
       color: #444;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.25s ease, transform 0.2s ease;
+
+      // ✨ Estilos clave para alinear contenido de la prenda y botón de acciones ✨
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
       &:last-child {
         margin-bottom: 0;
@@ -200,87 +294,245 @@
 
       &:hover {
         background-color: #f1f3f5;
+        transform: translateX(3px);
+      }
+
+      // Contenedor para la información textual de la prenda
+      .garment-details-container {
+        flex-grow: 1;
+        margin-right: 0.5rem;
       }
 
       .garment-info {
         display: flex;
         justify-content: space-between;
-        font-weight: 500;
-        margin-bottom: 0.3rem;
+        align-items: center;
+        margin-bottom: 0.5rem; // Espacio entre líneas de info
+        color: #333;
+        font-size: 0.95rem; // Tamaño de fuente para info de prenda
 
-        .garment-type {
-          font-style: italic;
-          color: #777;
-          font-size: 0.85rem;
+        strong {
+          margin-right: 0.4em;
+          font-weight: 600;
+        }
+
+        .garment-quantity {
+          font-weight: 500;
+          color: #059669;
         }
       }
 
-      .garment-measures {
-        font-size: 0.85rem;
+      .garment-type-name {
+        font-style: italic;
         color: #666;
-        word-break: break-all;
+        font-size: 0.9rem;
+      }
+
+      .garment-measures {
+        font-size: 0.9rem;
+        color: #555;
+        word-break: break-word;
+        line-height: 1.5;
+        margin-top: 0.25rem;
+
+        strong {
+          // Si usas <strong> para "Medidas:"
+          display: block;
+          margin-bottom: 0.2em;
+          font-weight: 600;
+        }
+      }
+
+      // Contenedor para el botón de acciones de la prenda
+      .garment-actions {
+        flex-shrink: 0; // Evita que el botón se encoja
+
+        .mat-icon-button {
+          // Estilo para el botón de tres puntos
+          color: #555;
+        }
+
+        .mat-icon-button:hover {
+          color: #059669;
+          background-color: rgba(5, 150, 105, 0.1);
+        }
       }
     }
   }
 }
 
+// Estilos para los items del menú de acciones de cada prenda
+// Asegúrate que el selector corresponda a tu versión de Angular Material (MDC o legacy)
+.mat-mdc-menu-item .mat-icon,
+// Para Angular Material v15+ (componentes MDC)
+.mat-menu-item .mat-icon {
+  // Para versiones legacy de Angular Material
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+.mat-mdc-menu-item span,
+// Para Angular Material v15+ (componentes MDC)
+.mat-menu-item span {
+  // Para versiones legacy de Angular Material
+  vertical-align: middle;
+}
+
+
 /* Barra de progreso de pago */
 .payment-progress {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+
+  .progress-bar-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
 
   .progress-bar {
     width: 100%;
-    height: 8px;
-    background-color: #e5e7eb;
-    border-radius: 4px;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
     overflow: hidden;
     margin-bottom: 0.5rem;
 
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #059669 0%, #10b981 100%);
-      transition: width 0.3s ease;
+      transition: width 0.4s ease-out;
+      border-radius: 5px;
     }
   }
 
   .progress-text {
-    font-size: 0.875rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: #444;
     font-weight: 500;
   }
 }
 
-/* Notas */
+/* Sección de Notas */
 .notes-section {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 
   .notes-card {
-    background-color: #ffffff;
-    border-left: 4px solid #059669;
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1.5rem;
+    border-radius: 8px;
+    color: #664d03;
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #664d03;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
   }
 }
 
-/* Acciones */
+/* Acciones de la orden (botones generales de la página) */
 .order-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
-  border-top: 1px solid #e0e0e0;
-  background-color: #f9fafb;
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa;
   gap: 1rem;
-}
 
-.btn-continue {
-  background-color: #252525 !important;
-  color: white !important;
-
-  &:hover {
-    background-color: #494949 !important;
+  .actions-left,
+  .actions-right {
+    display: flex;
+    gap: 1rem;
   }
 }
 
-/* Responsive */
+/* Estilos genéricos para botones si no usas mat-button exclusivamente */
+.btn {
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.btn-primary {
+  background-color: #059669 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #047857 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-secondary {
+  background-color: #6c757d !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #5a6268 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-edit {
+  // Botón para editar la orden general
+  background-color: #ffc107 !important;
+  color: #333 !important;
+
+  &:hover {
+    background-color: #e0a800 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-print {
+  // Botón para imprimir la orden general
+  background-color: #0dcaf0 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #0b99b8 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-back {
+  // Renombrado desde btn-continue para mayor claridad
+  background-color: #343a40 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #23272b !important;
+  }
+}
+
+/* Diseño Responsivo */
+@media (max-width: 992px) {
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .order-header {
+    padding: 1.5rem 2rem;
+  }
+
+  .order-content {
+    padding: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .order-container {
     padding: 1rem;
@@ -294,24 +546,103 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+
+    h1 {
+      font-size: 1.8rem;
+    }
   }
 
   .order-dates {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .order-content {
+    padding: 1.5rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .summary-card {
+    padding: 1.5rem;
+
+    ul li {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .garment-actions {
+        margin-top: 0.75rem;
+        margin-left: 0; // Resetear margen si se pone debajo
+        width: 100%; // Ocupar ancho
+        display: flex; // Para distribuir botones de acción si fueran varios directos
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .order-actions {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem;
+
+    .actions-left,
+    .actions-right {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .btn,
+    button[mat-button],
+    button[mat-flat-button],
+    button[mat-stroked-button],
+    button[mat-icon-button] {
+      // Ser más específico para botones de material
+      width: 100%;
+      margin-bottom: 0.75rem !important; // Usar !important si es necesario para sobrescribir material
+
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .order-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .order-title h1 {
+    font-size: 1.6rem;
   }
 
   .order-content {
     padding: 1rem;
   }
 
-  .order-actions {
-    flex-direction: column;
-    align-items: stretch;
+  .summary-card {
+    padding: 1rem;
+
+    h4 {
+      font-size: 1.15rem;
+    }
+
+    ul li {
+      padding: 0.75rem 1rem;
+
+      .garment-info,
+      .garment-measures,
+      .garment-type-name {
+        font-size: 0.85rem; // Reducir un poco más la fuente en móviles pequeños
+      }
+    }
   }
 
-  .summary-grid {
-    grid-template-columns: 1fr;
+  .order-actions {
+    padding: 1rem;
   }
 }
