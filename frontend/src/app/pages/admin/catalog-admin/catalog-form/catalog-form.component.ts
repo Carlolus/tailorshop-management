@@ -23,6 +23,8 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
   catalogForm: FormGroup;
   fabrics: Fabric[] = [];
   isLoadingFabrics = true;
+  previewUrl: string | null = null;
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -39,6 +41,12 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadFabrics();
+
+    this.catalogForm.get('image')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((url: string) => {
+        this.previewUrl = this.isValidImageUrl(url) ? url : null;
+      });
   }
 
   ngOnDestroy(): void {
@@ -55,6 +63,7 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
           image: this.catalog.image,
           fabric: this.catalog.fabric
         });
+        this.previewUrl = this.isValidImageUrl(this.catalog.image) ? this.catalog.image : null;
       } else {
         this.catalogForm.reset({
           item_id: 0,
@@ -62,10 +71,10 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
           image: '',
           fabric: ''
         });
+        this.previewUrl = null;
       }
     }
 
-    // Deshabilitar formulario si está en modo solo lectura
     if (this.isViewMode) {
       this.catalogForm.disable();
     } else {
@@ -89,6 +98,10 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
       });
   }
 
+  isValidImageUrl(url: string): boolean {
+    return /^https?:\/\/.+\.(jpeg|jpg|png|gif)$/i.test(url);
+  }
+
   getFabricById(fabricId: string | number): Fabric | undefined {
     return this.fabrics.find(fabric => fabric.fabric_id == fabricId);
   }
@@ -104,7 +117,6 @@ export class CatalogFormComponent implements OnChanges, OnInit, OnDestroy {
       };
       this.save.emit(catalogItem);
     } else {
-      // Marcar todos los controles como tocados para mostrar errores
       this.catalogForm.markAllAsTouched();
     }
   }

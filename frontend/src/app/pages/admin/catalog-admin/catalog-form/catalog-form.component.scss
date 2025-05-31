@@ -101,8 +101,7 @@ $bg-light: #f9f9f9;
 // Estilos generales del formulario
 form {
   max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
+  padding: 1rem;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -116,7 +115,9 @@ form {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: $primary-color;
+    color: black;
+    font-size: 1rem;
+    ;
   }
 
   input,
@@ -131,7 +132,7 @@ form {
 
     &:focus {
       outline: none;
-      border-color: $input-focus;
+      border-color: #71b57a;
       background-color: white;
     }
 
@@ -229,12 +230,59 @@ h2 {
   }
 
   &:hover {
-    border-color: #4ba93d;
+    border-color: #61d350;
   }
 
   &.selected {
-    border-color: #7eb75f;
+    border-color: #21a71c;
     box-shadow: 0 0 0 3px rgba(113, 209, 156, 0.25);
+  }
+}
+
+form {
+  position: relative;
+
+  h2 {
+    position: sticky;
+    top: 0;
+    background-color: #71b57a; // Asegúrate de que tenga un fondo sólido
+    z-index: 10;
+    padding: 1rem 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px 8px 0 0; // Bordes redondeados en la parte superior
+    
+    margin-bottom: 1rem; // Espacio debajo del título
+    padding-bottom: 0.5rem; // Espacio interno en la parte inferior
+    margin-top: 0; // Elimina el margen superior para que no se superponga
+    background-image: linear-gradient(to right, #71b57a, #86d898); // Degradado suave
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra sutil para destacar el título
+
+    // Añadir un borde inferior para mayor definición
+    border-bottom: 2px solid #86d898; // Borde inferior para mayor definición
+
+
+    // Añadir un efecto de transición suave al cambiar el fondo
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    
+  }
+}
+
+.image-preview img {
+  max-width: 250px;
+  max-height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
   }
 }
 
