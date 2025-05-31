@@ -2,7 +2,7 @@
   <div class="catalog-hero-content">
     <h2>Modelos del diseñador</h2>
     <h1>Estilo de ropa única</h1>
-    <button id="catalog-button"  (click)="scrollToSection()">Ver coleccion</button>
+    <button id="catalog-button"  (click)="scrollToSection()">Ver colecciones</button>
   </div>
 </section>
 <div class="search-bar">
@@ -12,20 +12,35 @@
         [formControl]="searchControl">
 </div>
 <!-- Cambiar esta línea en el template -->
-<section id="colecciones" class="catalog-cards-container">
-  <div class="catalog-card" *ngFor="let item of filteredItems">
-    <img [src]="item.image"  class="catalog-card-image" />
+<section id="colecciones" class="catalog-cards-container" [@listAnimation]>
+  <div 
+    class="catalog-card" 
+    *ngFor="let item of filteredItems" 
+    (click)="openModal(item)"
+  >
+    <img [src]="item.image" class="catalog-card-image" />
     <div class="catalog-card-content">
       <p>{{ item.description }}</p>
     </div>
-    
   </div>
-  
-  <!--Mensaje cuando no hay resultados -->
+
   <div *ngIf="filteredItems.length === 0 && searchControl.value" class="no-results">
     <p>No se encontraron resultados para "{{ searchControl.value }}"</p>
   </div>
 </section>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="selectedItem" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="closeModal()">×</button>
+    <img [src]="selectedItem.image" class="modal-image" />
+    <h3>Descripción</h3>
+    <p>{{ selectedItem.description }}</p>
+    <!-- <h4>Tejido / Tela</h4>
+    <p>{{ selectedItem.fabric }}</p> -->
+  </div>
+</div>
+
 <section></section>
 <section class="catalog-footer">
   <div class="catalog-footer-content">

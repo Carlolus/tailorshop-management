@@ -3,6 +3,14 @@ import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEs);
-bootstrapApplication(AppComponent, appConfig);
+
+bootstrapApplication(AppComponent, {
+  ...appConfig,
+  providers: [
+    ...(appConfig.providers ?? []),
+    provideAnimations()
+  ]
+});
