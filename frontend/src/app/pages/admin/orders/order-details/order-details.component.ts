@@ -78,6 +78,7 @@ export class OrderDetailsComponent implements OnInit {
   payments: Payment[] = [];
   fabrics: Fabric[] = [];
   garmentTypes: GarmentType[] = [];
+  canPay: boolean = true;
 
 
   orderId!: number;
@@ -107,8 +108,10 @@ export class OrderDetailsComponent implements OnInit {
 
         this.order = await firstValueFrom(this.orderService.getOrderById(this.orderId));
         if (this.order) {
+          if(this.order.balance == 0){
+            this.canPay = false;
+          }
           this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
-
           this.garments = await firstValueFrom(this.garmentService.getGarmentsByOrderId(this.orderId));
 
           this.payments = await firstValueFrom(this.paymentService.getPaymentsByOrderId(this.orderId));

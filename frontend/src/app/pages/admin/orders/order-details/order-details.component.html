@@ -71,7 +71,7 @@
               </div>
               <span class="progress-text">{{ getPaymentPercentage() }}% pagado</span>
             </div>
-            
+
 
           </div>
 
@@ -86,7 +86,7 @@
                 <mat-icon>add</mat-icon>
               </button>
             </div>
-            
+
             <ul>
               @for (garment of orderData.garments; track garment.id) {
               <li>
@@ -139,22 +139,24 @@
 
     <!-- Acciones -->
     <div class="order-actions">
-      <button mat-button (click)="onBack()" class = "btn-back">
+      <button mat-button (click)="onBack()" class="btn-back">
         <mat-icon>arrow_back</mat-icon>
         Volver
       </button>
 
       @if (orderData.status !== 'entregado') {
-      <button mat-flat-button class = "btn-primary" (click)="confirmDeleteOrder(orderId)">
+      <button mat-flat-button class="btn-primary" (click)="confirmDeleteOrder(orderId)">
         <mat-icon>delete</mat-icon>
         Eliminar orden
       </button>
       }
-
-      <button mat-stroked-button class = "btn-print" (click)="onAddPayment()">
+      @if (canPay){
+      <button mat-stroked-button class="btn-print" (click)="onAddPayment()">
         <mat-icon>money</mat-icon>
         Registrar pago
       </button>
+      }
+
     </div>
   </div>
   }
