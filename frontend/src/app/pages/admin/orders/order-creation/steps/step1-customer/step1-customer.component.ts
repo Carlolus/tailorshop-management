@@ -6,8 +6,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Customer } from '../../../../../core/models/customer.model';
-import { CustomerService } from '../../../../../core/services/customers/customers.service';
+import { Customer } from '../../../../../../core/models/customer.model';
+import { CustomerService } from '../../../../../../core/services/customers/customers.service';
 
 type ClienteValido =
     | { tipo: 'nuevo'; data: Customer }

@@ -1,0 +1,109 @@
+<div class="garment-container">
+    @if (isLoading) {
+    <div class="loading-container">
+        <mat-icon class="loading-spinner">refresh</mat-icon>
+        <p>Cargando detalles de la prenda...</p>
+    </div>
+    } @else {
+    <div class="garment-viewer">
+        <!-- Header de la prenda -->
+        <div class="garment-header">
+            <div class="garment-title">
+                <h1>{{ garmentData.garment_type_name || 'Prenda' }}</h1>
+                
+            </div>
+            @if (garmentData.person_name) {
+            <div class="garment-person">
+                <p><mat-icon>person</mat-icon> <strong>Para:</strong> {{ garmentData.person_name }}</p>
+            </div>
+            }
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="garment-content">
+            <div class="details-section">
+                <h3>Detalles de la prenda</h3>
+
+                <div class="details-grid">
+                    <!-- Información básica -->
+                    <div class="details-card">
+                        <h4><mat-icon>info</mat-icon> Información básica</h4>
+                        <p><strong>Tipo de prenda:</strong> {{ garmentData.garment_type_name || 'No especificado' }}</p>
+                        <p><strong>Cantidad:</strong> {{ garmentData.quantity }}</p>
+                        <p><strong>Dueño de la orden:</strong> {{ garmentData.customer_name }}</p>
+                        <p><strong>Orden asociada:</strong> #{{ garmentData.order_id }}</p>
+                    </div>
+
+                    <!-- Tela y materiales -->
+                    <div class="details-card">
+                        <h4><mat-icon>palette</mat-icon> Tela</h4>
+                        <p><strong>Tela:</strong> {{ garmentData.fabric_name || 'No especificada' }}</p>
+                        <div class="details-text">
+                            <p>{{ garmentData.fabric_description }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Medidas -->
+                    @if (garmentData.measures) {
+                    <div class="details-card measures-card">
+                        <h4><mat-icon>straighten</mat-icon> Medidas</h4>
+                        <div class="measures-content">
+                            <pre>{{ garmentData.measures }}</pre>
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Detalles adicionales -->
+                    @if (garmentData.details) {
+                    <div class="details-card details-text-card">
+                        <h4><mat-icon>description</mat-icon> Detalles adicionales</h4>
+                        <div class="details-text">
+                            <p>{{ garmentData.details }}</p>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Imagen de la prenda -->
+                @if (garmentData.img) {
+                <div class="image-section">
+                    <mat-card class="image-card">
+                        <mat-card-header>
+                            <mat-icon mat-card-avatar>image</mat-icon>
+                            <mat-card-title>Imagen de referencia</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div class="image-container">
+                                <img [src]="garmentData.img"
+                                    [alt]="'Imagen de ' + (garmentData.garment_type_name || 'prenda')"
+                                    (error)="onImageError($event)" />
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="garment-actions">
+            <button mat-button (click)="onBack()">
+                <mat-icon>arrow_back</mat-icon>
+                Volver a la orden
+            </button>
+
+            <div class="actions-right">
+                <button mat-stroked-button (click)="onEdit()">
+                    <mat-icon>edit</mat-icon>
+                    Editar prenda
+                </button>
+
+                <button mat-stroked-button (click)="onPrint()">
+                    <mat-icon>print</mat-icon>
+                    Imprimir detalles
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

@@ -23,6 +23,8 @@ const Payment = sequelize.define("payment", {
       model: Order,
       key: "order_id",
     },
+    onUpdate: "CASCADE",
+    onDelete: "RESTRICT",
   },
   amount: {
     type: DataTypes.DECIMAL(12, 0),

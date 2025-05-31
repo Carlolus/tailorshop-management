@@ -63,7 +63,7 @@ const validateToken = (req, res, next) => {
     */
     const decoded = jwt.verify(token, publicKey2, { algorithms: ['RS256'] });
     // Log the decoded token for debugging purposes, also you can use https://jwt.io/ to decode the token.
-    console.log('Token decodificado:', decoded);
+    //console.log('Token decodificado:', decoded);
     /*
     The decoded token contains the user information and the roles assigned to the user in the Keycloak realm so
     we can check if the user has the required role in the realm_access roles array (in this case 'admin).

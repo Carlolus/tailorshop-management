@@ -2,17 +2,23 @@
   Title: payment.controller.js
   Description: Controller for managing CRUD operations for payments in the database.
 */
-
 const { Payment, Order } = require("../models");
 const { logAudit } = require("../services/audit.service");
 const sequelize = require("../config/database");
 
 exports.getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.findAll();
+    const whereClause = {};
+    if (req.query.order_id) {
+      whereClause.order_id = req.query.order_id;
+    }
+    const payments = await Payment.findAll({
+      where: whereClause
+    });
     res.json(payments);
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener los pagos", error });
+    console.error("Error al obtener los pagos:", error);
+    res.status(500).json({ message: "Error al obtener los pagos", error: error.message });
   }
 };
 

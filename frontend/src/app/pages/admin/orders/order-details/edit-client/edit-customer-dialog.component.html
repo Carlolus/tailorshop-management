@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Cambiar cliente</h2>
+
+<mat-dialog-content class="dialog-container">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Buscar cliente</mat-label>
+    <input
+      type="text"
+      matInput
+      [matAutocomplete]="auto"
+      [(ngModel)]="customerInput"
+      (ngModelChange)="onCustomerInputChange()"
+      placeholder="Buscar por nombre o teléfono"
+    />
+
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayCustomer"
+      (optionSelected)="selectCustomer($event.option.value)"
+    >
+      <mat-option *ngFor="let customer of filteredCustomers" [value]="customer">
+        <div class="client-option">
+          <div class="client-name">{{ customer.name }}</div>
+          <div class="client-details">{{ customer.phone }}</div>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <ng-container *ngIf="selectedCustomer">
+    <div class="selected-client-info">
+      <h4>Cliente seleccionado:</h4>
+      <div class="client-card">
+        <p><strong>Nombre:</strong> {{ selectedCustomer.name }}</p>
+        <p><strong>Teléfono:</strong> {{ selectedCustomer.phone }}</p>
+        <p *ngIf="selectedCustomer.address"><strong>Dirección:</strong> {{ selectedCustomer.address }}</p>
+        <p *ngIf="selectedCustomer.mail"><strong>Email:</strong> {{ selectedCustomer.mail }}</p>
+      </div>
+    </div>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!selectedCustomer" (click)="confirm()">Confirmar</button>
+</mat-dialog-actions>

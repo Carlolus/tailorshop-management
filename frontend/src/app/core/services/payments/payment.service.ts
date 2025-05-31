@@ -45,9 +45,9 @@ export class PaymentService {
     );
   }
 
-  getPaymentsByOrder(orderId: number): Observable<Payment[]> {
+  getPaymentsByOrderId(order_id: number): Observable<Payment[]> {
     return this.http.get<Payment[]>(
-      `${this.apiUrl}/order/${orderId}`,
+      `${this.apiUrl}?order_id=${order_id}`,
       { headers: this.httpHeaderService.getHeaders() }
     );
   }
