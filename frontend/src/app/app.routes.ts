@@ -38,10 +38,11 @@ export const routes: Routes = [
           { path: 'customers', component: CustomersComponent },
           { path: 'logs', component: AuditLogComponent },
           { path: 'catalog', component: CatalogAdminComponent },
-          { path: 'finance',
+          { path: 'finance', component: PaymentTableComponent},
+          {
+            path: 'payments', component: PaymentTableComponent,
             children:[
-              { path: 'payments', component: PaymentTableComponent},
-              { path: 'payments/:mode/:id', component: PaymentNewComponent }     
+              { path: ':mode/:id', component: PaymentNewComponent }     
             ]
           },
           {

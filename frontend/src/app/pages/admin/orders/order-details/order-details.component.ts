@@ -108,9 +108,7 @@ export class OrderDetailsComponent implements OnInit {
 
         this.order = await firstValueFrom(this.orderService.getOrderById(this.orderId));
         if (this.order) {
-          if(this.order.balance == 0){
-            this.canPay = false;
-          }
+          this.canPayFunc();
           this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
           this.garments = await firstValueFrom(this.garmentService.getGarmentsByOrderId(this.orderId));
 
@@ -217,7 +215,7 @@ export class OrderDetailsComponent implements OnInit {
     if (!this.orderData || this.orderData.price === 0) {
       return 0;
     }
-    return Math.round((this.orderData.price - this.orderData.balance)/this.orderData.price * 100);
+    return Math.round((this.orderData.price - this.orderData.balance) / this.orderData.price * 100);
   }
 
   onBack(): void {
@@ -309,7 +307,7 @@ export class OrderDetailsComponent implements OnInit {
           'success' // Tipo de notificación
         );
         // Aquí iría tu navegación, por ejemplo:
-        this.router.navigate(['/admin/orders']); 
+        this.router.navigate(['/admin/orders']);
       },
       error: (err) => {
         this.dialogService.notify(
@@ -338,6 +336,20 @@ export class OrderDetailsComponent implements OnInit {
       },
       error: (err) => console.error('Error al eliminar la prenda', err)
     });
+  }
+
+  goToOrderPayments() {
+    this.router.navigate(['/admin/payments'], {
+      queryParams: { order_id: this.order?.order_id }
+    });
+  }
+
+  canPayFunc(): void {
+    if (this.order && this.order.balance != 0) {
+      this.canPay = true
+    } else {
+      this.canPay = false
+    }
   }
 
 }

@@ -151,9 +151,15 @@
       </button>
       }
       @if (canPay){
-      <button mat-stroked-button class="btn-print" (click)="onAddPayment()">
+      <button mat-stroked-button class="btn-addpay" (click)="onAddPayment()">
         <mat-icon>money</mat-icon>
         Registrar pago
+      </button>
+      }
+      @if (orderData.balance != orderData.price ){
+      <button mat-stroked-button class="btn-viewpays" (click)="goToOrderPayments()">
+        <mat-icon>money</mat-icon>
+        Ver pagos
       </button>
       }
 

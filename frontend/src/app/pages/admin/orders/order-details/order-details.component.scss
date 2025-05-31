@@ -529,7 +529,18 @@
   }
 }
 
-.btn-print {
+.btn-addpay {
+  // Botón para imprimir la orden general
+  background-color: #059669 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #08b17b !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-viewpays {
   // Botón para imprimir la orden general
   background-color: #313131 !important;
   color: white !important;

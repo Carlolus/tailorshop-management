@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../../../core/services/payments/payment.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../core/services/dialog.service';
 
 interface LocalPayment {
@@ -54,15 +54,16 @@ interface PaymentTableItem {
   styleUrls: ['./payment-table.component.scss']
 })
 export class PaymentTableComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'orderId',  'customerName', 'date', 'price', 'actions'];
+  displayedColumns: string[] = ['id', 'orderId', 'customerName', 'date', 'price', 'actions'];
   searchText: string = '';
   payments2: PaymentTableItem[] = [];
 
   constructor(
     private paymentService: PaymentService,
     private router: Router,
-    private dialogService: DialogService
-  ) {}
+    private dialogService: DialogService,
+    private route: ActivatedRoute
+  ) { }
 
   async ngOnInit(): Promise<void> {
     const rawPayments = await firstValueFrom(this.paymentService.getPayments());
@@ -74,6 +75,17 @@ export class PaymentTableComponent implements OnInit {
       price: p.amount,
       raw: p
     }));
+
+    this.route.queryParams.subscribe(params => {
+      const customerName = params['customerName'];
+      const orderIdParam = params['order_id'];
+
+      if (customerName) {
+        this.searchText = customerName;
+      } else if (orderIdParam) {
+        this.searchText = orderIdParam.toString();
+      }
+    });
   }
 
   get filteredPayments(): PaymentTableItem[] {
@@ -81,7 +93,6 @@ export class PaymentTableComponent implements OnInit {
 
     const searchLower = this.searchText.toLowerCase();
     return this.payments2.filter(payment =>
-      payment.id.toString().includes(searchLower) ||
       payment.customerName.toLowerCase().includes(searchLower) ||
       payment.orderId.toString().includes(searchLower)
     );
@@ -95,7 +106,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   confirmdeletePayment(payment: PaymentTableItem): void {
-    this.dialogService.confirm("Eliminar pago", 
+    this.dialogService.confirm("Eliminar pago",
       "¿Está seguro de que desea eliminar el pago?"
     ).then(confirmed => {
       if (confirmed) this.deletePayment(payment.id);
@@ -115,8 +126,8 @@ export class PaymentTableComponent implements OnInit {
       },
       error: (err) => {
         this.dialogService.notify(
-          'Error al Eliminar', 
-          `No se pudo eliminar el pago con ID ${payment_id}.`, 
+          'Error al Eliminar',
+          `No se pudo eliminar el pago con ID ${payment_id}.`,
           'error'
         );
       }
