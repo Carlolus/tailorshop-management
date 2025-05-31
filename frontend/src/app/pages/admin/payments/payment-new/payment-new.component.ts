@@ -102,11 +102,11 @@ export class PaymentNewComponent implements OnInit {
 
   loadPaymentData() {
     this.paymentForm.patchValue({
-      amount: this.payment.amount,
+      amount: 0,
       payment_method: this.payment.payment_method,
       description: this.payment.description
     });
-    this.amountToShow = this.formatNumber(this.payment.amount);
+    this.amountToShow = this.formatNumber(0);
   }
 
   onAmountChange(event: Event): void {
@@ -117,12 +117,19 @@ export class PaymentNewComponent implements OnInit {
 
     if (this.mode === 'new' && numericValue > this.order.balance) {
       numericValue = 0;
+    } else if (this.mode == 'edit' && numericValue > (+(this.order.balance) + +(this.payment.amount))){
+      numericValue = 0;
     }
 
     // Actualizar formulario y vista
     this.paymentForm.get('amount')?.setValue(numericValue, { emitEvent: false });
     this.amountToShow = numericValue === 0 ? '0' : this.formatNumber(numericValue);
     inputElement.value = this.amountToShow;
+  }
+
+  getMaximunValue(){
+    console.log(+(this.order.balance) + +(this.payment.amount))
+    return +(this.order.balance) + +(this.payment.amount)
   }
 
 

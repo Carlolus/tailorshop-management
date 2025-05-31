@@ -11,6 +11,10 @@
         <p><strong>Cliente:</strong> Traer Nombre</p>
         <p><strong>Monto Total de la Orden:</strong> $ {{ order.price | number }}</p>
         <p><strong>Monto pendiente:</strong> $ {{ order.balance | number }}</p>
+        @if (mode == 'edit'){
+          <p><strong>Valor actual del pago:</strong> $ {{ payment.amount | number }}</p>
+          <p><strong>Máximo valor para este pago:</strong> $ {{ getMaximunValue() | number}}</p> 
+        }
       </div>
 
       <form [formGroup]="paymentForm" class="payment-form">
