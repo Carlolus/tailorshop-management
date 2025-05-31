@@ -98,18 +98,18 @@ export class EditOrderDialogComponent implements OnInit {
     private setupCustomValidators(): void {
         const priceControl = this.orderForm.get('price');
         if (priceControl) {
-            // Validador para asegurar que el precio no exceda el balance
-            const priceExceedsBalanceValidator = (control: AbstractControl): {[key: string]: any} | null => {
-                const price = control.value; // Valor numérico del control
-                // Asegurarse que 'this.order' y 'this.order.balance' estén definidos y que 'price' sea un número
+            const priceExceedsBalanceValidator = (control: AbstractControl): { [key: string]: any } | null => {
+                const price = control.value;
                 if (this.order?.balance !== undefined && typeof price === 'number') {
-                    if (price < this.order.balance) {
-                        // Error si el precio es mayor que el balance
-                        return { priceExceedsBalance: {
-                            actualPrice: price,
-                            maxAllowed: this.order.balance
-                        }};
-                    }
+                    if (price < (this.order.price - this.order.balance)) {
+                        // Si ya está pagado, su precio no puede ser menor
+                        return {
+                            priceExceedsBalance: {
+                                actualPrice: price,
+                                maxAllowed: this.order.balance
+                            }
+                        };
+                    } 
                 }
                 return null; // Sin error
             };
@@ -166,7 +166,7 @@ export class EditOrderDialogComponent implements OnInit {
                 order_id: this.order.order_id,
                 customer_id: this.order.customer_id,
                 order_date: this.order.order_date,
-                balance: this.order.balance,
+                balance: +(this.orderForm.value.price - (this.order.price - this.order.balance)),
                 status: this.orderForm.value.status,
                 delivery_date: deliveryDateString,
                 price: this.orderForm.value.price
@@ -181,7 +181,7 @@ export class EditOrderDialogComponent implements OnInit {
         const value = event.target.value;
         const cleanValue = value.replace(/[^\d]/g, '');
         const numericValue = cleanValue === '' ? 0 : parseInt(cleanValue, 10);
-        
+
         this.orderForm.get('price')?.setValue(numericValue, { emitEvent: false });
         this.priceToShow = this.formatNumber(numericValue);
         event.target.value = this.priceToShow;
