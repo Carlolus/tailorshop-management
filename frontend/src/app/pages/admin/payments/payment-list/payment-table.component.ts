@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../../../core/services/payments/payment.service';
+import { Router } from '@angular/router';
 
 interface LocalPayment {
   payment_id: number;
@@ -56,7 +57,10 @@ export class PaymentTableComponent implements OnInit {
   searchText: string = '';
   payments2: PaymentTableItem[] = [];
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(
+    private paymentService: PaymentService,
+    private router: Router
+  ) {}
 
   async ngOnInit(): Promise<void> {
     const rawPayments = await firstValueFrom(this.paymentService.getPayments());
@@ -87,7 +91,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   editPayment(payment: PaymentTableItem): void {
-    console.log('Editar pago:', payment);
+    this.router.navigate(['admin/finance/payments/edit', payment.id]);
     // Lógica para editar el pago
   }
 
