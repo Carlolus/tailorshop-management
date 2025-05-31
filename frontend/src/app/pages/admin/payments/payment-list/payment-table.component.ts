@@ -88,8 +88,6 @@ export class PaymentTableComponent implements OnInit {
   }
 
   viewPayment(payment: PaymentTableItem): void {
-    console.log('Ver pago:', payment);
-    // Lógica para ver el pago
   }
 
   editPayment(payment: PaymentTableItem): void {

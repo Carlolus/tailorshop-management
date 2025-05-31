@@ -83,7 +83,6 @@ export class OrderListComponent implements OnInit {
   }
 
   getCustomerNameById(customer_id: number): string {
-    console.log('Buscando cliente:', customer_id);
     const customer = this.customers.find(c => c.customer_id == customer_id);
     return customer ? `${customer.name}` : 'Cliente no encontrado';
   }

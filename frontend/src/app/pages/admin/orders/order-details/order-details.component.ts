@@ -107,21 +107,15 @@ export class OrderDetailsComponent implements OnInit {
 
         this.order = await firstValueFrom(this.orderService.getOrderById(this.orderId));
         if (this.order) {
-          console.log("Orden existe, obteniendo información...");
           this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
-          console.log("Cliente: ", this.customer);
 
           this.garments = await firstValueFrom(this.garmentService.getGarmentsByOrderId(this.orderId));
-          console.log("Prendas de la orden: ", this.garments);
 
           this.payments = await firstValueFrom(this.paymentService.getPaymentsByOrderId(this.orderId));
-          console.log("Pagos de la orden: ", this.payments)
 
           this.garmentTypes = await firstValueFrom(this.garmentTypeService.getGarmentTypes());
-          console.log("Tipos de prenda cargados: ", this.garmentTypes);
 
           this.fabrics = await firstValueFrom(this.fabricService.getFabrics());
-          console.log("Telas cargadas: ", this.fabrics);
 
           this.orderData = {
             id: this.orderId,
@@ -151,14 +145,12 @@ export class OrderDetailsComponent implements OnInit {
               };
             }),
           };
-          console.log("OrderData construida: ", this.orderData);
         } else {
           console.error("La orden no fue encontrada.");
         }
         this.isLoading = false;
       }, 500);
     } else {
-      console.error("ID de orden inválido.");
       this.isLoading = false;
     }
   }
@@ -242,12 +234,10 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   onEditGarment(garmentId: string): void {
-    console.log('Editar prenda ID:', garmentId);
     this.router.navigate(['/admin/garments/edit', garmentId]);
   }
 
   onAddGarment(): void {
-    console.log('Editar prenda ID:', this.order?.order_id || '');
     this.router.navigate(['/admin/garments/new', this.order?.order_id]);
   }
 
@@ -308,7 +298,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   deleteOrder(order_id: number): void {
-    console.log('Intentando eliminar orden ID:', order_id); // Cambiado a "Intentando eliminar" para más claridad en el log
     this.orderService.deleteOrder(order_id).subscribe({
       next: () => {
         this.dialogService.notify(
@@ -320,7 +309,6 @@ export class OrderDetailsComponent implements OnInit {
         this.router.navigate(['/admin/orders']); 
       },
       error: (err) => {
-        console.error(`Error al eliminar la orden No. ${order_id}:`, err); // Es buena práctica loguear el error completo
         this.dialogService.notify(
           'Error al Eliminar', // Título
           `No se pudo eliminar la orden No. ${order_id}. Debido a las referencias existentes.`, // Mensaje
@@ -341,15 +329,12 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   deleteGarment(garmentId: string): void {
-    console.log('Eliminar prenda ID:', garmentId);
     this.garmentService.deleteGarment(+(garmentId)).subscribe({
       next: () => {
-        console.log('Prenda eliminada con éxito');
         this.orderData.garments = this.orderData.garments.filter(g => g.id !== garmentId);
       },
       error: (err) => console.error('Error al eliminar la prenda', err)
     });
   }
-
 
 }

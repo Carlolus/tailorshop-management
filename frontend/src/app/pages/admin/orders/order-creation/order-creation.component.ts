@@ -112,12 +112,10 @@ export class OrderCreationComponent {
       } as Customer;
       this.clienteExistenteId = null;
       this.pasoClienteValido = true;
-      console.log('Nuevo cliente preparado:', this.clienteNuevo);
     } else {
       this.clienteExistenteId = event.id;
       this.clienteNuevo = null;
       this.pasoClienteValido = true;
-      console.log('Cliente existente seleccionado ID:', this.clienteExistenteId);
     }
 
     this.clienteForm.patchValue({ clienteValido: true });
@@ -136,7 +134,6 @@ export class OrderCreationComponent {
     });
 
     if (orderDetails) {
-      //console.log('Detalles de orden válidos:', orderDetails);
     }
   }
 
@@ -150,7 +147,6 @@ export class OrderCreationComponent {
 
       this.pasoPrendasValido = true;
       this.prendasForm.patchValue({ prendasValidas: true });
-      console.log('Datos de prendas válidos:', this.garmentsData);
     } else {
       this.garmentsData = null;
       this.pasoPrendasValido = false;
@@ -167,17 +163,14 @@ export class OrderCreationComponent {
   }
 
   async sendOrder() {
-    //console.log('=== CONFIRMANDO ORDEN ===');
 
     if (!this.pasoClienteValido || !this.pasoOrdenValido || !this.pasoPrendasValido) {
-      //console.warn('Faltan datos válidos en uno or más pasos para confirmar la orden.');
       return;
     }
 
     try {
       let customerId: number;
       if (this.clienteNuevo) {
-        //console.log('Creando nuevo cliente:', this.clienteNuevo);
         const camposSeleccionados = {
           name: this.clienteNuevo?.name,
           phone: this.clienteNuevo?.phone,
@@ -192,10 +185,8 @@ export class OrderCreationComponent {
         }
 
         customerId = newCustomer.customer_id;
-        //console.log('Nuevo cliente creado con ID:', customerId);
 
       } else if (this.clienteExistenteId) {
-        //console.log('Usando cliente existente ID:', this.clienteExistenteId);
 
         customerId = this.clienteExistenteId;
       } else {
@@ -205,7 +196,6 @@ export class OrderCreationComponent {
       if (this.orderDetails) {
         this.orderDetails.customer_id = customerId;
 
-        //console.log('Creando orden con detalles:', this.orderDetails);
 
         const camposSeleccionados = {
           customer_id: this.orderDetails?.customer_id,
@@ -223,7 +213,6 @@ export class OrderCreationComponent {
         }
 
         const orderId = newOrder.order_id;
-        //console.log('Nueva orden creada con ID:', orderId);
 
         if (this.orderDetails.balance > 0) {
           const currentDate = new Date();
@@ -243,8 +232,6 @@ export class OrderCreationComponent {
         }
 
         if (this.garmentsData && this.garmentsData.length > 0) {
-          //console.log('Creando prendas para la orden...');
-          //console.log("Datos a cargar: ", this.garmentsData);
 
           const garmentPromises = this.garmentsData.map(garment => {
             const camposSeleccionadosGarment = {
@@ -262,9 +249,6 @@ export class OrderCreationComponent {
           });
 
           const createdGarments = await Promise.all(garmentPromises);
-
-          //console.log('Prendas creadas exitosamente:', createdGarments);
-          //console.log('=== ORDEN CONFIRMADA EXITOSAMENTE ===');
 
         } else {
           throw new Error('No se encontraron datos válidos de prendas');
