@@ -112,18 +112,16 @@ export class PaymentNewComponent implements OnInit {
   onAmountChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     let value = inputElement.value;
-
     const cleanValue = value.replace(/\D/g, '');
+    let numericValue = parseInt(cleanValue, 10) || 0;
 
-    let numericValue = parseInt(cleanValue, 10);
-    if(numericValue > this.order.balance){
+    if (this.mode === 'new' && numericValue > this.order.balance) {
       numericValue = 0;
     }
 
-    this.paymentForm.get('amount')?.setValue(isNaN(numericValue) ? null : numericValue, { emitEvent: false });
-
-    this.amountToShow = isNaN(numericValue) || numericValue === 0 ? '0' : this.formatNumber(numericValue);
-
+    // Actualizar formulario y vista
+    this.paymentForm.get('amount')?.setValue(numericValue, { emitEvent: false });
+    this.amountToShow = numericValue === 0 ? '0' : this.formatNumber(numericValue);
     inputElement.value = this.amountToShow;
   }
 
@@ -146,7 +144,7 @@ export class PaymentNewComponent implements OnInit {
             order_id: this.order.order_id,
             payment_date: (new Date().toISOString().slice(0, 10))
           }
-          console.log("Intentando crear: ",paymentToCreate)
+          console.log("Intentando crear: ", paymentToCreate)
           const newPayment = await firstValueFrom(this.paymentService.createPayment(paymentToCreate));
           this.dialogService.openSnackBar('Pago registrado exitosamente!');
           this.router.navigate(['admin/orders/', this.order.order_id]);
@@ -170,4 +168,5 @@ export class PaymentNewComponent implements OnInit {
       this.paymentForm.markAllAsTouched();
     }
   }
+
 }
