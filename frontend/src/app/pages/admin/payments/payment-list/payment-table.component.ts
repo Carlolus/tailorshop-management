@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../../../core/services/payments/payment.service';
 import { Router } from '@angular/router';
+import { DialogService } from '../../../../core/services/dialog.service';
 
 interface LocalPayment {
   payment_id: number;
@@ -59,7 +60,8 @@ export class PaymentTableComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -92,11 +94,34 @@ export class PaymentTableComponent implements OnInit {
 
   editPayment(payment: PaymentTableItem): void {
     this.router.navigate(['admin/finance/payments/edit', payment.id]);
-    // Lógica para editar el pago
   }
 
-  deletePayment(payment: PaymentTableItem): void {
-    console.log('Eliminar pago:', payment);
-    // Lógica para eliminar el pago
+  confirmdeletePayment(payment: PaymentTableItem): void {
+    this.dialogService.confirm("Eliminar pago", 
+      "¿Está seguro de que desea eliminar el pago?"
+    ).then(confirmed => {
+      if (confirmed) this.deletePayment(payment.id);
+    });
+  }
+
+
+  deletePayment(payment_id: number): void {
+    this.paymentService.deletePayment(payment_id).subscribe({
+      next: () => {
+        this.dialogService.notify(
+          'Eliminación Exitosa',
+          `El pago con ID ${payment_id} ha sido eliminado correctamente.`,
+          'success'
+        );
+        this.payments2 = this.payments2.filter(p => p.id !== payment_id);
+      },
+      error: (err) => {
+        this.dialogService.notify(
+          'Error al Eliminar', 
+          `No se pudo eliminar el pago con ID ${payment_id}.`, 
+          'error'
+        );
+      }
+    });
   }
 }
