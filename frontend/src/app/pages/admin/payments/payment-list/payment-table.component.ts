@@ -77,7 +77,7 @@ export class PaymentTableComponent implements OnInit {
     }));
 
     this.route.queryParams.subscribe(params => {
-      const customerName = params['customerName'];
+      const customerName = params['customer_name'];
       const orderIdParam = params['order_id'];
 
       if (customerName) {

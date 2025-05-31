@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Customer } from '../../../../core/models/customer.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-form',
@@ -18,7 +19,10 @@ export class CustomerFormComponent {
 
   customerForm: FormGroup;
 
-  constructor(private cb: FormBuilder) {
+  constructor(
+    private cb: FormBuilder,
+    private router: Router
+  ) {
     this.customerForm = this.cb.group({
       customer_id: [null],
       name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -42,5 +46,11 @@ export class CustomerFormComponent {
 
   closeForm(): void {
     this.formClosed.emit();
+  }
+
+  goToCustomerPayments() {
+    this.router.navigate(['/admin/payments'], {
+      queryParams: { customer_name: this.customerData?.name }
+    });
   }
 }
