@@ -226,15 +226,12 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   onBack(): void {
-    this.router.navigate(['/orders']);
+    this.router.navigate(['admin/orders']);
   }
 
-  onDelete(): void {
-    this.router.navigate(['/orders', this.orderId, 'edit']);
-  }
 
-  onPrint(): void {
-    window.print();
+  onAddPayment(): void {
+    this.router.navigate(['admin/finance/payments/new', this.orderId]);
   }
 
   onViewGarmentDetails(garmentId: string): void {
