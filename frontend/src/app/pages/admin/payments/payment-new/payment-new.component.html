@@ -1,26 +1,29 @@
 <div class="payment-new-container">
   <mat-card>
     <mat-card-header>
+      <mat-icon mat-card-avatar class="header-icon">{{ mode === 'new' ? 'payment' : 'edit_note' }}</mat-icon>
       <mat-card-title *ngIf="mode === 'new'">Registrar Nuevo Pago</mat-card-title>
       <mat-card-title *ngIf="mode === 'edit'">Editar Pago</mat-card-title>
-    </mat-card-header>
+      </mat-card-header>
     <mat-card-content>
       <div *ngIf="order" class="order-details">
-        <h3>Detalles de la Orden</h3>
+        <h3>
+          <mat-icon>receipt_long</mat-icon> Detalles de la Orden
+        </h3>
         <p><strong>ID de Orden:</strong> {{ order.order_id }}</p>
-        <p><strong>Cliente:</strong> Traer Nombre</p>
-        <p><strong>Monto Total de la Orden:</strong> $ {{ order.price | number }}</p>
-        <p><strong>Monto pendiente:</strong> $ {{ order.balance | number }}</p>
+        <p><strong>Cliente:</strong> Traer Nombre</p> <p><strong>Monto Total de la Orden:</strong> <span class="amount-highlight">$ {{ order.price | number }}</span></p>
+        <p><strong>Monto pendiente:</strong> <span class="amount-highlight important-balance">$ {{ order.balance | number }}</span></p>
         @if (mode == 'edit'){
-          <p><strong>Valor actual del pago:</strong> $ {{ payment.amount | number }}</p>
-          <p><strong>Máximo valor para este pago:</strong> $ {{ getMaximunValue() | number}}</p> 
+          <p><strong>Valor actual del pago:</strong> <span class="amount-highlight">$ {{ payment.amount | number }}</span></p>
+          <p><strong>Máximo valor para este pago:</strong> <span class="amount-highlight">$ {{ getMaximunValue() | number}}</span></p>
         }
       </div>
 
       <form [formGroup]="paymentForm" class="payment-form">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Monto</mat-label>
-          <input matInput type="text" [value]="amountToShow" (input)="onAmountChange($event)" placeholder="0" class="number-input">
+          <span matTextPrefix>$&nbsp;</span> <input matInput type="text" [value]="amountToShow" (input)="onAmountChange($event)" placeholder="0" class="number-input">
+          <mat-icon matSuffix>monetization_on</mat-icon>
           <mat-error *ngIf="paymentForm.get('amount')?.hasError('required')">El monto es requerido.</mat-error>
           <mat-error *ngIf="paymentForm.get('amount')?.hasError('min')">El monto debe ser al menos 1.</mat-error>
           <mat-error *ngIf="paymentForm.get('amount')?.hasError('pattern') && !paymentForm.get('amount')?.hasError('min')">
@@ -28,7 +31,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Método de Pago</mat-label>
           <mat-select formControlName="payment_method">
             <mat-option value="">-- Seleccione un método --</mat-option>
@@ -37,21 +40,23 @@
             <mat-option value="transferencia">Transferencia Bancaria</mat-option>
             <mat-option value="otro">Otro</mat-option>
           </mat-select>
+          <mat-icon matSuffix>credit_card</mat-icon>
           <mat-error *ngIf="paymentForm.get('payment_method')?.hasError('required')">El método de pago es requerido.</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Descripción</mat-label>
-          <textarea matInput formControlName="description" placeholder="Ingrese una descripción del pago"></textarea>
+          <textarea matInput formControlName="description" placeholder="Ingrese una descripción del pago (opcional si es necesario)" rows="3"></textarea>
+          <mat-icon matSuffix>description</mat-icon>
           <mat-error *ngIf="paymentForm.get('description')?.hasError('required')">La descripción es requerida.</mat-error>
         </mat-form-field>
       </form>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" [disabled]="!paymentForm.valid"  (click)="onSubmit()">
+    <mat-card-actions align="end"> <button mat-button (click)="onCancel()">Cancelar</button>
+      <button mat-raised-button color="primary" [disabled]="!paymentForm.valid" (click)="onSubmit()">
+        <mat-icon>{{ mode === 'new' ? 'save' : 'update' }}</mat-icon>
         {{ mode === 'new' ? 'Registrar Pago' : 'Actualizar Pago' }}
       </button>
-      <button mat-button routerLink="admin/orders/{{order?.order_id}}">Cancelar</button>
     </mat-card-actions>
   </mat-card>
 </div>

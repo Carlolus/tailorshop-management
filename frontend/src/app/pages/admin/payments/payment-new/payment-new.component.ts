@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 // Models
 import { Payment } from '../../../../core/models/payment.model';
@@ -33,7 +34,8 @@ import { firstValueFrom } from 'rxjs';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIcon
   ],
   templateUrl: './payment-new.component.html',
   styleUrl: './payment-new.component.scss'
@@ -128,8 +130,7 @@ export class PaymentNewComponent implements OnInit {
   }
 
   getMaximunValue(){
-    console.log(+(this.order.balance) + +(this.payment.amount))
-    return +(this.order.balance) + +(this.payment.amount)
+    return +(this.order.balance) + +(this.payment.amount);
   }
 
 
@@ -141,7 +142,6 @@ export class PaymentNewComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    console.log("Entrando")
     if (this.paymentForm.valid) {
       const paymentData = this.paymentForm.value;
       try {
@@ -151,7 +151,6 @@ export class PaymentNewComponent implements OnInit {
             order_id: this.order.order_id,
             payment_date: (new Date().toISOString().slice(0, 10))
           }
-          console.log("Intentando crear: ", paymentToCreate)
           const newPayment = await firstValueFrom(this.paymentService.createPayment(paymentToCreate));
           this.dialogService.openSnackBar('Pago registrado exitosamente!');
           this.router.navigate(['admin/orders/', this.order.order_id]);
@@ -176,4 +175,7 @@ export class PaymentNewComponent implements OnInit {
     }
   }
 
+  onCancel(){
+    this.router.navigate(['/admin/orders', this.order.order_id]);
+  }
 }

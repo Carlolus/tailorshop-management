@@ -1,49 +1,101 @@
+// Definición de colores para fácil mantenimiento
+$primary-color: #059669; // Tu color preferido
+$primary-color-darker: #047d58; // Un tono más oscuro para hover/active
+$accent-color: #f9a825; // Un color de acento (opcional, ejemplo amarillo/naranja)
+$background-light: #f7fafc; // Un fondo muy claro para el contenedor general
+$card-background: #ffffff;
+$border-color-soft: #e2e8f0; // Bordes más suaves
+$text-color-primary: #2d3748;
+$text-color-secondary: #4a5568;
+$text-color-muted: #718096;
+$details-bg: #edf7f4; // Un fondo ligeramente teñido con tu color primario
+
 .payment-new-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Alinea al inicio para que no se centre verticalmente si la tarjeta es muy alta */
-  padding: 20px;
-  min-height: calc(100vh - 64px); // Ajusta la altura si tienes un toolbar o header
+  align-items: flex-start;
+  padding: 24px; // Un poco más de padding general
+  background-color: $background-light; // Fondo sutil para la página
+  min-height: calc(100vh - 64px); // Asumiendo 64px de altura del navbar
 
   mat-card {
     width: 100%;
-    max-width: 600px; // Limita el ancho de la tarjeta para una mejor legibilidad
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sutil sombra
-    border-radius: 8px; // Bordes redondeados
+    max-width: 650px; // Un poco más de ancho si el contenido lo permite
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05); // Sombra más moderna y suave
+    border-radius: 12px; // Bordes un poco más redondeados
+    background-color: $card-background;
 
     mat-card-header {
       padding-bottom: 16px;
-      border-bottom: 1px solid #eee; // Separador sutil
+      border-bottom: 1px solid $border-color-soft;
+      align-items: center; // Centrar verticalmente el avatar y el título
+
+      .header-icon {
+        background-color: $primary-color;
+        color: white;
+        // Para que funcione mat-card-avatar con icono, a veces se necesita:
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       mat-card-title {
-        font-size: 1.5em;
+        font-size: 1.6em; // Ligeramente más grande
         font-weight: 600;
-        color: #059669; // Color primario de Angular Material
+        color: $primary-color;
+        margin-left: 8px; // Pequeño espacio si no se usa avatar, o ajustar si se usa
+      }
+
+      mat-card-subtitle {
+        color: $text-color-muted;
+        margin-left: 8px;
       }
     }
 
     mat-card-content {
-      padding-top: 20px;
+      padding: 24px 24px 16px 24px; // Ajustar padding
 
       .order-details {
-        background-color: #f5f5f5;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        border-left: 5px solid #059669; // Borde para resaltar los detalles de la orden
+        background-color: $details-bg; // Fondo sutil
+        padding: 18px;
+        border-radius: 8px;
+        margin-bottom: 28px; // Más espacio antes del formulario
+        border-left: 5px solid $primary-color;
 
         h3 {
+          display: flex;
+          align-items: center;
+          gap: 8px;
           margin-top: 0;
-          color: #333;
-          font-size: 1.2em;
-          margin-bottom: 10px;
+          color: $primary-color-darker;
+          font-size: 1.25em;
+          margin-bottom: 16px;
+          font-weight: 500;
+
+          mat-icon {
+            font-size: 1.4em; // Ajustar tamaño del ícono en el h3
+          }
         }
 
         p {
-          margin: 5px 0;
-          color: #555;
+          margin: 8px 0;
+          color: $text-color-secondary;
+          font-size: 0.95em;
+          line-height: 1.6;
+
           strong {
-            color: #222;
+            color: $text-color-primary;
+            font-weight: 500;
+          }
+
+          .amount-highlight {
+            font-weight: 600;
+            color: $primary-color-darker;
+          }
+
+          .important-balance {
+            color: #c53030; // Un rojo para destacar deuda, por ejemplo
+            font-weight: bold;
           }
         }
       }
@@ -54,17 +106,54 @@
 
         mat-form-field {
           width: 100%;
-          margin-bottom: 15px;
+          margin-bottom: 18px; // Espacio entre campos
+
+          // Estilos para mat-form-field con appearance="outline"
+          .mat-mdc-form-field-flex {
+            align-items: center; // Para alinear el matTextPrefix
+          }
+
+          .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+            padding-top: 12px; // Ajustar el padding interno para outline
+            padding-bottom: 12px;
+          }
+
+          mat-icon[matSuffix] {
+            color: $text-color-muted; // Color más sutil para iconos de sufijo
+          }
+        }
+
+        .number-input {
+          text-align: right; // Alinear números a la derecha es común
         }
       }
     }
 
     mat-card-actions {
       display: flex;
-      justify-content: flex-end; // Alinea los botones a la derecha
-      gap: 10px; // Espacio entre los botones
-      padding-top: 16px;
-      border-top: 1px solid #eee; // Separador
+      justify-content: flex-end;
+      gap: 12px; // Un poco más de espacio
+      padding: 16px 24px 20px 24px; // Más padding vertical para separar visualmente
+      border-top: 1px solid $border-color-soft;
+      background-color: #fdfdfd; // Un fondo muy sutil para las acciones
+
+      button {
+        padding: 0 20px !important; // Asegurar buen padding horizontal en botones
+        min-height: 40px; // Altura mínima para mejor clickeabilidad
+
+        mat-icon {
+          margin-right: 6px; // Espacio entre icono y texto del botón
+        }
+      }
+
+      button[mat-raised-button][color="primary"] {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+          background-color: $primary-color-darker;
+        }
+      }
     }
   }
 }
