@@ -53,4 +53,10 @@ export class CustomerFormComponent {
       queryParams: { customer_name: this.customerData?.name }
     });
   }
+
+  goToCustomerOrders() {
+    this.router.navigate(['/admin/orders'], {
+      queryParams: { customer_name: this.customerData?.name }
+    });
+  }
 }
