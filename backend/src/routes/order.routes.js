@@ -16,6 +16,7 @@ const validateToken = require("../middlewares/validateToken");
  *         description: Error al obtener las órdenes
  */
 router.get("/", validateToken, orderController.getAllOrders);
+router.get("/count", validateToken, orderController.countOrders);
 
 /**
  * @swagger

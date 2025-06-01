@@ -19,6 +19,51 @@ export class OrderService {
     return this.http.get<Order[]>(this.apiUrl, { headers: this.httpHeaderService.getHeaders() });
   }
 
+  getOrdersByMonth(month?: number, year?: number): Observable<Order[]> {
+    const params: any = {};
+
+    if (month !== undefined && year !== undefined) {
+      params.month = month;
+      params.year = year;
+    }
+    return this.http.get<Order[]>(this.apiUrl, {
+      headers: this.httpHeaderService.getHeaders(),
+      params
+    });
+  }
+
+  getCountOrdersByStatus(status: string): Observable<{ totalOrders: number }> {
+    const params: any = {};
+    if (status != undefined) {
+      params.status = status
+    }
+    return this.http.get<{ totalOrders: number }>(
+      this.apiUrl + '/count',
+      {
+        headers: this.httpHeaderService.getHeaders(),
+        params
+      }
+    );
+  }
+
+
+  getOrdersCount(year?: number, month?: number): Observable<{ totalOrders: number }> {
+    const params: any = {};
+
+    if (month !== undefined && year !== undefined) {
+      params.year = year;
+      params.month = month;
+    }
+
+    return this.http.get<{ totalOrders: number }>(
+      this.apiUrl + '/count',
+      {
+        headers: this.httpHeaderService.getHeaders(),
+        params
+      }
+    );
+  }
+
   getOrderById(id: number): Observable<Order> {
     return this.http.get<Order>(
       `${this.apiUrl}/${id}`,

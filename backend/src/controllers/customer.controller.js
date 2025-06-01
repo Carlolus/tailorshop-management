@@ -8,6 +8,7 @@
 
 const { Customer } = require("../models");
 const { logAudit } = require('../services/audit.service');
+const { Op } = require("sequelize");
 
 exports.getAllCustomers = async (req, res) => {
   try {
@@ -15,6 +16,33 @@ exports.getAllCustomers = async (req, res) => {
     res.json(customers);
   } catch (error) {
     res.status(500).json({ message: "Error al obtener clientes", error });
+  }
+};
+
+exports.countCustomers = async (req, res) => {
+  try {
+    const whereClause = {};
+    if (req.query.year && req.query.month) {
+      const year = parseInt(req.query.year);
+      const month = parseInt(req.query.month);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1);
+
+      whereClause.createdAt = {
+        [Op.gte]: startDate,
+        [Op.lt]: endDate
+      };
+    }
+
+    const count = await Customer.count({
+      where: whereClause
+    });
+
+    res.json({ totalCustomers: count });
+  } catch (error) {
+    console.error("Error al contar las clientes:", error);
+    res.status(500).json({ message: "Error al contar los clientes", error: error.message });
   }
 };
 
