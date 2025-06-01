@@ -168,7 +168,7 @@ export class OrderListComponent implements OnInit {
     }
   }
 
-  getDebt(price: number, balance: number): number{
-    return +(price - balance)
+  getDebt(balance: number): number{
+    return +(balance)
   }
 }

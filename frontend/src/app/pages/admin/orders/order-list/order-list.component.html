@@ -69,7 +69,7 @@
 
       <ng-container matColumnDef="debt">
         <th mat-header-cell *matHeaderCellDef>Deuda</th>
-        <td mat-cell *matCellDef="let order">${{ getDebt(order.price, order.balance).toLocaleString('es-CO') }}</td>
+        <td mat-cell *matCellDef="let order">${{ getDebt(order.balance).toLocaleString('es-CO') }}</td>
       </ng-container>
 
       <!-- Actions Column -->
