@@ -85,6 +85,10 @@ export class PaymentNewComponent implements OnInit {
         this.payment = await firstValueFrom(this.paymentService.getPaymentById(+this.id));
         this.order = await firstValueFrom(this.orderService.getOrderById(this.payment.order_id));
         this.loadPaymentData();
+      } else if (this.mode === 'view') {
+        this.payment = await firstValueFrom(this.paymentService.getPaymentById(+this.id));
+        this.order = await firstValueFrom(this.orderService.getOrderById(this.payment.order_id));
+        this.loadPaymentData();
       } else {
         console.log("Wrong mode detected. Redirecting.");
         this.router.navigate(['/error']);
@@ -123,7 +127,6 @@ export class PaymentNewComponent implements OnInit {
       numericValue = 0;
     }
 
-    // Actualizar formulario y vista
     this.paymentForm.get('amount')?.setValue(numericValue, { emitEvent: false });
     this.amountToShow = numericValue === 0 ? '0' : this.formatNumber(numericValue);
     inputElement.value = this.amountToShow;
