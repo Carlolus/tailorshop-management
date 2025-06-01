@@ -21,8 +21,8 @@ import { firstValueFrom } from 'rxjs';
 interface StatData {
   value: string | number;
   label: string;
-  change: string;
-  changeType: 'positive' | 'negative';
+  change?: string;
+  changeType?: 'positive' | 'negative';
   icon: string;
 }
 
@@ -72,7 +72,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   }
 
-  stats: StatData[] = [];
+  moneyStats: StatData[] = [];
+  ordersStats: StatData[] = [];
+  ordersStatusStats: StatData[] = [];
+  customersStats: StatData[] = [];
 
   // Actividades recientes
   recentActivities: ActivityItem[] = [
@@ -118,76 +121,85 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   private loadDashboardData(): void {
-    this.stats = [
+    this.moneyStats = [
       {
         value: this.earningsTotal,
         label: 'Ingresos totales',
         change: '',
         changeType: 'positive',
-        icon: '💰'
+        icon: 'assets/icons/finance-icon.png'
       },
       {
         value: this.earningsThisMonthValue,
         label: 'Ingresos del mes',
         change: this.earningsPercentage,
         changeType: 'positive',
-        icon: '💰'
-      },
+        icon: 'assets/icons/finance-icon.png'
+      }
+    ];
+
+    this.ordersStats = [
       {
         value: this.ordersTotal,
         label: 'Total ordenes registradas',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/orders-icon.png'
       },
       {
         value: this.ordersThisMonth,
         label: 'Ordenes registradas este mes',
         change: this.ordersPercentaje,
         changeType: 'positive',
-        icon: '👔'
-      },
+        icon: 'assets/icons/orders-icon.png'
+      }
+    ]
+
+    this.ordersStatusStats = [
       {
         value: this.ordersPendant,
         label: 'Ordenes pendientes',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/not-started-icon.png'
       },
       {
         value: this.ordersInProcess,
         label: 'Ordenes en proceso',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/in-process-icon.png'
       },
       {
         value: this.ordersFinished,
         label: 'Ordenes en terminadas',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/finished-icon.png'
       },
       {
         value: this.ordersDelivered,
         label: 'Ordenes entregadas',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/truck-icon.png'
       },
+    ];
+
+    this.customersStats = [
       {
         value: this.customersCount,
         label: 'Total clientes registrados',
         change: '',
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/customers-icon.png'
       },
       {
         value: this.customersThisMonth,
         label: 'Clientes registrados este mes',
         change: this.customersPercentaje,
         changeType: 'positive',
-        icon: '👔'
+        icon: 'assets/icons/customers-icon.png'
       }
     ];
   }
@@ -247,7 +259,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       currency: 'COP',
       minimumFractionDigits: 0
     }).format(earningsTotal2);
-    
+
     this.earningsPercentage = percentage;
   }
 
@@ -313,10 +325,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   onViewReports(): void {
-    console.log('Ver reportes');
+    const element = document.getElementById('stats');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  onOpenSettings(): void {
-    console.log('Abrir configuración');
+  onQuickActions(): void {
+    const element = document.getElementById('here');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

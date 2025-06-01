@@ -89,6 +89,7 @@ export class PaymentNewComponent implements OnInit {
       } else if (this.mode === 'view') {
         this.payment = await firstValueFrom(this.paymentService.getPaymentById(+this.id));
         this.order = await firstValueFrom(this.orderService.getOrderById(this.payment.order_id));
+        this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
         this.loadPaymentData();
       } else {
         console.log("Wrong mode detected. Redirecting.");

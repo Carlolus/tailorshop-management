@@ -2,42 +2,122 @@
 <section class="header">
   <div class="container">
     <div class="header-content">
-      <div class="header-text">
-        <h1>Panel de Administración</h1>
-        <p>Gestiona tu sastrería de manera eficiente y profesional</p>
+      <!-- Columna izquierda: título y botones -->
+      <div class="header-left">
+        <div class="header-text">
+          <h1>Panel de Administración</h1>
+          <p>Gestiona tu sastrería de manera eficiente y profesional</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary" (click)="onViewReports()">
+            <span class="btn-icon">📊</span>
+            Estadísticas
+          </button>
+          <button class="btn-secondary" (click)="onQuickActions()">
+            <span class="btn-icon">⚙️</span>
+            Accesos Rápidos
+          </button>
+        </div>
       </div>
-      <div class="header-actions">
-        <button class="btn-primary" (click)="onViewReports()">
-          <span class="btn-icon">📊</span>
-          Ver Reportes
-        </button>
-        <button class="btn-secondary" (click)="onOpenSettings()">
-          <span class="btn-icon">⚙️</span>
-          Configuración
-        </button>
+      <div class="header-right">
+        <img src="assets/images/dashboardimg.jpg" alt="Ilustración" />
       </div>
     </div>
   </div>
+</section>
+<section id="stats">
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="stat-title">Ingresos</h2>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of moneyStats; let i = index" [attr.data-index]="i">
+          <div class="stat-top">
+            <div class="stat-header">
+              <div class="stat-icon">
+                <img [src]="stat.icon" alt="Ícono" />
+              </div>
+              <div class="stat-change" [ngClass]="stat.changeType">{{ stat.change }}</div>
+            </div>
+          </div>
+          <div class="stat-bottom">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="stat-title">Ordenes</h2>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of ordersStats; let i = index" [attr.data-index]="i">
+          <div class="stat-top">
+            <div class="stat-header">
+              <div class="stat-icon">
+                <img [src]="stat.icon" alt="Ícono" />
+              </div>
+              <div class="stat-change" [ngClass]="stat.changeType">{{ stat.change }}</div>
+            </div>
+          </div>
+          <div class="stat-bottom">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="stat-title">Estados de ordenes</h2>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of ordersStatusStats; let i = index" [attr.data-index]="i">
+          <div class="stat-top">
+            <div class="stat-header">
+              <div class="stat-icon">
+                <img [src]="stat.icon" alt="Ícono" />
+              </div>
+              <div class="stat-change" [ngClass]="stat.changeType">{{ stat.change }}</div>
+            </div>
+          </div>
+          <div class="stat-bottom">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="stat-title">Clientes</h2>
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of customersStats; let i = index" [attr.data-index]="i">
+          <div class="stat-top">
+            <div class="stat-header">
+              <div class="stat-icon">
+                <img [src]="stat.icon" alt="Ícono" />
+              </div>
+              <div class="stat-change" [ngClass]="stat.changeType">{{ stat.change }}</div>
+            </div>
+          </div>
+          <div class="stat-bottom">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </section>
 
-<!-- Statistics Grid -->
-<section class="stats-section">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-card" *ngFor="let stat of stats; let i = index" [attr.data-index]="i">
-        <div class="stat-header">
-          <div class="stat-icon">{{stat.icon}}</div>
-          <div class="stat-change" [ngClass]="stat.changeType">{{stat.change}}</div>
-        </div>
-        <div class="stat-value">{{stat.value}}</div>
-        <div class="stat-label">{{stat.label}}</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Quick Actions -->
-<section class="quick-actions">
+<section class="quick-actions" id="quickactions">
   <div class="container">
     <h2 class="section-title">Accesos Rápidos</h2>
     <div class="actions-grid">
@@ -117,26 +197,6 @@
         </div>
         <div class="action-arrow">↗</div>
       </a>
-    </div>
-  </div>
-</section>
-
-<!-- Recent Activity -->
-<section class="recent-activity">
-  <div class="container">
-    <div class="activity-header">
-      <h2 class="section-title">Actividad Reciente</h2>
-      <button class="view-all-btn" (click)="onViewRecentOrders()">Ver todas</button>
-    </div>
-    
-    <div class="activity-list">
-      <div class="activity-item" *ngFor="let activity of recentActivities" [attr.data-type]="activity.type">
-        <div class="activity-icon">{{activity.icon}}</div>
-        <div class="activity-content">
-          <div class="activity-title">{{activity.title}}</div>
-          <div class="activity-time">{{activity.time}}</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
