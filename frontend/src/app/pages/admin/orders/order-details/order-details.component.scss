@@ -499,11 +499,11 @@
 }
 
 .btn-primary {
-  background-color: #059669 !important;
+  background-color: #ca3406 !important;
   color: white !important;
 
   &:hover {
-    background-color: #047857 !important;
+    background-color: #e01c1c !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   }
 }
@@ -529,13 +529,24 @@
   }
 }
 
-.btn-print {
+.btn-addpay {
   // Botón para imprimir la orden general
   background-color: #059669 !important;
   color: white !important;
 
   &:hover {
-    background-color: #059669 !important;
+    background-color: #08b17b !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.btn-viewpays {
+  // Botón para imprimir la orden general
+  background-color: #313131 !important;
+  color: white !important;
+
+  &:hover {
+    background-color: #505050 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   }
 }

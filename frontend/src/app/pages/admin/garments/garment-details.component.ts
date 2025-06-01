@@ -23,10 +23,6 @@ import { GarmentTypeService } from '../../../core/services/garment-types/garment
 import { OrderService } from '../../../core/services/orders/order.service';
 import { firstValueFrom } from 'rxjs';
 
-
-
-
-
 export interface Garment2 {
     garment_id: number;
     order_id: number;

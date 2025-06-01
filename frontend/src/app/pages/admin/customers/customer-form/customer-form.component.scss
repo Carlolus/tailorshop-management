@@ -85,6 +85,15 @@
                 }
             }
 
+            &.btn-payments {
+                background-color: #f9faf8;
+                color: #333;
+
+                &:hover {
+                    background-color: #e2e6ea;
+                }
+            }
+
             &.btn-save {
                 background-color: #28a745;
                 color: white;

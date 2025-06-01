@@ -62,8 +62,8 @@
             <p><strong>Creada:</strong> {{ orderData.created_date | date:'fullDate':'':'es' }}</p>
             <p><strong>Entrega:</strong> {{ orderData.delivery_date | date:'fullDate':'':'es'}}</p>
             <p><strong>Precio total:</strong> ${{ orderData.price.toLocaleString('es-CO') }}</p>
-            <p><strong>Cancelado:</strong> ${{ orderData.balance.toLocaleString('es-CO') }}</p>
-            <p><strong>Saldo pendiente:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}
+            <p><strong>Cancelado:</strong> ${{ (orderData.price - orderData.balance).toLocaleString('es-CO') }}</p>
+            <p><strong>Saldo pendiente:</strong> ${{ (orderData.balance).toLocaleString('es-CO') }}
             </p>
             <div class="payment-progress">
               <div class="progress-bar">
@@ -71,7 +71,7 @@
               </div>
               <span class="progress-text">{{ getPaymentPercentage() }}% pagado</span>
             </div>
-            
+
 
           </div>
 
@@ -86,7 +86,7 @@
                 <mat-icon>add</mat-icon>
               </button>
             </div>
-            
+
             <ul>
               @for (garment of orderData.garments; track garment.id) {
               <li>
@@ -139,22 +139,30 @@
 
     <!-- Acciones -->
     <div class="order-actions">
-      <button mat-button (click)="onBack()" class = "btn-back">
+      <button mat-button (click)="onBack()" class="btn-back">
         <mat-icon>arrow_back</mat-icon>
         Volver
       </button>
 
       @if (orderData.status !== 'entregado') {
-      <button mat-flat-button class = "btn-primary" (click)="confirmDeleteOrder(orderId)">
+      <button mat-flat-button class="btn-primary" (click)="confirmDeleteOrder(orderId)">
         <mat-icon>delete</mat-icon>
         Eliminar orden
       </button>
       }
-
-      <button mat-stroked-button class = "btn-print" (click)="onPrint()">
-        <mat-icon>print</mat-icon>
-        Imprimir
+      @if (canPay){
+      <button mat-stroked-button class="btn-addpay" (click)="onAddPayment()">
+        <mat-icon>money</mat-icon>
+        Registrar pago
       </button>
+      }
+      @if (orderData.balance != orderData.price ){
+      <button mat-stroked-button class="btn-viewpays" (click)="goToOrderPayments()">
+        <mat-icon>money</mat-icon>
+        Ver pagos
+      </button>
+      }
+
     </div>
   </div>
   }

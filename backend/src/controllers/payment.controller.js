@@ -2,7 +2,7 @@
   Title: payment.controller.js
   Description: Controller for managing CRUD operations for payments in the database.
 */
-const { Payment, Order } = require("../models");
+const { Payment, Order, Customer } = require("../models");
 const { logAudit } = require("../services/audit.service");
 const sequelize = require("../config/database");
 
@@ -12,9 +12,21 @@ exports.getAllPayments = async (req, res) => {
     if (req.query.order_id) {
       whereClause.order_id = req.query.order_id;
     }
+
     const payments = await Payment.findAll({
-      where: whereClause
+      where: whereClause,
+      include: {
+        model: Order,
+        as: "paymentOrder",
+        include: {
+          model: Customer,
+          as: "orderCustomer",
+          attributes: ["customer_id", "name"]
+        }
+      },
+      order: [["payment_date", "DESC"]]
     });
+
     res.json(payments);
   } catch (error) {
     console.error("Error al obtener los pagos:", error);
@@ -93,13 +105,38 @@ exports.createPayment = async (req, res) => {
 
 
 exports.updatePayment = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const payment = await Payment.findByPk(req.params.payment_id);
-    if (!payment) return res.status(404).json({ message: "Pago no encontrado" });
+    const payment = await Payment.findByPk(req.params.payment_id, { transaction: t });
+    if (!payment) {
+      await t.rollback();
+      return res.status(404).json({ message: "Pago no encontrado" });
+    }
+
+    const order = await Order.findByPk(payment.order_id, { transaction: t });
+    if (!order) {
+      await t.rollback();
+      return res.status(404).json({ message: "Orden asociada no encontrada" });
+    }
+
+    const oldAmount = parseFloat(payment.amount);
+    const newAmount = parseFloat(req.body.amount);
+
+    // Calcular nuevo balance
+    const currentBalance = parseFloat(order.balance);
+    const adjustedBalance = currentBalance + oldAmount - newAmount;
+
+    if (adjustedBalance < 0) {
+      await t.rollback();
+      return res.status(400).json({ message: `El nuevo monto del pago excede el saldo disponible.` });
+    }
 
     const beforeUpdate = { ...payment.dataValues };
 
-    await payment.update(req.body);
+    await payment.update(req.body, { transaction: t });
+    await order.update({ balance: adjustedBalance }, { transaction: t });
+
+    await t.commit();
 
     const updatedFields = {};
     for (const key of Object.keys(req.body)) {
@@ -121,14 +158,33 @@ exports.updatePayment = async (req, res) => {
 
     res.json(payment);
   } catch (error) {
+    await t.rollback();
     res.status(500).json({ message: "Error al actualizar el pago", error });
   }
 };
 
 exports.deletePayment = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const payment = await Payment.findByPk(req.params.payment_id);
-    if (!payment) return res.status(404).json({ message: "Pago no encontrado" });
+    const payment = await Payment.findByPk(req.params.payment_id, { transaction: t });
+    if (!payment) {
+      await t.rollback();
+      return res.status(404).json({ message: "Pago no encontrado" });
+    }
+
+    const order = await Order.findByPk(payment.order_id, { transaction: t });
+    if (!order) {
+      await t.rollback();
+      return res.status(404).json({ message: "Orden asociada no encontrada" });
+    }
+
+    // Reintegrar monto al balance
+    order.balance = parseFloat(order.balance) + parseFloat(payment.amount);
+    await order.save({ transaction: t });
+
+    await payment.destroy({ transaction: t });
+
+    await t.commit();
 
     await logAudit({
       user: req.user,
@@ -138,9 +194,9 @@ exports.deletePayment = async (req, res) => {
       description: `Pago eliminado con ID ${payment.payment_id}`
     });
 
-    await payment.destroy();
     res.json({ message: "Pago eliminado correctamente" });
   } catch (error) {
+    await t.rollback();
     res.status(500).json({ message: "Error al eliminar el pago", error });
   }
 };
