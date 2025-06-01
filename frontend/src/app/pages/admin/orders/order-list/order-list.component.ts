@@ -56,7 +56,9 @@ export class OrderListComponent implements OnInit {
   orders: Order[] = [];
   customers: Customer[] = [];
 
-  displayedColumns: string[] = ['id', 'client', 'status', 'createdDate', 'deliveryDate', 'price', 'actions'];
+  debtToShoW!: number;
+
+  displayedColumns: string[] = ['id', 'client', 'status', 'createdDate', 'deliveryDate', 'price', 'debt', 'actions'];
   dataSource = new MatTableDataSource<Order>();
   isLoading = true;
   searchTerm: string = '';
@@ -106,7 +108,6 @@ export class OrderListComponent implements OnInit {
       const deliveryDateFormatted = formatDate(order.delivery_date, 'mediumDate', this.locale).toLowerCase();
       const orderDateShort = formatDate(order.order_date, 'dd/MM/yyyy', this.locale).toLowerCase();
       const deliveryDateShort = formatDate(order.delivery_date, 'dd/MM/yyyy', this.locale).toLowerCase();
-
       const dataToFilter = [
         order.order_id.toString(),
         customerName,
@@ -115,6 +116,7 @@ export class OrderListComponent implements OnInit {
         deliveryDateFormatted,
         orderDateShort,
         deliveryDateShort,
+        this.debtToShoW,
         order.price.toString(),
         order.price.toLocaleString('es-CO')
       ].join(' ');
@@ -164,5 +166,9 @@ export class OrderListComponent implements OnInit {
     if (this.dataSource) { 
       this.dataSource.filter = this.searchTerm.trim().toLowerCase();
     }
+  }
+
+  getDebt(price: number, balance: number): number{
+    return +(price - balance)
   }
 }
