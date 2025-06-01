@@ -224,7 +224,7 @@ export class OrderDetailsComponent implements OnInit {
 
 
   onAddPayment(): void {
-    this.router.navigate(['admin/finance/payments/new', this.orderId]);
+    this.router.navigate(['admin/payments/new', this.orderId]);
   }
 
   onViewGarmentDetails(garmentId: string): void {
