@@ -35,6 +35,34 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
+exports.countOrders = async (req, res) => {
+  try {
+    const whereClause = {};
+
+    if (req.query.year && req.query.month) {
+      const year = parseInt(req.query.year);
+      const month = parseInt(req.query.month);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1);
+
+      whereClause.order_date = {
+        [Op.gte]: startDate,
+        [Op.lt]: endDate
+      };
+    }
+
+    const count = await Order.count({
+      where: whereClause
+    });
+
+    res.json({ totalOrders: count });
+  } catch (error) {
+    console.error("Error al contar las órdenes:", error);
+    res.status(500).json({ message: "Error al contar las órdenes", error: error.message });
+  }
+};
+
 exports.getOrderById = async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.order_id);
