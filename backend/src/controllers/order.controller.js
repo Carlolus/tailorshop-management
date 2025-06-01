@@ -15,7 +15,7 @@ exports.getAllOrders = async (req, res) => {
       const month = parseInt(req.query.month);
 
       const startDate = new Date(year, month - 1, 1);
-      const endDate = new Date(year, month, 1); 
+      const endDate = new Date(year, month, 1);
 
       whereClause.order_date = {
         [Op.gte]: startDate,
@@ -50,6 +50,15 @@ exports.countOrders = async (req, res) => {
         [Op.gte]: startDate,
         [Op.lt]: endDate
       };
+    }
+
+    if (req.query.status) {
+      const allowedStatuses = ["pendiente", "en proceso", "terminado", "entregado"];
+      if (allowedStatuses.includes(req.query.status)) {
+        whereClause.status = req.query.status;  // igualdad exacta
+      } else {
+        return res.status(400).json({ message: "Status inválido" });
+      }
     }
 
     const count = await Order.count({

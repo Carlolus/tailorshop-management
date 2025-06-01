@@ -59,9 +59,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ordersPercentaje!: string;
 
   ordersPendant!: number;
-  ordersProcess!: number;
+  ordersInProcess!: number;
   ordersFinished!: number;
-  ordersDeliveredes!: number;
+  ordersDelivered!: number;
 
   constructor(
     private orderService: OrderService,
@@ -104,6 +104,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // Aquí puedes cargar datos desde tu API
     await this.calculatePaymentsPerMonth();
     await this.calculateOrdersPerMonth();
+    await this.calculateOrders();
     this.loadDashboardData();
   }
 
@@ -117,7 +118,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.stats = [
       {
         value: this.earningsThisMonthValue,
-        label: 'Ingresos del Mes',
+        label: 'Ingresos del mes',
         change: this.earningsPercentage,
         changeType: 'positive',
         icon: '💰'
@@ -131,39 +132,39 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
       {
         value: this.ordersThisMonth,
-        label: 'Ordenes del Mes',
+        label: 'Ordenes registradas este mes',
         change: this.ordersPercentaje,
         changeType: 'positive',
         icon: '👔'
       },
       {
-        value: 'Trajes',
-        label: 'Más Vendido del Mes',
-        change: '+15.3%',
+        value: this.ordersPendant,
+        label: 'Ordenes pendientes',
+        change: '',
         changeType: 'positive',
         icon: '👔'
       },
       {
-        value: 127,
-        label: 'Órdenes Pendientes',
-        change: '+8.2%',
-        changeType: 'positive',
-        icon: '📦'
-      },
-      {
-        value: 'Ordenes En Proceso',
-        label: 'Más Vendido del Mes',
-        change: '+15.3%',
+        value: this.ordersInProcess,
+        label: 'Ordenes en proceso',
+        change: '',
         changeType: 'positive',
         icon: '👔'
       },
       {
-        value: 'Ordenes finalizadas',
-        label: 'Más Vendido del Mes',
-        change: '+15.3%',
+        value: this.ordersFinished,
+        label: 'Ordenes en terminadas',
+        change: '',
         changeType: 'positive',
         icon: '👔'
       },
+      {
+        value: this.ordersDelivered,
+        label: 'Ordenes entregadas',
+        change: '',
+        changeType: 'positive',
+        icon: '👔'
+      }
     ];
   }
 
@@ -239,7 +240,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   async calculateOrders(): Promise<void> {
-
+    const pendingOrders = await firstValueFrom(this.orderService.getCountOrdersByStatus('pendiente'));
+    this.ordersPendant = pendingOrders.totalOrders;
+    const inProccessOrders = await firstValueFrom(this.orderService.getCountOrdersByStatus('en proceso'));
+    this.ordersInProcess = inProccessOrders.totalOrders;
+    const finishedOrders = await firstValueFrom(this.orderService.getCountOrdersByStatus('terminado'));
+    this.ordersFinished = finishedOrders.totalOrders;
+    const deliveredOrders = await firstValueFrom(this.orderService.getCountOrdersByStatus('entregado'));
+    this.ordersDelivered = deliveredOrders.totalOrders;
   }
 
   onViewRecentOrders(): void {

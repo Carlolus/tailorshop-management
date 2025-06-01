@@ -32,6 +32,21 @@ export class OrderService {
     });
   }
 
+  getCountOrdersByStatus(status: string): Observable<{ totalOrders: number }> {
+    const params: any = {};
+    if (status != undefined) {
+      params.status = status
+    }
+    return this.http.get<{ totalOrders: number }>(
+      this.apiUrl + '/count',
+      {
+        headers: this.httpHeaderService.getHeaders(),
+        params
+      }
+    );
+  }
+
+
   getOrdersCount(year?: number, month?: number): Observable<{ totalOrders: number }> {
     const params: any = {};
 
