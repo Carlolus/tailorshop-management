@@ -1,71 +1,142 @@
-<section class="hero">
+<!-- Header Section -->
+<section class="header">
   <div class="container">
-    <div class="hero-content">
-      <h1>Bienvenido al Panel de Administración</h1>
-      <p>Desde aquí puedes gestionar telas, catálogo, pedidos y otros aspectos de la sastrería.</p>
-      <button class="cta-button">Ver pedidos recientes</button>
-    </div>
-    <div class="hero-image">
-      <img class="placeholder-image" src="../../../assets/images/dashboardimg.jpg" alt="Dashboard Image">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Panel de Administración</h1>
+        <p>Gestiona tu sastrería de manera eficiente y profesional</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" (click)="onViewReports()">
+          <span class="btn-icon">📊</span>
+          Ver Reportes
+        </button>
+        <button class="btn-secondary" (click)="onOpenSettings()">
+          <span class="btn-icon">⚙️</span>
+          Configuración
+        </button>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="features">
+<!-- Statistics Grid -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card" *ngFor="let stat of stats; let i = index" [attr.data-index]="i">
+        <div class="stat-header">
+          <div class="stat-icon">{{stat.icon}}</div>
+          <div class="stat-change" [ngClass]="stat.changeType">{{stat.change}}</div>
+        </div>
+        <div class="stat-value">{{stat.value}}</div>
+        <div class="stat-label">{{stat.label}}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Actions -->
+<section class="quick-actions">
   <div class="container">
     <h2 class="section-title">Accesos Rápidos</h2>
-    <div class="features-grid">
-      <div class="feature-card" [routerLink]="['/admin/fabrics']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/fabric-icon.png" alt="fabric icon" class="small-icon" />
+    <div class="actions-grid">
+      <a [routerLink]="['/admin/fabrics']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/fabric-icon.png" alt="fabric icon" class="icon-img" />
         </div>
-        <h3>Telas</h3>
-        <p>Administra el inventario y tipos de telas.</p>
-      </div>
-      <div class="feature-card" [routerLink]="['/admin/catalog']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/catalog-icon.png" alt="catalog icon" class="small-icon" />
+        <div class="action-content">
+          <h3>Gestión de Telas</h3>
+          <p>Administra el inventario y tipos de telas disponibles</p>
         </div>
-        <h3>Catálogo</h3>
-        <p>Edita los modelos disponibles para los clientes.</p>
-      </div>
-      <div class="feature-card" [routerLink]="['/admin/customers']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/customers-icon.png" alt="customers icon" class="small-icon" />
-        </div>
-        <h3>Clientes</h3>
-        <p>Visualiza y administra los clientes.</p>
-      </div>
-      <div class="feature-card" [routerLink]="['/admin/orders']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/orders-icon.png" alt="order icon" class="small-icon" />
-        </div>
-        <h3>Órdenes</h3>
-        <p>Visualiza y administra las ordenes.</p>
-      </div>
-      <div class="feature-card" [routerLink]="['/admin/payments']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/finance-icon.png" alt="finance icon" class="small-icon" />
-        </div>
-        <h3>Finanzas</h3>
-        <p>Visualiza y administra los pagos.</p>
-      </div>
-      <div class="feature-card" [routerLink]="['/admin/logs']" style="cursor: pointer;">
-        <div class="feature-icon">
-          <img src="assets/icons/log-icon.png" alt="log icon" class="small-icon" />
-        </div>
-        <h3>Bitácora</h3>
-        <p>Historial de actividad.</p>
-      </div>
-      
-      <a href="http://localhost:6875/books" target="_blank" class="feature-card"
-        style="text-decoration: none; color: inherit;">
-        <div class="feature-icon">
-          <img src="assets/icons/knowledge-icon.png" alt="log icon" class="small-icon" />
-        </div>
-        <h3>Gestión del conocimiento</h3>
-        <p>Acceder al sistema de gestión del conocimiento.</p>
+        <div class="action-arrow">→</div>
       </a>
+
+      <a [routerLink]="['/admin/catalog']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/catalog-icon.png" alt="catalog icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Catálogo de Productos</h3>
+          <p>Edita los modelos disponibles para los clientes</p>
+        </div>
+        <div class="action-arrow">→</div>
+      </a>
+
+      <a [routerLink]="['/admin/customers']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/customers-icon.png" alt="customers icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Base de Clientes</h3>
+          <p>Visualiza y administra información de clientes</p>
+        </div>
+        <div class="action-arrow">→</div>
+      </a>
+
+      <a [routerLink]="['/admin/orders']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/orders-icon.png" alt="order icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Gestión de Órdenes</h3>
+          <p>Visualiza y administra todas las órdenes de trabajo</p>
+        </div>
+        <div class="action-arrow">→</div>
+      </a>
+
+      <a [routerLink]="['/admin/payments']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/finance-icon.png" alt="finance icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Control Financiero</h3>
+          <p>Administra pagos, facturación y estados de cuenta</p>
+        </div>
+        <div class="action-arrow">→</div>
+      </a>
+
+      <a [routerLink]="['/admin/logs']" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/log-icon.png" alt="log icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Bitácora del Sistema</h3>
+          <p>Historial completo de actividades y eventos</p>
+        </div>
+        <div class="action-arrow">→</div>
+      </a>
+
+      <a href="http://localhost:6875/books" target="_blank" class="action-card">
+        <div class="action-icon">
+          <img src="assets/icons/knowledge-icon.png" alt="knowledge icon" class="icon-img" />
+        </div>
+        <div class="action-content">
+          <h3>Gestión del Conocimiento</h3>
+          <p>Acceso al sistema de documentación y recursos</p>
+        </div>
+        <div class="action-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Activity -->
+<section class="recent-activity">
+  <div class="container">
+    <div class="activity-header">
+      <h2 class="section-title">Actividad Reciente</h2>
+      <button class="view-all-btn" (click)="onViewRecentOrders()">Ver todas</button>
+    </div>
+    
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let activity of recentActivities" [attr.data-type]="activity.type">
+        <div class="activity-icon">{{activity.icon}}</div>
+        <div class="activity-content">
+          <div class="activity-title">{{activity.title}}</div>
+          <div class="activity-time">{{activity.time}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
