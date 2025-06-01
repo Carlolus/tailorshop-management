@@ -16,6 +16,7 @@ const validateToken = require("../middlewares/validateToken");
  *         description: Error interno del servidor
  */
 router.get("/", validateToken, customerController.getAllCustomers);
+router.get("/count", validateToken, customerController.countCustomers)
 /**
  * @swagger
  * /customers/{customer_id}:

@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   pastMonth!: number;
   pastYear!: number;
 
+  earningsTotal!: string;
   earningsThisMonthValue!: string;
   earningsPercentage!: string;
 
@@ -65,7 +66,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   constructor(
     private orderService: OrderService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private customerService: CustomerService
   ) {
 
   }
@@ -105,6 +107,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     await this.calculatePaymentsPerMonth();
     await this.calculateOrdersPerMonth();
     await this.calculateOrders();
+    await this.calculateCustomers();
     this.loadDashboardData();
   }
 
@@ -116,6 +119,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   private loadDashboardData(): void {
     this.stats = [
+      {
+        value: this.earningsTotal,
+        label: 'Ingresos totales',
+        change: '',
+        changeType: 'positive',
+        icon: '💰'
+      },
       {
         value: this.earningsThisMonthValue,
         label: 'Ingresos del mes',
@@ -164,6 +174,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         change: '',
         changeType: 'positive',
         icon: '👔'
+      },
+      {
+        value: this.customersCount,
+        label: 'Total clientes registrados',
+        change: '',
+        changeType: 'positive',
+        icon: '👔'
+      },
+      {
+        value: this.customersThisMonth,
+        label: 'Clientes registrados este mes',
+        change: this.customersPercentaje,
+        changeType: 'positive',
+        icon: '👔'
       }
     ];
   }
@@ -186,6 +210,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.pastMonth = pastMonth;
     this.pastYear = pastYear;
 
+    const totalPayments = await firstValueFrom(
+      this.paymentService.getPaymentsByMonth()
+    );
+
     const paymentsThisMonth = await firstValueFrom(
       this.paymentService.getPaymentsByMonth(currentMonth, currentYear)
     );
@@ -194,6 +222,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.paymentService.getPaymentsByMonth(pastMonth, pastYear)
     );
 
+    const earningsTotal = totalPayments.reduce((sum, p) => sum + +(p.amount), 0);
     const earningsThisMonth = paymentsThisMonth.reduce((sum, p) => sum + +(p.amount), 0);
     const earningsPastMonth = paymentsPastMonth.reduce((sum, p) => sum + +(p.amount), 0);
 
@@ -211,6 +240,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       currency: 'COP',
       minimumFractionDigits: 0
     }).format(earningsValue);
+
+    const earningsTotal2 = Number(earningsTotal) || 0;
+    this.earningsTotal = new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0
+    }).format(earningsTotal2);
+    
     this.earningsPercentage = percentage;
   }
 
@@ -248,6 +285,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.ordersFinished = finishedOrders.totalOrders;
     const deliveredOrders = await firstValueFrom(this.orderService.getCountOrdersByStatus('entregado'));
     this.ordersDelivered = deliveredOrders.totalOrders;
+  }
+
+  async calculateCustomers(): Promise<void> {
+    const totalCustomers = await firstValueFrom(this.customerService.getCustomersCount());
+    this.customersCount = totalCustomers.totalCustomers;
+    console.log(this.customersCount)
+
+    const customersThisMonth = await firstValueFrom(this.customerService.getCustomersCount(this.currentYear, this.currentMonth));
+    this.customersThisMonth = customersThisMonth.totalCustomers;
+
+    const customersPastMonth = await firstValueFrom(this.customerService.getCustomersCount(this.pastYear, this.currentYear));
+    const customersPastMonthCount = customersPastMonth.totalCustomers;
+    let percentage = "0%";
+
+    if (customersPastMonthCount > 0) {
+      const diff = ((this.customersThisMonth - customersPastMonthCount) / customersPastMonthCount) * 100;
+      percentage = `+${diff.toFixed(1)}%`;
+    } else if (this.customersThisMonth > 0) {
+      percentage = "+100%";
+    }
+    this.customersPercentaje = percentage;
   }
 
   onViewRecentOrders(): void {

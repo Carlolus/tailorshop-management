@@ -19,6 +19,21 @@ export class CustomerService {
     return this.http.get<Customer[]>(this.apiUrl, { headers: this.httpHeaderService.getHeaders() });
   }
 
+  getCustomersCount(year?: number, month?: number): Observable<{ totalCustomers: number }> {
+    const params: any = {};
+    if (month !== undefined && year !== undefined) {
+      params.month = month;
+      params.year = year;
+    }
+    return this.http.get<{ totalCustomers: number }>(
+      this.apiUrl + '/count',
+      {
+        headers: this.httpHeaderService.getHeaders(),
+        params
+      }
+    );
+  }
+
   createCustomer(customer: Omit<Customer, 'customer_id'>): Observable<Customer> {
     return this.http.post<Customer>(this.apiUrl, customer, { headers: this.httpHeaderService.getHeaders() });
   }
