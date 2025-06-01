@@ -11,15 +11,36 @@
         placeholder="Buscar..."
         [formControl]="searchControl">
 </div>
-<section id="colecciones" class="catalog-cards-container">
-  <div class="catalog-card" *ngFor="let item of catalogItems">
-    <img [src]="item.image" [alt]="item.name" class="catalog-card-image" />
+<!-- Cambiar esta línea en el template -->
+<section id="colecciones" class="catalog-cards-container" [@listAnimation]>
+  <div 
+    class="catalog-card" 
+    *ngFor="let item of filteredItems" 
+    (click)="openModal(item)"
+  >
+    <img [src]="item.image" class="catalog-card-image" />
     <div class="catalog-card-content">
-      <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
     </div>
   </div>
+
+  <div *ngIf="filteredItems.length === 0 && searchControl.value" class="no-results">
+    <p>No se encontraron resultados para "{{ searchControl.value }}"</p>
+  </div>
 </section>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="selectedItem" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="closeModal()">×</button>
+    <img [src]="selectedItem.image" class="modal-image" />
+    <h3>Descripción</h3>
+    <p>{{ selectedItem.description }}</p>
+    <!-- <h4>Tejido / Tela</h4>
+    <p>{{ selectedItem.fabric }}</p> -->
+  </div>
+</div>
+
 <section></section>
 <section class="catalog-footer">
   <div class="catalog-footer-content">

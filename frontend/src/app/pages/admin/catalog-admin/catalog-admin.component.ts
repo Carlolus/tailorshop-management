@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CatalogItem } from '../../../core/models/catalog.model';
 import { CatalogService } from '../../../core/services/catalog/catalog.service';
-import { Subject, takeUntil } from 'rxjs';
+import { FabricService } from '../../../core/services/fabrics/fabric.service';
+import { Fabric } from '../../../core/models/fabric.model';
+import { Subject, takeUntil, forkJoin } from 'rxjs';
 import { CatalogFormComponent } from './catalog-form/catalog-form.component';
 import { DialogService } from '../../../core/services/dialog.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-catalog-admin',
@@ -21,6 +22,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CatalogAdminComponent implements OnInit, OnDestroy {
   catalogs: CatalogItem[] = [];
+  fabrics: Fabric[] = [];
   isLoading = true;
   private destroy$ = new Subject<void>();
   showForm = false;
@@ -30,6 +32,7 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private catalogService: CatalogService,
+    private fabricService: FabricService,
     private dialogService: DialogService
   ) {}
 
@@ -44,27 +47,39 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
 
   loadCatalogs(): void {
     this.isLoading = true;
-    this.catalogService.getCatalog()
-      .pipe(takeUntil(this.destroy$))
+    
+    // Cargar catálogos y telas en paralelo
+    forkJoin({
+      catalogs: this.catalogService.getCatalog(),
+      fabrics: this.fabricService.getFabrics()
+    }).pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (catalogs) => {
+        next: ({ catalogs, fabrics }) => {
           this.catalogs = catalogs;
+          this.fabrics = fabrics;
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Error loading catalogs:', err);
+          console.error('Error loading data:', err);
           this.isLoading = false;
         }
       });
   }
 
+  // Método para obtener la tela por ID
+  getFabricById(fabricId: string | number): Fabric | undefined {
+    return this.fabrics.find(fabric => fabric.fabric_id == fabricId);
+  }
+
+  // Getter que se ejecuta automáticamente cuando cambia searchTerm
   get filteredCatalogs() {
     if (!this.searchTerm.trim()) return this.catalogs;
     const term = this.searchTerm.toLowerCase();
-    return this.catalogs.filter(c =>
-      c.name.toLowerCase().includes(term) ||
-      c.description.toLowerCase().includes(term)
-    );
+    return this.catalogs.filter(catalog => {
+      const matchesId = catalog.item_id?.toString().includes(term);
+      const matchesDescription = catalog.description?.toLowerCase().includes(term);
+      return matchesId || matchesDescription 
+    });
   }
 
   confirmDelete(catalogId: number): void {
@@ -135,7 +150,8 @@ export class CatalogAdminComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   trackByCatalogId(index: number, catalog: CatalogItem): number {
-  return catalog.item_id ?? index;
+    return catalog.item_id ?? index;
   }
 }
