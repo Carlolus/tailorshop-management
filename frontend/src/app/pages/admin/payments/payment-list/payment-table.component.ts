@@ -102,7 +102,7 @@ export class PaymentTableComponent implements OnInit {
   }
 
   editPayment(payment: PaymentTableItem): void {
-    this.router.navigate(['admin/finance/payments/edit', payment.id]);
+    this.router.navigate(['admin/payments/edit', payment.id]);
   }
 
   confirmdeletePayment(payment: PaymentTableItem): void {
