@@ -6,11 +6,29 @@ const { Payment, Order, Customer } = require("../models");
 const { logAudit } = require("../services/audit.service");
 const sequelize = require("../config/database");
 
+const { Op } = require("sequelize");
+
 exports.getAllPayments = async (req, res) => {
   try {
     const whereClause = {};
+
+    // Filtro por order_id (ya existente)
     if (req.query.order_id) {
       whereClause.order_id = req.query.order_id;
+    }
+
+    // Filtro por año y mes
+    if (req.query.year && req.query.month) {
+      const year = parseInt(req.query.year);
+      const month = parseInt(req.query.month);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1); // el primer día del mes siguiente
+
+      whereClause.payment_date = {
+        [Op.gte]: startDate,
+        [Op.lt]: endDate
+      };
     }
 
     const payments = await Payment.findAll({
@@ -33,6 +51,8 @@ exports.getAllPayments = async (req, res) => {
     res.status(500).json({ message: "Error al obtener los pagos", error: error.message });
   }
 };
+
+
 
 exports.getPaymentById = async (req, res) => {
   try {
