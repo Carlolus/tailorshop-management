@@ -5,13 +5,33 @@
 
 const { Order } = require("../models");
 const { logAudit } = require("../services/audit.service");
+const { Op } = require("sequelize");
 
 exports.getAllOrders = async (req, res) => {
+  const whereClause = {};
   try {
-    const orders = await Order.findAll();
+    if (req.query.year && req.query.month) {
+      const year = parseInt(req.query.year);
+      const month = parseInt(req.query.month);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1); 
+
+      whereClause.order_date = {
+        [Op.gte]: startDate,
+        [Op.lt]: endDate
+      };
+    }
+
+    const orders = await Order.findAll({
+      where: whereClause,
+      order: [["order_date", "DESC"]]
+    });
+
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener las órdenes", error });
+    console.error("Error al obtener las órdenes:", error);
+    res.status(500).json({ message: "Error al obtener las órdenes", error: error.message });
   }
 };
 
