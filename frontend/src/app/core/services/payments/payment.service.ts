@@ -19,6 +19,20 @@ export class PaymentService {
     return this.http.get<Payment[]>(this.apiUrl, { headers: this.httpHeaderService.getHeaders() });
   }
 
+  getPaymentsByMonth(month?: number, year?: number): Observable<Payment[]> {
+  const params: any = {};
+
+  if (month !== undefined && year !== undefined) {
+    params.month = month;
+    params.year = year;
+  }
+
+  return this.http.get<Payment[]>(this.apiUrl, {
+    headers: this.httpHeaderService.getHeaders(),
+    params
+  });
+}
+
   getPaymentById(id: number): Observable<Payment> {
     return this.http.get<Payment>(
       `${this.apiUrl}/${id}`,
