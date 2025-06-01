@@ -12,7 +12,7 @@
           <mat-icon>receipt_long</mat-icon> Detalles de la Orden
         </h3>
         <p><strong>ID de Orden:</strong> {{ order.order_id }}</p>
-        <p><strong>Cliente:</strong> Traer Nombre</p>
+        <p><strong>Cliente:</strong> {{ customer.name}}</p>
         <p><strong>Monto Total de la Orden:</strong> <span class="amount-highlight">$ {{ order.price | number }}</span>
         </p>
         <p><strong>Monto pendiente:</strong> <span class="amount-highlight important-balance">$ {{ order.balance |

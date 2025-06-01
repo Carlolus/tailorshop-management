@@ -41,7 +41,6 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './payment-new.component.scss'
 })
 export class PaymentNewComponent implements OnInit {
-
   mode!: string;
   id!: string;
   order!: Order;
@@ -81,9 +80,11 @@ export class PaymentNewComponent implements OnInit {
     try {
       if (this.mode === 'new') {
         this.order = await firstValueFrom(this.orderService.getOrderById(+this.id));
+        this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
       } else if (this.mode === 'edit') {
         this.payment = await firstValueFrom(this.paymentService.getPaymentById(+this.id));
         this.order = await firstValueFrom(this.orderService.getOrderById(this.payment.order_id));
+        this.customer = await firstValueFrom(this.customerService.getCustomerById(this.order.customer_id));
         this.loadPaymentData();
       } else if (this.mode === 'view') {
         this.payment = await firstValueFrom(this.paymentService.getPaymentById(+this.id));
