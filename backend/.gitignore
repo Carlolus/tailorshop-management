@@ -60,7 +60,5 @@ docker-volumes/
 .tmp/
 .temp/
 
-#Uploads
-uploads/
 
 
