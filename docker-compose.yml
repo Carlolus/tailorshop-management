@@ -1,4 +1,4 @@
-# Description: Docker Compose file for TailorShop application
+# Description: Docker Compose file for TailorShop application with BookStack
 # This file defines the services, networks, and volumes required to run the application.
 services:
   postgres:
@@ -81,12 +81,68 @@ services:
     volumes:
       - ./backend:/app             # Mounts the backend source code for development
       - /app/node_modules          # Mounts the node_modules directory
+      - ./backend/uploads:/app/src/uploads
     networks:
       - backend                    # Connects to the backend network
+      
+  frontend:
+    build: ./frontend
+    container_name: tailorshop_frontend
+    ports:
+      - "4200:80"  # Puerto externo 4200 (puedes usar otro si lo deseas)
+    depends_on:
+      - backend
+    networks:
+      - backend
+
+  bookstack_db:
+    # MySQL database for BookStack (según documentación)
+    image: mysql:5.7.21
+    container_name: bookstack_db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: bookstackapp
+      MYSQL_USER: bookstack
+      MYSQL_PASSWORD: bookstack
+    volumes:
+      - bookstack_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u bookstack -pbookstack"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
+  bookstack:
+    # BookStack wiki platform for documentation (imagen oficial más reciente)
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=http://localhost:6875
+      - DB_HOST=bookstack_db
+      - DB_PORT=3306
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=bookstack
+      - DB_DATABASE=bookstackapp
+      - APP_KEY=base64:z5UVEq0BBH2T1C6EtN3u8TgGSoWbH6W0W4umrltq1y4=
+
+    volumes:
+      - ./backend/bookstack/config/www/uploads:/config/www/uploads
+    ports:
+      - "6875:80"
+    depends_on:
+      bookstack_db:
+        condition: service_healthy
+    networks:
+      - backend
 
 volumes:
   postgres_data:                   # Persistent volume for PostgreSQL
   keycloak_data:                   # Persistent volume for Keycloak database
+  bookstack_db_data:              # Persistent volume for BookStack database
 
 networks:
   backend:                         # Shared network for all services

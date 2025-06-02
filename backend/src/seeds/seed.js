@@ -5,7 +5,6 @@ const GarmentType = require("../models/garment_type.model");
 const Customer = require("../models/customer.model");
 const Garment = require("../models/garment.model");
 const Order = require("../models/order.model");
-const Measurement  = require("../models/measurement.model");
 const Payment = require("../models/payment.model");
 const Catalog = require("../models/catalog.model");
 
@@ -70,7 +69,13 @@ async function seed() {
           name: "Pantalón",
         },
         {
-          name: "Chaqueta",
+          name: "Saco",
+        },
+        {
+          name: "Vestido con chaleco",
+        },
+        {
+          name: "Vestido sin chaleco",
         },
         {
           name: "Chaleco",
@@ -80,10 +85,7 @@ async function seed() {
         },
         {
           name: "Gabardina",
-        },
-        {
-          name: "Vestido de una pieza",
-        }
+        }      
       ]);
     } else {
       console.log("Ya existen garment types")
@@ -165,179 +167,6 @@ async function seed() {
       console.log("Clientes ya existen, se omite inserción");
     };
 
-    // Orders
-    const orderCount = await Order.count();
-    if (orderCount === 0){
-      await Order.bulkCreate([
-        {
-          customer_id: 1,
-          order_date: "2025-04-17",
-          delivery_date: "2025-05-01",
-          status: "entregado",
-          price: 130000,
-          balance: 0,
-        },
-        {
-          customer_id: 1,
-          order_date: "2025-05-10",
-          delivery_date: "2025-05-25",
-          status: "pendiente",
-          price: 95000,
-          balance: 95000
-        },
-        {
-          customer_id: 2,
-          order_date: "2025-04-20",
-          delivery_date: "2025-05-05",
-          status: "entregado",
-          price: 180000,
-          balance: 0
-        },
-        {
-          customer_id: 2,
-          order_date: "2025-05-05",
-          delivery_date: "2025-05-30",
-          status: "en proceso",
-          price: 125000,
-          balance: 50000
-        },
-      ]);
-      console.log("Órdenes creadas")
-    } else {
-      console.log("Ya existen órdenes")
-    };
-
-    // Garment
-    const garmentCount = await Garment.count();
-    if (garmentCount === 0) {
-      await Garment.bulkCreate([
-         {
-          order_id: 1,
-          garment_type_id: 1, // Pantalón
-          fabric_id: 3,
-          quantity: 2,
-          person_name: "Carlos David Córdoba",
-          details: "Primer pantalón corte recto, segundo pantalón corte campana, bolsillo secreto"
-        },
-        {
-          order_id: 1,
-          garment_type_id: 2, // Chaqueta
-          fabric_id: 5,
-          quantity: 1,
-          person_name: "Carlos David Córdoba",
-          details: "Chaqueta con doble forro térmico y bolsillos con cierre"
-        },
-        {
-          order_id: 1,
-          garment_type_id: 4, // Camisa
-          fabric_id: 1,
-          quantity: 3,
-          person_name: "Carlos David Córdoba",
-          details: "Camisas blancas entalladas, una con cuello italiano"
-        },
-        {
-          order_id: 2,
-          garment_type_id: 3, // Chaleco
-          fabric_id: 2,
-          quantity: 2,
-          person_name: "Diego Germán Delgado",
-          details: "Chalecos formales con botón metálico, uno con bordado personalizado"
-        },
-        {
-          order_id: 2,
-          garment_type_id: 5, // Gabardina
-          fabric_id: 8,
-          quantity: 1,
-          person_name: "Diego Delgado",
-          details: "Gabardina impermeable con capucha desmontable"
-        },
-        {
-          order_id: 2,
-          garment_type_id: 6, // Vestido de una pieza
-          fabric_id: 6,
-          quantity: 1,
-          person_name: "María Martínez",
-          details: "Vestido largo de gala, espalda descubierta, bordado en cintura"
-        }
-      ]);
-      console.log("Prendas insertados");
-    } else {
-      console.log("Prendas ya existen, se omite inserción");
-    }
-
-    const countMeasures = await Measurement.count();
-    if(countMeasures === 0){
-      await Measurement.bulkCreate([
-        {
-          garment_id: 1,
-          measures: "Cintura: 90 cm, Pierna: 40 cm, Largo total: 120 cm, Tiro: 30 cm, Comentario: bolsillo secreto en lado derecho"
-        },
-        {
-          garment_id: 2,
-          measures: "Hombros: 48 cm, Pecho: 110 cm, Largo manga: 62 cm, Largo total: 75 cm, Comentario: agregar forro térmico completo"
-        },
-        {
-          garment_id: 3,
-          measures: "Cuello: 41 cm, Pecho: 108 cm, Largo manga: 64 cm, Largo total: 72 cm, Comentario: una camisa con cuello italiano"
-        },
-        {
-          garment_id: 4,
-          measures: "Hombros: 46 cm, Pecho: 104 cm, Largo: 58 cm, Comentario: botón metálico en centro; bordado personalizado en la espalda"
-        },
-        {
-          garment_id: 5,
-          measures: "Hombros: 50 cm, Pecho: 114 cm, Largo manga: 67 cm, Largo total: 110 cm, Comentario: incluir capucha desmontable con cremallera"
-        },
-        {
-          garment_id: 6,
-          measures: "Busto: 88 cm, Cintura: 70 cm, Cadera: 95 cm, Largo total: 140 cm, Comentario: ajustar a espalda descubierta y bordado fino en cintura"
-        }
-      ]);
-      console.log("Medidas insertadas correctamente");
-    } else {
-      console.log("Ya existen medidas");
-    }
-
-    // Payments
-
-    const countPayments = await Payment.count();
-    if (countPayments === 0) {
-      await Payment.bulkCreate([
-        {
-          order: 1,
-          amount: 100000,
-          payment_date: "2025-04-18T10:30:00",
-          payment_method: "efectivo",
-          description: "Abono inicial por confección de pantalones y chaqueta"
-        },
-        {
-          order: 1,
-          amount: 30000,
-          payment_date: "2025-05-01T16:00:00",
-          payment_method: "transferencia",
-          description: "Pago final al momento de la entrega"
-        },
-        {
-          order: 2,
-          amount: 100000,
-          payment_date: "2025-05-01T09:00:00",
-          payment_method: "tarjeta",
-          description: "Pago completo por chalecos y gabardina"
-        },
-        {
-          order: 3,
-          amount: 50000,
-          payment_date: "2025-05-02T14:45:00",
-          payment_method: "efectivo",
-          description: "Abono parcial para vestido de gala"
-        }
-      ]);
-      console.log("Pagos insertados correctamente");
-    } else {
-      console.log("Ya existen pagos");
-    }
-
-    // Catalog
     const countCatalog = await Catalog.count();
     if (countCatalog === 0) {
       await Catalog.bulkCreate([
@@ -370,9 +199,9 @@ async function seed() {
     } else {
       console.log("Ya existen entradas en el catálogo");
     }
-    console.log("Seed finalizado correctamente");
+    console.log("✅ Seed finalizado correctamente");
   } catch (err) {
-    console.error("Error durante el seeding:", err);
+    console.error("❌ Error durante el seeding:", err);
     process.exit(1);
   }
 }
@@ -380,5 +209,5 @@ async function seed() {
 module.exports = seed;
 
 if (require.main === module) {
-  seed();
+  seed(); // Si lo ejecutas directamente: `node seed.js`
 }

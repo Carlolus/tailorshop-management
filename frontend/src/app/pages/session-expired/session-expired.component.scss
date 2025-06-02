@@ -1,0 +1,48 @@
+/* Contenedor principal (centrado vertical y horizontalmente) */
+.logout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    text-align: center;
+    padding: 15px;
+    background-color: #ffffff; /* Fondo claro (opcional) */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Título */
+.logout-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    max-width: 600px; /* Evita que el texto sea demasiado ancho */
+}
+
+/* Imagen */
+.logout-image {
+    width: 300px; /* Ajusta según necesidad */
+    height: auto;
+    margin-bottom: 30px;
+}
+
+/* Efecto hover para el botón */
+.logout-button:hover {
+    background-color: #333; /* Negro un poco más claro al pasar el mouse */
+}
+
+.logout-link {
+    display: inline-block;
+    background-color: #000;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-link:hover {
+    background-color: #333;
+}

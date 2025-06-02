@@ -1,0 +1,105 @@
+<div class="edit-order-dialog">
+    <h2 mat-dialog-title class="dialog-title">
+        <mat-icon class="title-icon">edit</mat-icon>
+        Editar Orden #{{order?.order_id}}
+    </h2>
+
+    <mat-dialog-content class="dialog-content">
+        <div *ngIf="isLoading" class="loading-container">
+            <p>Cargando orden...</p>
+        </div>
+
+        <form [formGroup]="orderForm" *ngIf="!isLoading" class="order-form">
+            <!-- Estado de la orden -->
+            <span></span>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Estado de la orden</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+                        <div class="status-option">
+                            <span class="status-indicator" [class]="status.value"></span>
+                            {{status.label}}
+                        </div>
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>assignment</mat-icon>
+                <mat-error *ngIf="statusControl?.hasError('required')">
+                    El estado es requerido
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Fecha de entrega -->
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Fecha de entrega</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="delivery_date" [min]="minDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>event</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="deliveryDateControl?.hasError('required')">
+                    La fecha de entrega es requerida
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Precio -->
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Precio</mat-label>
+                <input matInput type="text" [value]="priceToShow" (input)="onPriceChange($event)" placeholder="0"
+                    class="number-input">
+                <span matTextPrefix>$&nbsp;</span>
+                <mat-error>
+                    El precio no puede ser menor al monto pagado hasta el momento ${{order.balance | number}}
+                </mat-error>
+                <mat-hint *ngIf="order?.balance">
+                    Balance actual: ${{order.balance | number}}
+                </mat-hint>
+            </mat-form-field>
+
+            <!-- Información adicional -->
+            <mat-card class="info-card" appearance="outlined">
+                <mat-card-content>
+                    <div class="info-header">
+                        <mat-icon class="info-icon">info</mat-icon>
+                        <span class="info-title">Información importante</span>
+                    </div>
+                    <p class="info-text">
+                        Para editar el abono inicial, debe modificar el pago correspondiente
+                        en la tabla de pagos.
+                    </p>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Resumen de la orden -->
+            <mat-card class="summary-card" appearance="outlined" *ngIf="order">
+                <mat-card-content>
+                    <div class="summary-header">
+                        <mat-icon class="summary-icon">receipt</mat-icon>
+                        <span class="summary-title">Resumen de la orden</span>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <span class="label">Fecha creación:</span>
+                            <span class="value">{{order.createdAt | date:'fullDate':'':'es'}}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Balance actual:</span>
+                            <span class="value">${{order.balance | number }}</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="dialog-actions">
+        <button mat-button type="button" (click)="onCancel()" class="cancel-btn">
+            <mat-icon>close</mat-icon>
+            Cancelar
+        </button>
+        <button mat-raised-button color="primary" type="button" (click)="onConfirm()"
+            [disabled]="orderForm.invalid || isLoading" class="confirm-btn">
+            <mat-icon>save</mat-icon>
+            Guardar cambios
+        </button>
+    </mat-dialog-actions>
+</div>

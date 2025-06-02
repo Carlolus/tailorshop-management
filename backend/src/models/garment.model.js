@@ -23,6 +23,8 @@ const Garment = sequelize.define("garment", {
       model: Order,
       key: "order_id",
     },
+    onUpdate: "CASCADE",
+    onDelete: "RESTRICT",
   },
   garment_type_id: {
     type: DataTypes.INTEGER,
@@ -48,9 +50,13 @@ const Garment = sequelize.define("garment", {
   },
   person_name: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   details: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  measures: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

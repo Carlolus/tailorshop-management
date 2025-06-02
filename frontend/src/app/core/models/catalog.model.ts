@@ -1,6 +1,5 @@
 export interface CatalogItem {
-    id: number;
-    name: string;
+    item_id: number;
     description: string;
     image: string;
     fabric: string;

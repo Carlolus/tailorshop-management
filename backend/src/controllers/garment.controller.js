@@ -1,18 +1,26 @@
 /*
   Title: garment.controller.js
-  Description: Controller for managing CRUD operations for the current model items in the database.
-  Usage: This file contains functions to handle requests for creating, reading, updating, and deleting current model items.
-  Each model contains a set of functions that correspond to the CRUD operations. Those functions are provided by 
-  Sequelize, which is the ORM used in this application.
+  Description: Controller for managing CRUD operations for garments in the database.
 */
+
 const { Garment } = require("../models");
+const { logAudit } = require("../services/audit.service");
 
 exports.getAllGarments = async (req, res) => {
+  console.log("Req query:", req.query )
   try {
-    const garments = await Garment.findAll();
+    const whereClause = {};
+    if (req.query.order_id) {
+      whereClause.order_id = req.query.order_id;
+    }
+
+    const garments = await Garment.findAll({
+      where: whereClause
+    });
     res.json(garments);
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener prendas", error });
+    console.error("Error al obtener prendas:", error);
+    res.status(500).json({ message: "Error al obtener prendas", error: error.message });
   }
 };
 
@@ -29,6 +37,15 @@ exports.getGarmentById = async (req, res) => {
 exports.createGarment = async (req, res) => {
   try {
     const newGarment = await Garment.create(req.body);
+
+    await logAudit({
+      user: req.user,
+      action: "create",
+      entity: "garment",
+      entity_id: newGarment.garment_id,
+      description: `Prenda creada con ID ${newGarment.garment_id}`
+    });
+
     res.status(201).json(newGarment);
   } catch (error) {
     res.status(500).json({ message: "Error al crear la prenda", error });
@@ -40,7 +57,28 @@ exports.updateGarment = async (req, res) => {
     const garment = await Garment.findByPk(req.params.garment_id);
     if (!garment) return res.status(404).json({ message: "Prenda no encontrada" });
 
+    const beforeUpdate = { ...garment.dataValues };
+
     await garment.update(req.body);
+
+    const updatedFields = {};
+    for (const key of Object.keys(req.body)) {
+      if (beforeUpdate[key] !== req.body[key]) {
+        updatedFields[key] = [beforeUpdate[key], req.body[key]];
+      }
+    }
+
+    if (Object.keys(updatedFields).length > 0) {
+      await logAudit({
+        user: req.user,
+        action: "update",
+        entity: "garment",
+        entity_id: garment.garment_id,
+        description: `Prenda actualizada con ID ${garment.garment_id}`,
+        changes: updatedFields
+      });
+    }
+
     res.json(garment);
   } catch (error) {
     res.status(500).json({ message: "Error al actualizar la prenda", error });
@@ -51,6 +89,14 @@ exports.deleteGarment = async (req, res) => {
   try {
     const garment = await Garment.findByPk(req.params.garment_id);
     if (!garment) return res.status(404).json({ message: "Prenda no encontrada" });
+
+    await logAudit({
+      user: req.user,
+      action: "delete",
+      entity: "garment",
+      entity_id: garment.garment_id,
+      description: `Prenda eliminada con ID ${garment.garment_id}`
+    });
 
     await garment.destroy();
     res.json({ message: "Prenda eliminada correctamente" });

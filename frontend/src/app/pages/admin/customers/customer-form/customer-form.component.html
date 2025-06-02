@@ -1,0 +1,56 @@
+<div class="form-container">
+    @if (!isViewMode){
+    <h2>{{ customerData ? 'Editar cliente' : 'Nuevo Cliente'}}</h2>
+    } @else {
+    <h2>Vista de cliente</h2>
+    }
+
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="customer_name">Nombre*</label>
+            <input type="text" id="name" formControlName="name" placeholder="Nombre del cliente"
+                [readonly]="isViewMode">
+            @if (customerForm.get('name')?.invalid && customerForm.get('name')?.touched) {
+            <div class="error-message">El nombre es requerido</div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Número de teléfono*</label>
+            <input type="text" id="phone" formControlName="phone" placeholder="Número de teléfono del cliente"
+                [readonly]="isViewMode">
+            @if (customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched) {
+            <div class="error-message">El número de teléfono es requerido</div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="address">Dirección</label>
+            <input type="text" id="address" formControlName="address" placeholder="Direción del cliente"
+                [readonly]="isViewMode">
+        </div>
+
+        <div class="form-group">
+            <label for="mail">Correo Electrónico</label>
+            <input type="text" id="mail" formControlName="mail" placeholder="Correo electrónico del cliente"
+                [readonly]="isViewMode">
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="closeForm()">Cancelar</button>
+            @if (!isViewMode) {
+            <button type="submit" class="btn-save" [disabled]="customerForm.invalid">
+                {{ customerData ? 'Actualizar' : 'Guardar' }}
+            </button>
+            }
+            @if(isViewMode){
+            <button type="button" class="btn-payments" (click)="goToCustomerPayments()">
+                Ver los pagos del cliente
+            </button>
+            <button type="button" class="btn-payments" (click)="goToCustomerOrders()">
+                Ver las ordenes del cliente
+            </button>
+            }
+        </div>
+    </form>
+</div>

@@ -63,8 +63,11 @@
 
     @if (showForm && (!isViewMode || selectedFabric)) {
     <div class="modal-overlay">
-        <app-fabric-form [fabricData]="selectedFabric" (formClosed)="onFormClosed()"
-            (formSubmitted)="saveFabric($event)" [isViewMode]="isViewMode">
+        <app-fabric-form 
+            [fabricData]="selectedFabric" 
+            (formClosed)="onFormClosed()"
+            (formSubmitted)="saveFabric($event)" 
+            [isViewMode]="isViewMode">
         </app-fabric-form>
     </div>
     }

@@ -7,30 +7,27 @@
     --keycloak-side-image: url("../img/login-side-image.jpg");
     --login-form-width: 38%;
     --image-side-width: 62%;
-        /* Cambia el borde inferior al hacer hover en inputs */
     --pf-v5-c-form-control--hover--after--BorderBottomColor: #f7f7f7 !important;
     
-    /* Cambia el borde inferior de los botones tipo control */
     --pf-v5-c-button--m-control--after--BorderBottomColor: #ffffff !important;
 }
 
 .pf-v5-c-button.pf-m-primary {
-    background-color: #302b28 !important; /* Color naranja como ejemplo */
+    background-color: #302b28 !important; 
     border-color: #44403f !important;
 }
 
-/* Color cuando el mouse pasa por encima */
+
 .pf-v5-c-button.pf-m-primary:hover {
     background-color: #3b3837 !important;
     border-color: #413d3c !important;
 }
 
-/* Color cuando el botón está activo */
+
 .pf-v5-c-button.pf-m-primary:active {
     background-color: #3b3837 !important;
     border-color: #312d2c !important;
 }
-/* Reset general para eliminar márgenes y paddings no deseados */
 html, body, #keycloak-bg {
     margin: 0;
     padding: 0;
@@ -44,7 +41,6 @@ html, body, #keycloak-bg {
     background: none !important;
 }
 
-/* Contenedor principal ajustado */
 .pf-v5-c-login {
     height: 100vh !important;
     margin: 0 !important;
@@ -62,7 +58,6 @@ html, body, #keycloak-bg {
     padding: 0 !important;
 }
 
-/* Área del formulario */
 .pf-v5-c-login__main {
     grid-area: login;
     background: #0e0e0e;
@@ -74,7 +69,6 @@ html, body, #keycloak-bg {
     margin: 0 !important;
 }
 
-/* Área de la imagen completamente ajustada */
 .pf-v5-c-login__image-side {
     grid-area: image;
     background-image: var(--keycloak-side-image);
@@ -86,12 +80,10 @@ html, body, #keycloak-bg {
     height: 100vh !important;
 }
 
-/* Eliminado el overlay o hecho transparente */
 .pf-v5-c-login__image-overlay {
     background: transparent !important;
 }
 
-/* Ajustes para el formulario */
 .pf-v5-c-login__main-header {
     border-top: 4px solid var(--keycloak-card-top-color);
     max-width: 400px;
@@ -106,7 +98,6 @@ html, body, #keycloak-bg {
     width: 100%;
 }
 
-/* Logo */
 div.kc-logo-text {
     background-image: var(--keycloak-logo-url);
     height: var(--keycloak-logo-height);
@@ -120,7 +111,6 @@ div.kc-logo-text span {
     display: none;
 }
 
-/* Responsive design */
 @media (max-width: 1024px) {
     :root {
         --login-form-width: 45%;
@@ -145,7 +135,6 @@ div.kc-logo-text span {
     }
 }
 
-/* Resto de tus estilos personalizados (mantenidos igual) */
 #kc-header-wrapper {
     font-size: 29px;
     text-transform: uppercase;
@@ -161,8 +150,6 @@ div.kc-logo-text span {
     position: relative;
     display: inline-block;
 }
-
-/* ... (mantén el resto de tus estilos personalizados) ... */
 
 .kc-login-tooltip .kc-tooltip-text{
     top:-3px;
@@ -182,13 +169,11 @@ div.kc-logo-text span {
     transition:opacity 0.5s;
 }
 
-/* Show tooltip */
 .kc-login-tooltip:hover .kc-tooltip-text {
     visibility: visible;
     opacity:0.7;
 }
 
-/* Arrow for tooltip */
 .kc-login-tooltip .kc-tooltip-text::after {
     content: " ";
     position: absolute;

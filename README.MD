@@ -1,6 +1,20 @@
 # TailorShop Management System
 
-The **TailorShop Management System** is a backend application designed to manage the operations of a tailor shop. It provides APIs to handle various entities such as garments, catalogs, orders, payments, and measurements. The system is built using Node.js, Express, Sequelize for an easier database management and Docker for contenerization.
+This is a web application designed to manage the operations of a tailor shop. It provides APIs to handle various entities, including garments, catalogs, orders, payments, and measurements.
+
+The system features a backend built with Node.js and Express, using Sequelize for database management. The frontend is developed in Angular.
+
+For deployment and management, the entire system is containerized using Docker. This setup includes the following services:
+
+- **backend**: The API service.
+- **backend_db**: The database for the backend.
+- **frontend**: The Angular application service.
+- **keycloak**: An identity and access management server.
+- **keycloak_db**: The database for Keycloak.
+- **bookstack**: A platform used as a small Knowledge Management System (KMS). Its purpose is to capture and preserve valuable knowledge and expertise from the tailor master, preventing its loss over time.
+- **bookstack_db**: The database for BookStack.
+
+This architecture aims to provide a structured approach to managing a tailor shop's operations.
 
 ## Features
 
@@ -25,6 +39,9 @@ The **TailorShop Management System** is a backend application designed to manage
 - **Swagger**: API documentation and testing.
 - **PostgreSQL**: Relational database for storing data.
 - **Docker**: Contenerization
+- **Keycloak**: Open source IAM solution
+- **Angular**: Frontend framework 
+- **Bookstack**: Open source platform for organising and storing information.
 
 ## Project Structure
 ```bash
@@ -46,33 +63,31 @@ tailorshop-management/
 │   ├── package-lock.json
 │   ├── package.json
 ├── Frontend/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── assets/
+│   │   ├── routes/
+│   │   ├── index.html
+│   │   ├── styles.scss
+│   │   └── main.ts
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── angular.json
+│   ├── package-lock.json
+│   ├── package.json
+│   └── nginx.config
 ├── docker-compose.yml
 └── README.MD
 ```
 ## How to run
 
-A. If you just want to check the API:
 1. **Clone the Repository**
 git clone https://github.com/Carlolus/tailorshop-management.git
-2. cd cd tailorshop-management
-3. Do docker-compose up --build (Need docker installed)
+2. Join the folder: cd tailorshop-management
+3. Do  *docker-compose up --build*  (You need docker installed)
+4. Frontend runs on localhost:4200, to log in go to localhost:4200/login and use User: *user-1* Password: *123* (or create a new user in keycloak)
 
-B. If you want to modify the project:
-1. **Clone the Repository**:
-git clone https://github.com/Carlolus/tailorshop-management.git
-cd tailorshop-management
-2. Set Up Environment Variables:
-    Navigate to the Backend directory.
-    Create a .env file and configure the following variables:
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_NAME=tailorshop
-    DB_USER=your_username
-    DB_PASSWORD=your_password
-3. Install Dependencies: Navigate to the Backend folder and install the required dependencies:
-    cd Backend
-    npm install
-4. Do docker-compose up --build (Need docker installed)
 
 ## Swagger API documentation
 
@@ -91,11 +106,8 @@ cd tailorshop-management
 5. Garment  
    ![Garment](./backend/src/img/test-api/garments.jpg)
 
-6. Measurements  
-   ![Measurements](./backend/src/img/test-api/measurements.jpg)
-
-7. Orders  
+6. Orders  
    ![Orders](./backend/src/img/test-api/orders.jpg)
 
-8. Payments  
+7. Payments  
    ![Payments](./backend/src/img/test-api/payments.jpg)

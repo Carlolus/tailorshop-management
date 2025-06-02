@@ -15,7 +15,7 @@ const Payment = sequelize.define("payment", {
     primaryKey: true,
     autoIncrement: true,
   },
-  order: {
+  order_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -23,6 +23,8 @@ const Payment = sequelize.define("payment", {
       model: Order,
       key: "order_id",
     },
+    onUpdate: "CASCADE",
+    onDelete: "RESTRICT",
   },
   amount: {
     type: DataTypes.DECIMAL(12, 0),
