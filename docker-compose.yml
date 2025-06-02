@@ -84,6 +84,16 @@ services:
       - ./backend/uploads:/app/src/uploads
     networks:
       - backend                    # Connects to the backend network
+      
+  frontend:
+    build: ./frontend
+    container_name: tailorshop_frontend
+    ports:
+      - "4200:80"  # Puerto externo 4200 (puedes usar otro si lo deseas)
+    depends_on:
+      - backend
+    networks:
+      - backend
 
   bookstack_db:
     # MySQL database for BookStack (según documentación)
